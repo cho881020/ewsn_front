@@ -8,8 +8,8 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: ewsn-front
-  ECS_SERVICE: prod
-  ECS_CLUSTER: ewsn-front
+  ECS_SERVICE: ewsn-front-service
+  ECS_CLUSTER: ewsn
   ECS_TASK_DEFINITION: ewsn-front-task-definition
   CONTAINER_NAME: ewsn-front
 
