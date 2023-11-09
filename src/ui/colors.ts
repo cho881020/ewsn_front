@@ -22,6 +22,7 @@ const COLORS = {
   TEXT01,
   TEXT02,
   TEXT04,
+  TEXT05,
   LINE03,
   LINE04,
   SECONDARY,
@@ -32,5 +33,13 @@ const COLORS = {
   SOUTH,
   MIDDLE,
 };
+
+export const CAMP_COLORS = [
+  { id: 1, name: "동", color: "#4473C5" },
+  { id: 2, name: "서", color: "#93D051" },
+  { id: 3, name: "남", color: "#C10001" },
+  { id: 4, name: "북", color: "#FFC001" },
+  { id: 5, name: "중", color: "#A6A6A6" },
+];
 
 export default COLORS;

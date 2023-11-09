@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import "@/app/ui/global.css";
+import "@/app/globals.css";
+import Recoil from "@/lib/recoilRoot";
 import ReactQuery from "@/lib/reactQuery";
 import StyledComponentsRegistry from "@/lib/registry";
+import TokenCheck from "@/components/templates/TokenCheck";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,7 +23,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReactQuery>
           <StyledComponentsRegistry>
-            <main>{children}</main>
+            <Recoil>
+              <TokenCheck>
+                <main className="w-full bg-white">{children}</main>
+              </TokenCheck>
+            </Recoil>
           </StyledComponentsRegistry>
         </ReactQuery>
       </body>

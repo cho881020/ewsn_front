@@ -4,15 +4,16 @@ import COLORS from "@/ui/colors";
 interface Style {
   height?: string;
   width?: string;
-  bold?: boolean;
-  small?: boolean;
-  active?: boolean;
+  $small?: boolean;
+  $middle?: boolean;
+  $active?: boolean;
 }
 
 export const Btn = styled.button<Style>`
-  width: ${({ width }) => width || "100%"};
+  min-width: ${({ width }) => width || "100%"};
   height: ${({ height }) => height || "56px"};
-  font-size: ${({ small }) => (small ? "14px" : "16px")};
+  font-size: ${({ $small, $middle }) =>
+    $small ? "12px" : $middle ? "14px" : "16px"};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,10 +27,10 @@ export const Btn = styled.button<Style>`
 `;
 
 export const BtnActive = styled(Btn)`
-  background-color: ${({ active }) =>
-    active ? COLORS.PRIMARY : "rgba(24,24,24,40%)"};
-  border-color: ${({ active }) =>
-    active ? COLORS.PRIMARY : "rgba(24,24,24,40%)"};
+  background-color: ${({ $active }) =>
+    $active ? COLORS.PRIMARY : "rgba(24,24,24,40%)"};
+  border-color: ${({ $active }) =>
+    $active ? COLORS.PRIMARY : "rgba(24,24,24,40%)"};
 `;
 
 export const BtnWhite = styled(Btn)`
