@@ -13,6 +13,7 @@ const Input = styled.input<{
   height: ${({ height }) => height || "44px"};
   background: #fff;
   border: 1px solid ${({ red }) => (red ? COLORS.RED : COLORS.LINE03)};
+  border-radius: 4px;
   color: ${COLORS.TEXT01};
   font-size: 16px;
   line-height: 22px;

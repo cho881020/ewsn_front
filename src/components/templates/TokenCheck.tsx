@@ -21,10 +21,6 @@ const TokenCheck = ({ children }: Props) => {
 
   const checkToken = async () => {
     try {
-      localStorage.setItem(
-        "TOKEN",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTk0OTU2MjUsImV4cCI6MTY5OTU4MjAyNX0.q_bs2XX5rN4lyFydCLSJ1rioovixWWy_5ghg1sBTFQs"
-      );
       const token = localStorage.getItem("TOKEN");
       if (!token) return;
 

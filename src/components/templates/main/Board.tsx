@@ -14,15 +14,15 @@ const Board = () => {
   });
 
   const { postings: created } = usePostingQuery({
-    item: "createdAt",
-    range: "desc",
     page: 1,
   });
 
   const postings = [
-    { title: "NEW", list: created?.slice(0, 10), link: "board" },
-    { title: "HOT", list: hits?.slice(0, 10), link: "board/hot" },
+    { title: "NEW", list: [], link: "board" },
+    { title: "HOT", list: [], link: "board?hot" },
   ];
+
+  //created?.slice(0, 10) ||
 
   return (
     <Container>

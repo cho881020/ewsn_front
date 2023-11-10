@@ -1,11 +1,11 @@
 import styled, { css } from "styled-components";
 
-export const Title = styled.h1<{ level?: string }>`
+export const Title = styled.h1<{ level?: string; color?: string }>`
   font-size: 40px;
   font-weight: 700;
   line-height: 52px;
   letter-spacing: -0.6px;
-  color: #0d0d0d;
+  color: ${({ color }) => (color ? color : "#0d0d0d")};
   ${({ level }) =>
     level === "dis4" &&
     css`
@@ -60,12 +60,12 @@ export const Title = styled.h1<{ level?: string }>`
     `}
 `;
 
-export const Content = styled.p<{ level?: string }>`
+export const Content = styled.p<{ level?: string; color?: string }>`
   font-size: 16px;
   line-height: 22px;
   font-weight: 400;
   letter-spacing: -0.6px;
-  color: #000;
+  color: ${({ color }) => (color ? color : "#000")};
   ${({ level }) =>
     level === "body2l" &&
     css`
@@ -106,7 +106,7 @@ export const Content = styled.p<{ level?: string }>`
       letter-spacing: 0;
     `}
   ${({ level }) =>
-    level === "cap1b" &&
+    level === "cap1bo" &&
     css`
       font-size: 11px;
       line-height: 17px;
