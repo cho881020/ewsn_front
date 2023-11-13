@@ -1,16 +1,18 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import styled from "styled-components";
 
 import login from "@/apis/mutations/login";
-import { useState } from "react";
-import COLORS from "@/ui/colors";
-import { Title } from "@/ui/fonts";
-import Image from "next/image";
+
 import back from "@/assets/common/back.png";
-import Link from "next/link";
+import logo from "@/assets/login/logo.png";
 import Input from "@/ui/input";
-import { Btn } from "@/ui/buttons";
+import COLORS from "@/ui/colors";
+import { Content, Title } from "@/ui/fonts";
+import { Btn, BtnWhite } from "@/ui/buttons";
 
 const Login = () => {
   const [state, setState] = useState({ email: "", password: "" });
@@ -43,13 +45,14 @@ const Login = () => {
       </Wrapper>
       <Layout>
         <Container>
-          <form className="mt-6">
+          <Image src={logo} alt="" />
+          <Form>
             <Title level="sub3">아이디</Title>
             <Input
-              className="mb-3"
               value={email}
               onChange={(e) => setState({ ...state, email: e.target.value })}
               placeholder="아이디"
+              center
             />
             <Title level="sub3">비밀번호</Title>
             <Input
@@ -57,13 +60,22 @@ const Login = () => {
               value={password}
               onChange={(e) => setState({ ...state, password: e.target.value })}
               placeholder="비밀번호"
+              center
             />
-          </form>
+          </Form>
           <Btn onClick={handleLogin}>로그인</Btn>
-          <div className="flex items-center gap-3">
-            <button className="text-xs text-black-40%">아이디 찾기</button>
+          <div className="flex items-center gap-3 mt-6">
+            <Content color={COLORS.TEXT03}>아이디 찾기</Content>
             <Line />
-            <button className="text-xs text-black-40%">비밀번호 찾기</button>
+            <Content color={COLORS.TEXT03}>비밀번호 찾기</Content>
+          </div>
+          <div className="flex justify-center gap-3 mt-6 w-full">
+            <Content color={COLORS.TEXT03}>아직 회원이 아니세요?</Content>
+            <Link href="/signup">
+              <BtnWhite width="58px" height="24px" $small>
+                회원가입
+              </BtnWhite>
+            </Link>
           </div>
         </Container>
       </Layout>
@@ -94,7 +106,7 @@ const Nav = styled.div`
 const Layout = styled.div`
   background-color: ${COLORS.BG};
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,19 +114,27 @@ const Layout = styled.div`
 
 const Container = styled.div`
   background: #ffffff;
-  padding: 0 60px;
+  padding: 20px 60px;
   width: 580px;
-  height: 100%;
+  min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  width: 100%;
+`;
 const Line = styled.div`
   width: 1px;
   height: 12px;
-  background-color: #d2d2d2;
+  background-color: ${COLORS.LINE02};
 `;
 
 export default Login;
