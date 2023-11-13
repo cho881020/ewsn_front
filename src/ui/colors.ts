@@ -3,8 +3,10 @@ const RED = "#F03429";
 const BLUE = "#2B63F1";
 const TEXT01 = "#242424";
 const TEXT02 = "#555555";
+const TEXT03 = "#6F6F6F";
 const TEXT04 = "#8B8B8B";
 const TEXT05 = "#B7B7B7";
+const LINE02 = "#8B8B8B";
 const LINE03 = "#B7B7B7";
 const LINE04 = "#F0F0F0";
 const SECONDARY = "#ECECEC";
@@ -21,8 +23,10 @@ const COLORS = {
   BLUE,
   TEXT01,
   TEXT02,
+  TEXT03,
   TEXT04,
   TEXT05,
+  LINE02,
   LINE03,
   LINE04,
   SECONDARY,

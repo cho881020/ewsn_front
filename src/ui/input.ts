@@ -6,7 +6,10 @@ const Input = styled.input<{
   padding?: string;
   red?: boolean;
   height?: string;
+  center?: boolean;
 }>`
+  text-align: ${({ center }) => center && "center"};
+  outline: none;
   width: 100%;
   max-width: ${({ maxWidth }) => maxWidth || "100%"};
   padding: ${({ padding }) => padding || "11px 12px"};
