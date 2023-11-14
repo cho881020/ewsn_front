@@ -24,11 +24,7 @@ const SignUp = () => {
   });
   const { email, password, nickName, name, phoneNumber, address } = state;
 
-  const { mutate } = useSignUp({
-    onSuccess: () => {
-      window.location.href = "/";
-    },
-  });
+  const { mutate } = useSignUp();
 
   const handleLogin = async () => {
     if (!email) return alert("이메일을 입력해주세요.");
