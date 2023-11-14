@@ -27,10 +27,8 @@ export const Btn = styled.button<Style>`
 `;
 
 export const BtnActive = styled(Btn)`
-  background-color: ${({ $active }) =>
-    $active ? COLORS.PRIMARY : "rgba(24,24,24,40%)"};
-  border-color: ${({ $active }) =>
-    $active ? COLORS.PRIMARY : "rgba(24,24,24,40%)"};
+  background-color: ${({ $active }) => !$active && "rgba(24,24,24,40%)"};
+  border: ${({ $active }) => !$active && "1px solid rgba(24,24,24, 0.1)"};
 `;
 
 export const BtnWhite = styled(Btn)`

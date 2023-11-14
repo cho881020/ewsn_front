@@ -60,11 +60,16 @@ export const Title = styled.h1<{ level?: string; color?: string }>`
     `}
 `;
 
-export const Content = styled.p<{ level?: string; color?: string }>`
+export const Content = styled.p<{
+  level?: string;
+  color?: string;
+  opacity?: string;
+}>`
   font-size: 16px;
   line-height: 22px;
   font-weight: 400;
   letter-spacing: -0.6px;
+  opacity: ${({ opacity }) => (opacity ? opacity : "1")};
   color: ${({ color }) => (color ? color : "#000")};
   ${({ level }) =>
     level === "body2l" &&
