@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import styled from "styled-components";
 
 import useSignUp from "@/apis/mutations/useSignUp";
@@ -8,11 +8,22 @@ import useSignUp from "@/apis/mutations/useSignUp";
 import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
 import { Title } from "@/ui/fonts";
-import { Btn, BtnActive, BtnWhite } from "@/ui/buttons";
+import { Btn, BtnWhite } from "@/ui/buttons";
+
 import Radio from "@/components/templates/signup/Radio";
 import Header from "@/components/templates/signup/Header";
+import Email from "@/components/templates/signup/form/Email";
+import Nickname from "@/components/templates/signup/form/Nickname";
+import Password from "@/components/templates/signup/form/Password";
+import EmailAuth from "@/components/templates/signup/form/EmailAuth";
 
 const SignUp = () => {
+  const [validations, setValidations] = useState({
+    email: false,
+    password: false,
+    nickName: false,
+  });
+
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -22,13 +33,16 @@ const SignUp = () => {
     address: "",
     politicalOrientationId: 5,
   });
+
   const { email, password, nickName, name, phoneNumber, address } = state;
 
   const { mutate } = useSignUp();
 
-  const handleLogin = async () => {
-    if (!email) return alert("이메일을 입력해주세요.");
-    if (!password) return alert("비밀번호를 입력해주세요.");
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!validations.email) return alert("이메일 검증을 해주세요.");
+    if (!validations.password) return alert("패스워드 검증을 해주세요.");
+    if (!validations.nickName) return alert("닉네임 검증을 해주세요.");
 
     mutate(state);
   };
@@ -38,71 +52,41 @@ const SignUp = () => {
       <Header />
       <Layout>
         <Container>
-          <Form>
-            <Title level="sub3">이메일 주소</Title>
-            <div className="flex gap-3">
-              <Input
-                value={email}
-                onChange={(e) => setState({ ...state, email: e.target.value })}
-                placeholder="이메일 주소"
-                className="mb-3"
-              />
-              <BtnActive $middle width="80px" height="44px" type="button">
-                인증
-              </BtnActive>
-            </div>
-            <Title level="sub3">인증번호 입력</Title>
-            <div className="flex gap-3">
-              <Input
-                value={email}
-                onChange={(e) => setState({ ...state, email: e.target.value })}
-                placeholder="인증번호 입력"
-                className="mb-3"
-              />
-              <BtnActive $middle width="80px" height="44px" type="button">
-                인증
-              </BtnActive>
-            </div>
-            <Title level="sub3">비밀번호</Title>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setState({ ...state, password: e.target.value })}
-              placeholder="비밀번호"
+          <Form onSubmit={handleLogin}>
+            <Email
+              value={email}
+              onChange={(e: string) => setState({ ...state, email: e })}
             />
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setState({ ...state, password: e.target.value })}
-              placeholder="비밀번호 확인"
-              className="mb-3"
+            <EmailAuth
+              validation={validations.email}
+              onChangeValidation={(e: boolean) =>
+                setValidations({ ...validations, email: e })
+              }
             />
-            <Title level="sub3">닉네임</Title>
-            <div className="flex gap-3">
-              <Input
-                value={nickName}
-                onChange={(e) =>
-                  setState({ ...state, nickName: e.target.value })
-                }
-                placeholder="닉네임 입력"
-                className="mb-3"
-              />
-              <BtnActive
-                $middle
-                width="80px"
-                height="44px"
-                type="button"
-                $active={!!nickName}
-              >
-                중복 확인
-              </BtnActive>
-            </div>
+            <Password
+              value={password}
+              onChange={(e: string) => setState({ ...state, password: e })}
+              validation={validations.password}
+              onChangeValidation={(e: boolean) =>
+                setValidations({ ...validations, password: e })
+              }
+            />
+            <Nickname
+              value={nickName}
+              onChange={(e: string) => setState({ ...state, nickName: e })}
+              validation={validations.nickName}
+              onChangeValidation={(e: boolean) =>
+                setValidations({ ...validations, nickName: e })
+              }
+            />
+
             <Title level="sub3">이름</Title>
             <Input
               value={name}
               onChange={(e) => setState({ ...state, name: e.target.value })}
               placeholder="이름"
               className="mb-3"
+              required
             />
             <Title level="sub3">휴대전화번호</Title>
             <Input
@@ -112,6 +96,7 @@ const SignUp = () => {
               }
               placeholder="휴대전화번호"
               className="mb-3"
+              required
             />
             <Title level="sub3">주소</Title>
             <Input
@@ -119,6 +104,7 @@ const SignUp = () => {
               onChange={(e) => setState({ ...state, address: e.target.value })}
               placeholder="주소"
               className="mb-3"
+              required
             />
             <Title level="sub3">정치 성향 테스트</Title>
             <BtnWhite
@@ -137,9 +123,7 @@ const SignUp = () => {
                 setState({ ...state, politicalOrientationId: e })
               }
             />
-            <Btn onClick={handleLogin} type="button">
-              가입하기
-            </Btn>
+            <Btn>가입하기</Btn>
           </Form>
         </Container>
       </Layout>
