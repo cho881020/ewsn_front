@@ -1,13 +1,16 @@
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 import logo from "@/assets/nav/logo.png";
 
-import Image from "next/image";
 import COLORS from "@/ui/colors";
 import { Content } from "@/ui/fonts";
-import Link from "next/link";
+
 import DATAS from "@/datas/Nav";
-import { useEffect, useState } from "react";
+import authState from "@/stores/authState";
 
 interface Props {
   campIndex?: number;
@@ -16,9 +19,11 @@ interface Props {
 
 const Nav = ({ campIndex, onChangeCampIndex }: Props) => {
   const [isMain, setIsMain] = useState(false);
+  const { isLogin, nickName } = useRecoilValue(authState);
+
   const handleLogout = () => {
-    delete localStorage.token;
-    window.location.href = "/login";
+    delete localStorage.TOKEN;
+    window.location.href = "/";
   };
 
   useEffect(() => {
@@ -52,11 +57,22 @@ const Nav = ({ campIndex, onChangeCampIndex }: Props) => {
             )}
           </div>
           <div className="flex gap-3 items-center text-sm font-bold">
-            <button className="text-white">123</button>
-            <Line />
-            <button className="text-white" onClick={handleLogout}>
-              로그아웃
-            </button>
+            {isLogin ? (
+              <>
+                <button className="text-white">{nickName}</button>
+                <Line />
+                <button className="text-white" onClick={handleLogout}>
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <button
+                className="text-white"
+                onClick={() => (window.location.href = "/login")}
+              >
+                로그인
+              </button>
+            )}
           </div>
         </Container>
       </Wrapper>

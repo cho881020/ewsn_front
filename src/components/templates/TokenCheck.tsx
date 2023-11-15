@@ -1,10 +1,11 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
 
 import api from "@/apis/client";
 import instance from "@/apis/client";
-import { useSetRecoilState } from "recoil";
+
 import authAtom from "@/stores/authState";
 
 interface Props {
@@ -24,17 +25,17 @@ const TokenCheck = ({ children }: Props) => {
       const token = localStorage.getItem("TOKEN");
       if (!token) return;
 
-      const result = await instance.get("posting", {
+      const result = await instance.get("user/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (result) {
         api.defaults.headers["Authorization"] = `Bearer ${token}`;
-        setAuth({ isLogin: true });
+        setAuth({ isLogin: true, nickName: result.data.nickName });
       }
     } catch {
       localStorage.removeItem("TOKEN");
-      setAuth({ isLogin: false });
+      setAuth({ isLogin: false, nickName: "" });
     } finally {
       setChecked(true);
     }
