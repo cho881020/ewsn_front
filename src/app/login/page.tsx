@@ -9,6 +9,7 @@ import login from "@/apis/mutations/login";
 
 import back from "@/assets/common/back.png";
 import logo from "@/assets/login/logo.png";
+
 import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
@@ -52,7 +53,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setState({ ...state, email: e.target.value })}
               placeholder="아이디"
-              center
+              $center
             />
             <Title level="sub3">비밀번호</Title>
             <Input
@@ -60,7 +61,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setState({ ...state, password: e.target.value })}
               placeholder="비밀번호"
-              center
+              $center
             />
           </Form>
           <Btn onClick={handleLogin}>로그인</Btn>
