@@ -1,10 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 import styled, { css } from "styled-components";
 
 import usePostingQuery from "@/apis/queries/usePostingQuery";
+import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
+
+import Posting from "@/types/posting";
+import { getDate } from "@/utils/getDate";
+import { CATEGORIES, HEADERS } from "@/datas/board";
 
 import search from "@/assets/board/search.png";
 import Input from "@/ui/input";
@@ -15,70 +21,58 @@ import { Container } from "@/components/atoms";
 import { TABLE, TD, TH, THEAD, TR, TBODY } from "@/components/atoms/table";
 import Nav from "@/components/organisms/Nav";
 import Pagination from "@/components/organisms/Pagination";
+import Post from "@/components/templates/post";
 import Banner from "@/components/templates/banner";
-import { useRouter, useSearchParams } from "next/navigation";
-import Post from "../post/page";
-
-const HEADERS = ["번호", "닉네임", "제목", "카테고리", "작성일", "조회"];
-const CATEGORIES = [
-  { id: 4, title: "전체" },
-  { id: 5, title: "인기" },
-  { id: 0, title: "인권,노동" },
-  { id: 1, title: "사회" },
-  { id: 2, title: "유머" },
-  { id: 3, title: "국방" },
-];
 
 const Board = () => {
-  const [id, setId] = useState(-1);
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [id, setId] = useState(-1);
   const [page, setPage] = useState(1);
-  const [isHot, setIsHot] = useState(window.location.search.includes("hot"));
-  const [campIndex, setCampIndex] = useState(0);
   const [category, setCategory] = useState(0);
-  const { postings } = usePostingQuery({
-    item: (campIndex !== 0 && category !== 1) || !isHot ? "hits" : "createdAt",
-    range: "desc",
-    page: 1,
-    categoryId: category !== 4 && category !== 5 ? category : -1,
-  });
+  const [campIndex, setCampIndex] = useState(0);
+  const [list, setList] = useState<Posting["postings"]>([]);
 
-  const getDate = (createdAt: string) => {
-    const today = new Date();
-    const resultDate = new Date(createdAt);
-
-    if ((+today - +resultDate) / (60 * 60 * 1000) <= 24) {
-      return createdAt.split("T")[1].replaceAll("-", ".").slice(0, 5);
-    } else {
-      return createdAt.split("T")[0].replaceAll("-", ".");
-    }
-  };
+  const { postings, total } = usePostingQuery({ page });
+  const { hotPostings, hotTotal } = usePostingHotQuery({ page });
 
   useEffect(() => {
-    if (window.location.search.includes("hot")) return setIsHot(true);
-  }, [window.location.search]);
+    if (searchParams.has("hot")) {
+      setList(hotPostings || []);
+    } else {
+      setList(postings || []);
+    }
+  }, [searchParams, list, page]);
 
   useEffect(() => {
     const id = searchParams.get("id");
     if (id) return setId(Number(id));
   }, [searchParams]);
+
+  if (!postings || !hotPostings || !total || !hotTotal) return null;
   return (
     <>
       <Nav
         campIndex={campIndex}
         onChangeCampIndex={(e: number) => setCampIndex(e)}
       />
-      {id !== -1 && <Post id={id} />}
+      {id !== -1 && searchParams.has("id") && <Post id={id} />}
       <Container>
         <Banner />
         <div className="flex justify-between items-center w-full mb-5">
           {campIndex === 0 ? (
             <BtnContainer>
-              <CustomBtn onClick={() => setIsHot(false)} $gray={!isHot}>
+              <CustomBtn
+                onClick={() => router.push("/board")}
+                $gray={!searchParams.has("hot")}
+              >
                 NEW
               </CustomBtn>
-              <CustomBtn onClick={() => setIsHot(true)} $gray={isHot}>
+              <CustomBtn
+                onClick={() => router.push("/board?hot")}
+                $gray={searchParams.has("hot")}
+              >
                 HOT
               </CustomBtn>
             </BtnContainer>
@@ -123,7 +117,7 @@ const Board = () => {
             </TR>
           </THEAD>
           <TBODY>
-            {postings?.map(
+            {list.map(
               ({
                 id,
                 title,
@@ -131,6 +125,7 @@ const Board = () => {
                 politicalOrientationId,
                 createdAt,
                 hits,
+                user,
               }) => (
                 <TR
                   key={id}
@@ -138,28 +133,26 @@ const Board = () => {
                   onClick={() => router.push(`/board?id=${id}`)}
                 >
                   <TD $gray>{id}</TD>
-                  <TD>닉네임</TD>
+                  <TD>{category.name}</TD>
                   <TD $large className="flex items-center pt-1">
                     <Color
-                      color={CAMP_COLORS[politicalOrientationId - 1].color}
+                      $color={CAMP_COLORS[politicalOrientationId - 1].color}
                     />
                     <p className="flex-1">{title}</p>
                   </TD>
-                  <TD>
-                    <p>{category.name}</p>
-                  </TD>
-                  <TD $small>
-                    <p>{getDate(createdAt)}</p>
-                  </TD>
-                  <TD $small>
-                    <p>{hits}</p>
-                  </TD>
+                  <TD>{user.nickName}</TD>
+                  <TD $small>{getDate(createdAt)}</TD>
+                  <TD $small>{hits}</TD>
                 </TR>
               )
             )}
           </TBODY>
         </TABLE>
-        <Pagination page={page} setPage={setPage} total={1} />
+        <Pagination
+          page={page}
+          setPage={setPage}
+          total={searchParams.has("hot") ? hotTotal : total}
+        />
       </Container>
     </>
   );
@@ -188,10 +181,10 @@ const CustomBtn = styled.button<{ $gray?: boolean }>`
     `}
 `;
 
-const Color = styled.div<{ color: string }>`
+const Color = styled.div<{ $color: string }>`
   width: 4px;
   height: 20px;
-  background-color: ${({ color }) => color};
+  background-color: ${({ $color }) => $color};
   margin-right: 8px;
 `;
 

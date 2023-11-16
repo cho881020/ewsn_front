@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const baseURL =
-  "http://ewsn-load-balancer-628279436.ap-northeast-2.elb.amazonaws.com/";
+const baseURL = "https://api.동서남북.net/";
 
 const api = axios.create({ baseURL });
 
