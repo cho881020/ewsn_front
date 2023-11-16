@@ -1,3 +1,4 @@
+import COLORS from "@/ui/colors";
 import styled from "styled-components";
 
 const TABLE = styled.table`
@@ -8,11 +9,11 @@ const TABLE = styled.table`
 
 const THEAD = styled.thead`
   padding: 24px 0 13px;
-  border-bottom: 1px solid #a6a6a6;
+  border-bottom: 1px solid ${COLORS.LINE03};
 `;
 
 const TBODY = styled.tbody`
-  border-bottom: 1px solid #a6a6a6;
+  border-bottom: 1px solid ${COLORS.LINE03};
 `;
 
 const TH = styled.th<{ $left?: boolean }>`
@@ -25,6 +26,8 @@ const TH = styled.th<{ $left?: boolean }>`
 
 const TD = styled.td<{ $large?: boolean; $small?: boolean; $gray?: boolean }>`
   height: 40px;
+  box-sizing: content-box;
+  padding: 0 10px;
   width: ${({ $large }) => ($large ? "100%" : "80px")};
   min-width: ${({ $large }) => !$large && "80px"};
   text-align: ${({ $large }) => ($large ? "left" : "center")};

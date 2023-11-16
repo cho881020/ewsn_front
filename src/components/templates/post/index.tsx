@@ -27,8 +27,7 @@ const CATEGORIES = [
   { id: 3, title: "국방" },
 ];
 
-const Post = () => {
-  const [id, setId] = useState(-1);
+const Post = ({ id }: { id: number }) => {
   const [campIndex, setCampIndex] = useState(0);
   const searchParams = useSearchParams();
   const { post } = usePostQuery(id);
@@ -36,14 +35,10 @@ const Post = () => {
   console.log(post);
   useEffect(() => {
     const id = searchParams.get("id");
-    if (id) return setId(Number(id));
+    // if (id) return setId(Number(id));
   }, [searchParams]);
   return (
     <>
-      <Nav
-        campIndex={campIndex}
-        onChangeCampIndex={(e: number) => setCampIndex(e)}
-      />
       <Container>
         <Banner />
         <div className="flex justify-between items-center w-full mb-5">

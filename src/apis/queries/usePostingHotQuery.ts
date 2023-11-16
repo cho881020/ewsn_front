@@ -8,10 +8,12 @@ interface Props {
   categoryId?: number;
   page?: number;
   keyword?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
-const usePostingQuery = (params?: Props) => {
-  const url = "posting";
+const usePostingHotQuery = (params?: Props) => {
+  const url = "posting/hot";
 
   const fetcher = async () => {
     const { data } = await instance.get(url, { params });
@@ -23,7 +25,7 @@ const usePostingQuery = (params?: Props) => {
     staleTime: 60000,
   });
 
-  return { postings: data?.postings, total: data?.total };
+  return { hotPostings: data?.postings, hotTotal: data?.total };
 };
 
-export default usePostingQuery;
+export default usePostingHotQuery;

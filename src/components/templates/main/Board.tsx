@@ -2,31 +2,23 @@ import Link from "next/link";
 import styled from "styled-components";
 
 import usePostingQuery from "@/apis/queries/usePostingQuery";
+import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
 
 import { CAMP_COLORS } from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
 
 const Board = () => {
-  const { postings: hits } = usePostingQuery({
-    item: "hits",
-    range: "desc",
-    page: 1,
-  });
+  const { postings } = usePostingQuery({ page: 1 });
+  const { hotPostings } = usePostingHotQuery({ page: 1 });
 
-  const { postings: created } = usePostingQuery({
-    page: 1,
-  });
-
-  const postings = [
-    { title: "NEW", list: [], link: "board" },
-    { title: "HOT", list: [], link: "board?hot" },
+  const POSTING = [
+    { title: "NEW", list: postings?.slice(0, 10) || [], link: "board" },
+    { title: "HOT", list: hotPostings?.slice(0, 10) || [], link: "board?hot" },
   ];
-
-  //created?.slice(0, 10) ||
 
   return (
     <Container>
-      {postings.map(({ title, list, link }) => (
+      {POSTING.map(({ title, list, link }) => (
         <Item key={title}>
           <Header>
             <Title level="head1">{title}</Title>
