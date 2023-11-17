@@ -17,6 +17,7 @@
 }
 
 body {
+  letter-spacing: -0.6px;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
