@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import instance from "@/apis/client";
-import Posting from "@/types/posting";
+import { Postings } from "@/types/posting";
 
 interface Props {
   politicalOrientationId?: number;
@@ -20,7 +20,7 @@ const usePostingHotQuery = (params?: Props) => {
     return data;
   };
 
-  const { data } = useQuery<Posting>([url, params], fetcher, {
+  const { data } = useQuery<Postings>([url, params], fetcher, {
     cacheTime: 120000,
     staleTime: 60000,
   });

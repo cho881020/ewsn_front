@@ -38,7 +38,9 @@ const Board = () => {
   const { hotPostings, hotTotal } = usePostingHotQuery({ page });
 
   const handleChangeList = useCallback(() => {
-    setList(searchParams.has("hot") ? hotPostings : postings);
+    if (hotPostings && postings) {
+      setList(searchParams.has("hot") ? hotPostings : postings);
+    }
   }, [hotPostings, postings, searchParams]);
 
   const handleChangeId = useCallback(() => {
