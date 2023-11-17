@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled, { css } from "styled-components";
@@ -8,7 +8,7 @@ import styled, { css } from "styled-components";
 import usePostingQuery from "@/apis/queries/usePostingQuery";
 import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
 
-import Posting from "@/types/posting";
+import { Posting } from "@/types/posting";
 import { getDate } from "@/utils/getDate";
 import { CATEGORIES, HEADERS } from "@/datas/board";
 
@@ -32,23 +32,24 @@ const Board = () => {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState(0);
   const [campIndex, setCampIndex] = useState(0);
-  const [list, setList] = useState<Posting["postings"]>([]);
+  const [list, setList] = useState<Posting[]>([]);
 
   const { postings, total } = usePostingQuery({ page });
   const { hotPostings, hotTotal } = usePostingHotQuery({ page });
 
-  useEffect(() => {
-    if (searchParams.has("hot")) {
-      setList(hotPostings || []);
-    } else {
-      setList(postings || []);
-    }
-  }, [searchParams, list, page]);
+  const handleChangeList = useCallback(() => {
+    setList(searchParams.has("hot") ? hotPostings : postings);
+  }, [hotPostings, postings, searchParams]);
 
-  useEffect(() => {
+  const handleChangeId = useCallback(() => {
     const id = searchParams.get("id");
     if (id) return setId(Number(id));
-  }, [searchParams]);
+  }, [id, searchParams]);
+
+  useEffect(() => {
+    handleChangeList();
+    handleChangeId();
+  }, [postings, hotPostings, searchParams, page]);
 
   if (!postings || !hotPostings || !total || !hotTotal) return null;
   return (
@@ -117,7 +118,7 @@ const Board = () => {
             </TR>
           </THEAD>
           <TBODY>
-            {list.map(
+            {list?.map(
               ({
                 id,
                 title,
@@ -130,7 +131,13 @@ const Board = () => {
                 <TR
                   key={id}
                   className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
-                  onClick={() => router.push(`/board?id=${id}`)}
+                  onClick={() =>
+                    router.push(
+                      searchParams.has("hot")
+                        ? `/board?hot&id=${id}`
+                        : `/board?id=${id}`
+                    )
+                  }
                 >
                   <TD $gray>{id}</TD>
                   <TD>{category.name}</TD>
