@@ -1,82 +1,106 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-import search from "@/assets/board/search.png";
-import Input from "@/ui/input";
-import { Btn } from "@/ui/buttons";
-import COLORS, { CAMP_COLORS } from "@/ui/colors";
+import usePostQuery from "@/apis/queries/usePostQuery";
+
+import arrow from "@/assets/post/arrow.png";
+import like from "@/assets/post/like.png";
+import hate from "@/assets/post/hate.png";
+
+import COLORS from "@/ui/colors";
+import { BtnGray } from "@/ui/buttons";
+import { Content, Title } from "@/ui/fonts";
 
 import { Container } from "@/components/atoms";
-import { TABLE, TD, TH, THEAD, TR, TBODY } from "@/components/atoms/table";
-import Nav from "@/components/organisms/Nav";
-import Pagination from "@/components/organisms/Pagination";
 import Banner from "@/components/templates/banner";
-import usePostQuery from "@/apis/queries/usePostQuery";
-import { useSearchParams } from "next/navigation";
-
-const HEADERS = ["번호", "닉네임", "제목", "카테고리", "작성일", "조회"];
-const CATEGORIES = [
-  { id: 4, title: "전체" },
-  { id: 5, title: "인기" },
-  { id: 0, title: "인권,노동" },
-  { id: 1, title: "사회" },
-  { id: 2, title: "유머" },
-  { id: 3, title: "국방" },
-];
+import Header from "@/components/templates/post/Header";
 
 const Post = ({ id }: { id: number }) => {
-  const [campIndex, setCampIndex] = useState(0);
-  const searchParams = useSearchParams();
-  const { post } = usePostQuery(id);
+  const { post, likeCounts } = usePostQuery(id);
 
-  console.log(post);
-  useEffect(() => {
-    const id = searchParams.get("id");
-    // if (id) return setId(Number(id));
-  }, [searchParams]);
+  if (!post || !likeCounts) return null;
+  const { politicalOrientation, category, content } = post;
+
   return (
-    <>
-      <Container>
-        <Banner />
-        <div className="flex justify-between items-center w-full mb-5">
-          동 {">"} 인권/노동
-        </div>
-      </Container>
-    </>
+    <Section>
+      <Banner />
+      <Category>
+        <Title level="head1">{politicalOrientation.name}</Title>
+        <Image src={arrow} alt="" />
+        <Title level="head1">{category.name}</Title>
+      </Category>
+      <Header post={post} />
+      <Main>
+        <Posting>
+          <Content level="body1l" color={COLORS.TEXT01}>
+            {content}
+          </Content>
+        </Posting>
+        <BtnContainer>
+          <Btn>
+            <Image src={like} alt="" />
+            <Content level="cap2" color={COLORS.TEXT01}>
+              {likeCounts?.likes || 0}
+            </Content>
+          </Btn>
+          <Btn>
+            <Image src={hate} alt="" />
+            <Content level="cap2" color={COLORS.TEXT01}>
+              {likeCounts?.dislikes || 0}
+            </Content>
+          </Btn>
+        </BtnContainer>
+      </Main>
+      <div className="mt-10 w-full flex justify-end">
+        <BtnGray width="52px" height="32px" $small>
+          <Title level="sub1" color={COLORS.TEXT02}>
+            신고
+          </Title>
+        </BtnGray>
+      </div>
+    </Section>
   );
 };
 
-const BtnContainer = styled.div`
-  width: 100%;
+const Section = styled(Container)`
+  min-height: fit-content;
+  padding: 40px 20px 0;
+`;
+
+const Category = styled.div`
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 0;
+  width: 100%;
+  border-bottom: 2px solid ${COLORS.LINE01};
 `;
 
-const CustomBtn = styled.button<{ $gray?: boolean }>`
-  font-size: 12px;
-  padding: 7px 8px;
-  min-width: 44px;
-  border: 1px solid #fff;
-  color: ${COLORS.TEXT01};
-  ${({ $gray }) =>
-    $gray &&
-    css`
-      padding: 4px 8px;
-      border-radius: 4px;
-      background-color: ${COLORS.SECONDARY};
-      color: ${COLORS.TEXT02};
-      font-weight: 700;
-    `}
+const Main = styled.div`
+  padding: 12px 12px 40px;
+  width: 100%;
+  border-bottom: 1px solid ${COLORS.LINE03};
 `;
 
-const Color = styled.div<{ color: string }>`
-  width: 4px;
-  height: 20px;
-  background-color: ${({ color }) => color};
-  margin-right: 8px;
+const Posting = styled.div`
+  min-height: 144px;
+  margin-bottom: 20px;
+`;
+
+const BtnContainer = styled.div`
+  width: 156px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+`;
+
+const Btn = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 `;
 
 export default Post;
