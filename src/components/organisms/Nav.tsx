@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -21,15 +22,16 @@ const Nav = ({ campIndex, onChangeCampIndex }: Props) => {
   const [isMain, setIsMain] = useState(false);
   const { isLogin, nickName } = useRecoilValue(authState);
 
+  const pathname = usePathname();
   const handleLogout = () => {
     delete localStorage.TOKEN;
     window.location.href = "/";
   };
 
   useEffect(() => {
-    if (window.location.pathname === "/") return setIsMain(true);
+    if (pathname === "/") return setIsMain(true);
     setIsMain(false);
-  }, [window.location.pathname]);
+  }, [pathname]);
   return (
     <>
       <Wrapper>

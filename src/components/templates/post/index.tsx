@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import usePostQuery from "@/apis/queries/usePostQuery";
@@ -17,50 +19,65 @@ import { Container } from "@/components/atoms";
 import Banner from "@/components/templates/banner";
 import Header from "@/components/templates/post/Header";
 
-const Post = ({ id }: { id: number }) => {
+const Post = () => {
+  const searchParams = useSearchParams();
+
+  const [id, setId] = useState(-1);
   const { post, likeCounts } = usePostQuery(id);
 
-  if (!post || !likeCounts) return null;
-  const { politicalOrientation, category, content } = post;
+  const handleChangeId = useCallback(() => {
+    if (searchParams.has("id")) {
+      const searchId = searchParams.get("id");
+      setId(Number(searchId));
+    }
+  }, [id, searchParams]);
+
+  useEffect(() => {
+    handleChangeId();
+  }, [searchParams]);
 
   return (
-    <Section>
-      <Banner />
-      <Category>
-        <Title level="head1">{politicalOrientation.name}</Title>
-        <Image src={arrow} alt="" />
-        <Title level="head1">{category.name}</Title>
-      </Category>
-      <Header post={post} />
-      <Main>
-        <Posting>
-          <Content level="body1l" color={COLORS.TEXT01}>
-            {content}
-          </Content>
-        </Posting>
-        <BtnContainer>
-          <Btn>
-            <Image src={like} alt="" />
-            <Content level="cap2" color={COLORS.TEXT01}>
-              {likeCounts?.likes || 0}
-            </Content>
-          </Btn>
-          <Btn>
-            <Image src={hate} alt="" />
-            <Content level="cap2" color={COLORS.TEXT01}>
-              {likeCounts?.dislikes || 0}
-            </Content>
-          </Btn>
-        </BtnContainer>
-      </Main>
-      <div className="mt-10 w-full flex justify-end">
-        <BtnGray width="52px" height="32px" $small>
-          <Title level="sub1" color={COLORS.TEXT02}>
-            신고
-          </Title>
-        </BtnGray>
-      </div>
-    </Section>
+    <>
+      {(id !== -1 || searchParams.has("id")) && (
+        <Section>
+          <Banner />
+          <Category>
+            <Title level="head1">{post?.politicalOrientation.name}</Title>
+            <Image src={arrow} alt="" />
+            <Title level="head1">{post?.category.name}</Title>
+          </Category>
+          {post && <Header post={post} />}
+          <Main>
+            <Posting>
+              <Content level="body1l" color={COLORS.TEXT01}>
+                {post?.content}
+              </Content>
+            </Posting>
+            <BtnContainer>
+              <Btn>
+                <Image src={like} alt="" />
+                <Content level="cap2" color={COLORS.TEXT01}>
+                  {likeCounts?.likes || 0}
+                </Content>
+              </Btn>
+              <Btn>
+                <Image src={hate} alt="" />
+                <Content level="cap2" color={COLORS.TEXT01}>
+                  {likeCounts?.dislikes || 0}
+                </Content>
+              </Btn>
+            </BtnContainer>
+          </Main>
+          <div className="mt-10 w-full flex justify-end">
+            <BtnGray width="52px" height="32px" $small>
+              <Title level="sub1" color={COLORS.TEXT02}>
+                신고
+              </Title>
+            </BtnGray>
+          </div>
+        </Section>
+      )}
+    </>
   );
 };
 

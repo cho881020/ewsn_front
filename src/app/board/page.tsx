@@ -1,66 +1,37 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled, { css } from "styled-components";
 
-import usePostingQuery from "@/apis/queries/usePostingQuery";
-import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
-
-import { Posting } from "@/types/posting";
-import { getDate } from "@/utils/getDate";
-import { CATEGORIES, HEADERS } from "@/datas/board";
+import { CATEGORIES } from "@/datas/board";
 
 import search from "@/assets/board/search.png";
 import Input from "@/ui/input";
 import { Btn } from "@/ui/buttons";
-import COLORS, { CAMP_COLORS } from "@/ui/colors";
+import COLORS from "@/ui/colors";
 
 import { Container } from "@/components/atoms";
-import { TABLE, TD, TH, THEAD, TR, TBODY } from "@/components/atoms/table";
 import Nav from "@/components/organisms/Nav";
-import Pagination from "@/components/organisms/Pagination";
 import Post from "@/components/templates/post";
 import Banner from "@/components/templates/banner";
+import Table from "@/components/templates/board/Table";
 
 const Board = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [id, setId] = useState(-1);
-  const [page, setPage] = useState(1);
   const [category, setCategory] = useState(0);
   const [campIndex, setCampIndex] = useState(0);
-  const [list, setList] = useState<Posting[]>([]);
 
-  const { postings, total } = usePostingQuery({ page });
-  const { hotPostings, hotTotal } = usePostingHotQuery({ page });
-
-  const handleChangeList = useCallback(() => {
-    if (hotPostings && postings) {
-      setList(searchParams.has("hot") ? hotPostings : postings);
-    }
-  }, [hotPostings, postings, searchParams]);
-
-  const handleChangeId = useCallback(() => {
-    const id = searchParams.get("id");
-    if (id) return setId(Number(id));
-  }, [id, searchParams]);
-
-  useEffect(() => {
-    handleChangeList();
-    handleChangeId();
-  }, [postings, hotPostings, searchParams, page]);
-
-  if (!postings || !hotPostings || !total || !hotTotal) return null;
   return (
     <>
       <Nav
         campIndex={campIndex}
         onChangeCampIndex={(e: number) => setCampIndex(e)}
       />
-      {id !== -1 && searchParams.has("id") && <Post id={id} />}
+      <Post />
       <Container>
         <Banner />
         <div className="flex justify-between items-center w-full mb-5">
@@ -109,59 +80,7 @@ const Board = () => {
             </Btn>
           </div>
         </div>
-        <TABLE>
-          <THEAD className="overflow-scroll">
-            <TR>
-              {HEADERS.map((title, i) => (
-                <TH key={i} className="h-[28px]" $left={title === "제목"}>
-                  {title}
-                </TH>
-              ))}
-            </TR>
-          </THEAD>
-          <TBODY>
-            {list?.map(
-              ({
-                id,
-                title,
-                category,
-                politicalOrientationId,
-                createdAt,
-                hits,
-                user,
-              }) => (
-                <TR
-                  key={id}
-                  className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
-                  onClick={() =>
-                    router.push(
-                      searchParams.has("hot")
-                        ? `/board?hot&id=${id}`
-                        : `/board?id=${id}`
-                    )
-                  }
-                >
-                  <TD $gray>{id}</TD>
-                  <TD>{category.name}</TD>
-                  <TD $large className="flex items-center pt-1">
-                    <Color
-                      $color={CAMP_COLORS[politicalOrientationId - 1].color}
-                    />
-                    <p className="flex-1">{title}</p>
-                  </TD>
-                  <TD>{user.nickName}</TD>
-                  <TD $small>{getDate(createdAt)}</TD>
-                  <TD $small>{hits}</TD>
-                </TR>
-              )
-            )}
-          </TBODY>
-        </TABLE>
-        <Pagination
-          page={page}
-          setPage={setPage}
-          total={searchParams.has("hot") ? hotTotal : total}
-        />
+        <Table />
       </Container>
     </>
   );
@@ -188,13 +107,6 @@ const CustomBtn = styled.button<{ $gray?: boolean }>`
       color: ${COLORS.TEXT02};
       font-weight: 700;
     `}
-`;
-
-const Color = styled.div<{ $color: string }>`
-  width: 4px;
-  height: 20px;
-  background-color: ${({ $color }) => $color};
-  margin-right: 8px;
 `;
 
 export default Board;

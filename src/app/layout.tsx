@@ -5,7 +5,6 @@ import "@/app/globals.css";
 import Recoil from "@/lib/recoilRoot";
 import ReactQuery from "@/lib/reactQuery";
 import StyledComponentsRegistry from "@/lib/registry";
-import TokenCheck from "@/components/templates/TokenCheck";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,9 +23,7 @@ export default function RootLayout({
         <ReactQuery>
           <StyledComponentsRegistry>
             <Recoil>
-              <TokenCheck>
-                <main className="w-full bg-white">{children}</main>
-              </TokenCheck>
+              <main className="w-full bg-white">{children}</main>
             </Recoil>
           </StyledComponentsRegistry>
         </ReactQuery>
