@@ -1,11 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
-
-import usePostingQuery from "@/apis/queries/usePostingQuery";
-import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
 
 import { Posting } from "@/types/posting";
 import { getDate } from "@/utils/getDate";
@@ -14,35 +10,10 @@ import { HEADERS } from "@/datas/board";
 import { CAMP_COLORS } from "@/ui/colors";
 
 import { TABLE, TD, TH, THEAD, TR, TBODY } from "@/components/atoms/table";
-import Pagination from "@/components/organisms/Pagination";
 
-interface Props {
-  list: Posting[];
-  total: number;
-}
-
-const Table = () => {
-  const { postings, total } = usePostingQuery({ page: 1 });
-  const { hotPostings, hotTotal } = usePostingHotQuery({ page: 1 });
-  const [info, setInfo] = useState<Props>({ list: [], total: 0 });
-  const [page, setPage] = useState(1);
-
+const Table = ({ list }: { list: Posting[] }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const handleChangeList = useCallback(() => {
-    if (hotPostings && postings && total && hotTotal) {
-      setInfo(
-        searchParams.has("hot")
-          ? { list: hotPostings, total: hotTotal }
-          : { list: postings, total }
-      );
-    }
-  }, [hotPostings, postings, searchParams]);
-
-  useEffect(() => {
-    handleChangeList();
-  }, [postings, hotPostings, searchParams, page]);
 
   return (
     <>
@@ -57,7 +28,7 @@ const Table = () => {
           </TR>
         </THEAD>
         <TBODY>
-          {info.list?.map(
+          {list.map(
             ({
               id,
               title,
@@ -94,7 +65,6 @@ const Table = () => {
           )}
         </TBODY>
       </TABLE>
-      <Pagination page={page} setPage={setPage} total={info.total} />
     </>
   );
 };

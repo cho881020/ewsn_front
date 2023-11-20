@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
@@ -19,19 +18,14 @@ interface Props {
 }
 
 const Nav = ({ campIndex, onChangeCampIndex }: Props) => {
-  const [isMain, setIsMain] = useState(false);
   const { isLogin, nickName } = useRecoilValue(authState);
-
   const pathname = usePathname();
+
   const handleLogout = () => {
     delete localStorage.TOKEN;
     window.location.href = "/";
   };
 
-  useEffect(() => {
-    if (pathname === "/") return setIsMain(true);
-    setIsMain(false);
-  }, [pathname]);
   return (
     <>
       <Wrapper>
@@ -40,7 +34,7 @@ const Nav = ({ campIndex, onChangeCampIndex }: Props) => {
             <Link href="/">
               <Image src={logo} alt="" className="cursor-pointer" />
             </Link>
-            {isMain ? (
+            {pathname === "/" ? (
               <Content level="cap2" color="#fff">
                 정치인이 운영하지 않는 정치 커뮤니티
               </Content>
