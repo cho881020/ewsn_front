@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import styled from "styled-components";
 
 import usePostQuery from "@/apis/queries/usePostQuery";
@@ -16,29 +15,19 @@ import { BtnGray } from "@/ui/buttons";
 import { Content, Title } from "@/ui/fonts";
 
 import { Container } from "@/components/atoms";
+import Nav from "@/components/organisms/Nav";
 import Banner from "@/components/templates/banner";
+import PostList from "@/components/templates/postList";
 import Header from "@/components/templates/post/Header";
 
 const Post = () => {
-  const searchParams = useSearchParams();
-
-  const [id, setId] = useState(-1);
-  const { post, likeCounts } = usePostQuery(id);
-
-  const handleChangeId = useCallback(() => {
-    if (searchParams.has("id")) {
-      const searchId = searchParams.get("id");
-      setId(Number(searchId));
-    }
-  }, [id, searchParams]);
-
-  useEffect(() => {
-    handleChangeId();
-  }, [searchParams]);
+  const { id } = useParams();
+  const { post, likeCounts } = usePostQuery(Number(id));
 
   return (
     <>
-      {(id !== -1 || searchParams.has("id")) && (
+      <Nav />
+      {post && (
         <Section>
           <Banner />
           <Category>
@@ -46,7 +35,7 @@ const Post = () => {
             <Image src={arrow} alt="" />
             <Title level="head1">{post?.category.name}</Title>
           </Category>
-          {post && <Header post={post} />}
+          <Header post={post} />
           <Main>
             <Posting>
               <Content level="body1l" color={COLORS.TEXT01}>
@@ -77,6 +66,7 @@ const Post = () => {
           </div>
         </Section>
       )}
+      <PostList />
     </>
   );
 };

@@ -12,8 +12,16 @@ const Board = () => {
   const { hotPostings } = usePostingHotQuery({ page: 1 });
 
   const POSTING = [
-    { title: "NEW", list: postings?.slice(0, 10) || [], link: "board" },
-    { title: "HOT", list: hotPostings?.slice(0, 10) || [], link: "board?hot" },
+    {
+      title: "NEW",
+      list: postings?.slice(0, 10) || [],
+      link: { pathname: "board", query: { camp: "all", page: "1" } },
+    },
+    {
+      title: "HOT",
+      list: hotPostings?.slice(0, 10) || [],
+      link: { pathname: "board", query: { hot: "", camp: "all", page: "1" } },
+    },
   ];
 
   return (

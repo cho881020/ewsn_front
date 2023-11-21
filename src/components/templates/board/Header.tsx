@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import styled, { css } from "styled-components";
 
 import { CATEGORIES } from "@/datas/board";
@@ -12,43 +13,29 @@ import COLORS from "@/ui/colors";
 import search from "@/assets/board/search.png";
 
 interface Props {
-  campIndex: number;
-  onChangePage: () => void;
   category: number;
   onChangeCategory: (e: number) => void;
 }
 
-const Header = ({
-  campIndex,
-  onChangePage,
-  category,
-  onChangeCategory,
-}: Props) => {
-  const router = useRouter();
+const Header = ({ category, onChangeCategory }: Props) => {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const isAll = searchParams.get("camp") === "all";
+  const isHot = searchParams.has("hot");
 
   return (
     <div className="flex justify-between items-center w-full mb-5">
-      {campIndex === 0 ? (
+      {isAll ? (
         <BtnContainer>
-          <CustomBtn
-            onClick={() => {
-              router.push("/board");
-              onChangePage();
-            }}
-            $gray={!searchParams.has("hot")}
+          <CustomLink href={{ pathname, query: { camp: "all", page: 1 } }}>
+            <CustomBtn $gray={!isHot}>NEW</CustomBtn>
+          </CustomLink>
+          <CustomLink
+            href={{ pathname, query: { hot: "", camp: "all", page: 1 } }}
           >
-            NEW
-          </CustomBtn>
-          <CustomBtn
-            onClick={() => {
-              router.push("/board?hot");
-              onChangePage();
-            }}
-            $gray={searchParams.has("hot")}
-          >
-            HOT
-          </CustomBtn>
+            <CustomBtn $gray={isHot}>HOT</CustomBtn>
+          </CustomLink>
         </BtnContainer>
       ) : (
         <BtnContainer>
@@ -89,6 +76,7 @@ const BtnContainer = styled.div`
 const CustomBtn = styled.button<{ $gray?: boolean }>`
   font-size: 12px;
   padding: 7px 8px;
+  height: 32px;
   min-width: 44px;
   border: 1px solid #fff;
   color: ${COLORS.TEXT01};
@@ -101,6 +89,12 @@ const CustomBtn = styled.button<{ $gray?: boolean }>`
       color: ${COLORS.TEXT02};
       font-weight: 700;
     `}
+`;
+
+const CustomLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Header;
