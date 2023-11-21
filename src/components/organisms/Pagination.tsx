@@ -1,4 +1,6 @@
+import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import styled, { css } from "styled-components";
 
 import arrow from "@/assets/board/arrow.png";
@@ -6,13 +8,12 @@ import arrowActive from "@/assets/board/arrowActive.png";
 
 import COLORS from "@/ui/colors";
 
-interface Props {
-  total: number;
-  page: number;
-  setPage: (e: number) => void;
-}
+const Pagination = ({ total }: { total: number }) => {
+  const searchParams = useSearchParams();
+  const isHot = searchParams.has("hot");
+  const camp = searchParams.get("camp");
+  const page = Number(searchParams.get("page")) || 1;
 
-const Pagination = ({ total, page, setPage }: Props) => {
   const pageLimit = 9;
   const startPage = parseInt((page - 1) / 10 + "") * 10 + 1;
   const numPages = Math.ceil(total / 20);
@@ -25,26 +26,41 @@ const Pagination = ({ total, page, setPage }: Props) => {
 
   return (
     <Container>
-      <BtnArrow onClick={() => setPage(page - 1)} disabled={page === 1}>
-        {page <= 1 ? (
-          <Image src={arrow} alt="" />
-        ) : (
-          <Image src={arrowActive} alt="" className="reverse" />
-        )}
+      <BtnArrow disabled={page === 1}>
+        <Link
+          href={{
+            query: `${isHot ? "hot=&" : ""}camp=${camp}&page=${page - 1}`,
+          }}
+        >
+          {page <= 1 ? (
+            <Image src={arrow} alt="" />
+          ) : (
+            <Image src={arrowActive} alt="" className="reverse" />
+          )}
+        </Link>
       </BtnArrow>
       <ButtonWrap>
         {pageArray.map((i) => (
-          <Button key={i} onClick={() => setPage(i)} $current={page === i}>
-            {i}
-          </Button>
+          <Link
+            key={i}
+            href={{ query: `${isHot ? "hot=&" : ""}camp=${camp}&page=${i}` }}
+          >
+            <Button $current={page === i}>{i}</Button>
+          </Link>
         ))}
       </ButtonWrap>
-      <BtnArrow onClick={() => setPage(page + 1)} disabled={page === numPages}>
-        {page >= numPages ? (
-          <Image src={arrow} alt="" className="reverse" />
-        ) : (
-          <Image src={arrowActive} alt="" />
-        )}
+      <BtnArrow disabled={page === numPages}>
+        <Link
+          href={{
+            query: `${isHot ? "hot=&" : ""}camp=${camp}&page=${page + 1}`,
+          }}
+        >
+          {page >= numPages ? (
+            <Image src={arrow} alt="" className="reverse" />
+          ) : (
+            <Image src={arrowActive} alt="" />
+          )}
+        </Link>
       </BtnArrow>
     </Container>
   );

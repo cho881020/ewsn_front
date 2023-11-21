@@ -1,35 +1,30 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+
+import DATAS from "@/datas/Nav";
+import authState from "@/stores/authState";
 
 import logo from "@/assets/nav/logo.png";
 
 import COLORS from "@/ui/colors";
 import { Content } from "@/ui/fonts";
 
-import DATAS from "@/datas/Nav";
-import authState from "@/stores/authState";
-
-interface Props {
-  campIndex?: number;
-  onChangeCampIndex?: (e: number) => void;
-}
-
-const Nav = ({ campIndex, onChangeCampIndex }: Props) => {
-  const [isMain, setIsMain] = useState(false);
+const Nav = () => {
   const { isLogin, nickName } = useRecoilValue(authState);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const campParams = searchParams.get("camp");
 
   const handleLogout = () => {
     delete localStorage.TOKEN;
     window.location.href = "/";
   };
 
-  useEffect(() => {
-    if (window.location.pathname === "/") return setIsMain(true);
-    setIsMain(false);
-  }, [window.location.pathname]);
   return (
     <>
       <Wrapper>
@@ -38,21 +33,25 @@ const Nav = ({ campIndex, onChangeCampIndex }: Props) => {
             <Link href="/">
               <Image src={logo} alt="" className="cursor-pointer" />
             </Link>
-            {isMain ? (
+            {pathname === "/" ? (
               <Content level="cap2" color="#fff">
                 정치인이 운영하지 않는 정치 커뮤니티
               </Content>
             ) : (
               <CampContainer>
-                {DATAS.map(({ id, btn, activeBtn }) => (
-                  <Btn
-                    key={id}
-                    $active={id === campIndex}
-                    onClick={() => onChangeCampIndex && onChangeCampIndex(id)}
-                  >
-                    {id === campIndex ? activeBtn : btn}
-                  </Btn>
-                ))}
+                {DATAS.map(({ id, btn, activeBtn, camp }) => {
+                  const isHot = camp === "all" && searchParams.has("hot");
+                  const query = `${isHot ? "hot=&" : ""}camp=${camp}&page=1`;
+                  return (
+                    <Btn
+                      key={id}
+                      $active={campParams === camp}
+                      href={{ query }}
+                    >
+                      {campParams === camp ? activeBtn : btn}
+                    </Btn>
+                  );
+                })}
               </CampContainer>
             )}
           </div>
@@ -106,7 +105,7 @@ const CampContainer = styled.div`
   gap: 12px;
 `;
 
-const Btn = styled.button<{ $active: boolean }>`
+const Btn = styled(Link)<{ $active: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
