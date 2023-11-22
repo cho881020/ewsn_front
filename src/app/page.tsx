@@ -3,10 +3,10 @@
 import Image from "next/image";
 
 import flag from "@/assets/main/flag.png";
-import Board from "@/components/templates/main/Board";
 import { Container } from "@/components/atoms";
-import Banner from "@/components/templates/banner";
 import Nav from "@/components/organisms/Nav";
+import Board from "@/components/templates/main/Board";
+import Banner from "@/components/templates/banner";
 import ImageContainer from "@/components/templates/main/ImageContainer";
 
 const Home = () => {

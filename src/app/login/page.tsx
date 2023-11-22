@@ -14,6 +14,7 @@ import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
 import { Btn, BtnWhite } from "@/ui/buttons";
+import api from "@/apis/client";
 
 const Login = () => {
   const [state, setState] = useState({ email: "", password: "" });
@@ -27,6 +28,7 @@ const Login = () => {
     if (token) {
       localStorage.TOKEN = token;
       window.location.href = "/";
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
     } else {
       alert(message);
     }

@@ -33,7 +33,7 @@ const Header = ({ post }: { post: Posting }) => {
 
       <Info>
         <div className="flex items-center">
-          <Color color={CAMP_COLORS[politicalOrientation.id].color} />
+          <Color color={CAMP_COLORS[politicalOrientation.id - 1].color} />
           <Content level="cap2" color={COLORS.TEXT01}>
             {user.nickName}
           </Content>

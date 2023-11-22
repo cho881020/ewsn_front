@@ -19,62 +19,68 @@ import Nav from "@/components/organisms/Nav";
 import Banner from "@/components/templates/banner";
 import PostList from "@/components/templates/postList";
 import Header from "@/components/templates/post/Header";
+import Reply from "@/components/templates/reply";
+import useReplyQuery from "@/apis/queries/useReplyQuery";
 
 const Post = () => {
   const { id } = useParams();
   const { post, likeCounts } = usePostQuery(Number(id));
+  const { bestReplies, replies } = useReplyQuery(Number(id));
 
   return (
     <>
       <Nav />
       {post && (
-        <Section>
-          <Banner />
-          <Category>
-            <Title level="head1">{post?.politicalOrientation.name}</Title>
-            <Image src={arrow} alt="" />
-            <Title level="head1">{post?.category.name}</Title>
-          </Category>
-          <Header post={post} />
-          <Main>
-            <Posting>
-              <Content level="body1l" color={COLORS.TEXT01}>
-                {post?.content}
-              </Content>
-            </Posting>
-            <BtnContainer>
-              <Btn>
-                <Image src={like} alt="" />
-                <Content level="cap2" color={COLORS.TEXT01}>
-                  {likeCounts?.likes || 0}
+        <Container>
+          <>
+            <Banner />
+            <Category>
+              <Title level="head1">{post?.politicalOrientation.name}</Title>
+              <Image src={arrow} alt="" />
+              <Title level="head1">{post?.category.name}</Title>
+            </Category>
+            <Header post={post} />
+            <Main>
+              <Posting>
+                <Content level="body1l" color={COLORS.TEXT01}>
+                  {post?.content}
                 </Content>
-              </Btn>
-              <Btn>
-                <Image src={hate} alt="" />
-                <Content level="cap2" color={COLORS.TEXT01}>
-                  {likeCounts?.dislikes || 0}
-                </Content>
-              </Btn>
-            </BtnContainer>
-          </Main>
-          <div className="mt-10 w-full flex justify-end">
-            <BtnGray width="52px" height="32px" $small>
-              <Title level="sub1" color={COLORS.TEXT02}>
-                신고
-              </Title>
-            </BtnGray>
-          </div>
-        </Section>
+              </Posting>
+              <BtnContainer>
+                <Btn>
+                  <Image src={like} alt="" />
+                  <Content level="cap2" color={COLORS.TEXT01}>
+                    {likeCounts?.likes || 0}
+                  </Content>
+                </Btn>
+                <Btn>
+                  <Image src={hate} alt="" />
+                  <Content level="cap2" color={COLORS.TEXT01}>
+                    {likeCounts?.dislikes || 0}
+                  </Content>
+                </Btn>
+              </BtnContainer>
+            </Main>
+            <div className="mt-10 w-full flex justify-end">
+              <BtnGray width="52px" height="32px" $small>
+                <Title level="sub1" color={COLORS.TEXT02}>
+                  신고
+                </Title>
+              </BtnGray>
+            </div>
+          </>
+          <Banner mt="40px" />
+          <Reply
+            post={post}
+            bestReplies={bestReplies || []}
+            replies={replies || []}
+          />
+        </Container>
       )}
       <PostList />
     </>
   );
 };
-
-const Section = styled(Container)`
-  min-height: fit-content;
-  padding: 40px 20px 0;
-`;
 
 const Category = styled.div`
   display: flex;

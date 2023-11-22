@@ -13,7 +13,6 @@ interface Props {
 }
 
 const TokenCheck = ({ children }: Props) => {
-  const [checked, setChecked] = useState(false);
   const setAuth = useSetRecoilState(authAtom);
 
   useEffect(() => {
@@ -31,17 +30,25 @@ const TokenCheck = ({ children }: Props) => {
 
       if (result) {
         api.defaults.headers["Authorization"] = `Bearer ${token}`;
-        setAuth({ isLogin: true, nickName: result.data.nickName });
+        setAuth({
+          id: result.data.id,
+          isLogin: true,
+          nickName: result.data.nickName,
+          politicalOrientationId: result.data.politicalOrientationId,
+          isAdmin: result.data.isAdmin,
+        });
       }
     } catch {
       localStorage.removeItem("TOKEN");
-      setAuth({ isLogin: false, nickName: "" });
-    } finally {
-      setChecked(true);
+      setAuth({
+        id: null,
+        isLogin: false,
+        nickName: "",
+        politicalOrientationId: 0,
+        isAdmin: false,
+      });
     }
   };
-
-  if (!checked) return <></>;
 
   return <>{children}</>;
 };
