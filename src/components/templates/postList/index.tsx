@@ -15,11 +15,12 @@ import Header from "@/components/templates/board/Header";
 const PostList = () => {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
+  const keyword = searchParams.get("keyword") || "";
 
   const [category, setCategory] = useState(0);
 
-  const { postings, total } = usePostingQuery({ page });
-  const { hotPostings, hotTotal } = usePostingHotQuery({ page });
+  const { postings, total } = usePostingQuery({ page, keyword });
+  const { hotPostings, hotTotal } = usePostingHotQuery({ page, keyword });
 
   return (
     <Container>
@@ -31,7 +32,7 @@ const PostList = () => {
       {postings && hotPostings && (
         <Table list={searchParams.has("hot") ? hotPostings : postings} />
       )}
-      {total && hotTotal && (
+      {!!total && !!hotTotal && (
         <Pagination total={searchParams.has("hot") ? hotTotal : total} />
       )}
     </Container>

@@ -8,7 +8,9 @@ import usePostQuery from "@/apis/queries/usePostQuery";
 
 import arrow from "@/assets/post/arrow.png";
 import like from "@/assets/post/like.png";
+import likeFill from "@/assets/post/likeFill.png";
 import hate from "@/assets/post/hate.png";
+import hateFill from "@/assets/post/hateFill.png";
 
 import COLORS from "@/ui/colors";
 import { BtnGray } from "@/ui/buttons";
@@ -19,62 +21,56 @@ import Nav from "@/components/organisms/Nav";
 import Banner from "@/components/templates/banner";
 import PostList from "@/components/templates/postList";
 import Header from "@/components/templates/post/Header";
+import Reply from "@/components/templates/reply";
+import useReplyQuery from "@/apis/queries/useReplyQuery";
+import Recommend from "@/components/templates/post/Recommend";
 
 const Post = () => {
   const { id } = useParams();
   const { post, likeCounts } = usePostQuery(Number(id));
+  const { bestReplies, replies } = useReplyQuery(Number(id));
 
   return (
     <>
       <Nav />
-      {post && (
-        <Section>
-          <Banner />
-          <Category>
-            <Title level="head1">{post?.politicalOrientation.name}</Title>
-            <Image src={arrow} alt="" />
-            <Title level="head1">{post?.category.name}</Title>
-          </Category>
-          <Header post={post} />
-          <Main>
-            <Posting>
-              <Content level="body1l" color={COLORS.TEXT01}>
-                {post?.content}
-              </Content>
-            </Posting>
-            <BtnContainer>
-              <Btn>
-                <Image src={like} alt="" />
-                <Content level="cap2" color={COLORS.TEXT01}>
-                  {likeCounts?.likes || 0}
+      {post && likeCounts && (
+        <Container>
+          <>
+            <Banner />
+            <Category>
+              <Title level="head1">{post?.politicalOrientation.name}</Title>
+              <Image src={arrow} alt="" />
+              <Title level="head1">{post?.category.name}</Title>
+            </Category>
+            <Header post={post} />
+            <Main>
+              <Posting>
+                <Content level="body1l" color={COLORS.TEXT01}>
+                  {post?.content}
                 </Content>
-              </Btn>
-              <Btn>
-                <Image src={hate} alt="" />
-                <Content level="cap2" color={COLORS.TEXT01}>
-                  {likeCounts?.dislikes || 0}
-                </Content>
-              </Btn>
-            </BtnContainer>
-          </Main>
-          <div className="mt-10 w-full flex justify-end">
-            <BtnGray width="52px" height="32px" $small>
-              <Title level="sub1" color={COLORS.TEXT02}>
-                신고
-              </Title>
-            </BtnGray>
-          </div>
-        </Section>
+              </Posting>
+              <Recommend post={post} likeCounts={likeCounts} />
+            </Main>
+            <div className="mt-10 w-full flex justify-end">
+              <BtnGray width="52px" height="32px" $small>
+                <Title level="sub1" color={COLORS.TEXT02}>
+                  신고
+                </Title>
+              </BtnGray>
+            </div>
+          </>
+          <Banner mt="40px" />
+          <Reply
+            post={post}
+            bestReplies={bestReplies || []}
+            replies={replies || []}
+          />
+        </Container>
       )}
       <PostList />
     </>
   );
 };
-
-const Section = styled(Container)`
-  min-height: fit-content;
-  padding: 40px 20px 0;
-`;
 
 const Category = styled.div`
   display: flex;
@@ -94,20 +90,6 @@ const Main = styled.div`
 const Posting = styled.div`
   min-height: 144px;
   margin-bottom: 20px;
-`;
-
-const BtnContainer = styled.div`
-  width: 156px;
-  margin: 0 auto;
-  display: flex;
-  gap: 12px;
-`;
-
-const Btn = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
 `;
 
 export default Post;

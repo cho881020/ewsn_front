@@ -17,3 +17,7 @@ export const getDate = (date: string) => {
 export const getDateTime = (date: string) => {
   return dayjs(new Date(date)).format("YYYY.MM.DD HH:mm");
 };
+
+export const getDateTimeSecond = (date: string) => {
+  return dayjs(new Date(date)).format("YYYY.MM.DD HH:mm:ss");
+};

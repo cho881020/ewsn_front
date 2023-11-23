@@ -4,7 +4,7 @@ import instance from "@/apis/client";
 import { Postings } from "@/types/posting";
 
 interface Props {
-  politicalOrientationId?: number;
+  politicalOrientationId?: number | null;
   categoryId?: number;
   page?: number;
   keyword?: string;

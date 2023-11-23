@@ -7,7 +7,7 @@ interface Post {
   posting: Posting;
   likeCounts: {
     likes: number;
-    dislikes: number;
+    disLikes: number;
   };
 }
 const usePostQuery = (id: number) => {
