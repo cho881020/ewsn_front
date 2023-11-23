@@ -8,7 +8,9 @@ import usePostQuery from "@/apis/queries/usePostQuery";
 
 import arrow from "@/assets/post/arrow.png";
 import like from "@/assets/post/like.png";
+import likeFill from "@/assets/post/likeFill.png";
 import hate from "@/assets/post/hate.png";
+import hateFill from "@/assets/post/hateFill.png";
 
 import COLORS from "@/ui/colors";
 import { BtnGray } from "@/ui/buttons";
@@ -21,6 +23,7 @@ import PostList from "@/components/templates/postList";
 import Header from "@/components/templates/post/Header";
 import Reply from "@/components/templates/reply";
 import useReplyQuery from "@/apis/queries/useReplyQuery";
+import Recommend from "@/components/templates/post/Recommend";
 
 const Post = () => {
   const { id } = useParams();
@@ -30,7 +33,7 @@ const Post = () => {
   return (
     <>
       <Nav />
-      {post && (
+      {post && likeCounts && (
         <Container>
           <>
             <Banner />
@@ -46,20 +49,7 @@ const Post = () => {
                   {post?.content}
                 </Content>
               </Posting>
-              <BtnContainer>
-                <Btn>
-                  <Image src={like} alt="" />
-                  <Content level="cap2" color={COLORS.TEXT01}>
-                    {likeCounts?.likes || 0}
-                  </Content>
-                </Btn>
-                <Btn>
-                  <Image src={hate} alt="" />
-                  <Content level="cap2" color={COLORS.TEXT01}>
-                    {likeCounts?.dislikes || 0}
-                  </Content>
-                </Btn>
-              </BtnContainer>
+              <Recommend post={post} likeCounts={likeCounts} />
             </Main>
             <div className="mt-10 w-full flex justify-end">
               <BtnGray width="52px" height="32px" $small>
@@ -100,20 +90,6 @@ const Main = styled.div`
 const Posting = styled.div`
   min-height: 144px;
   margin-bottom: 20px;
-`;
-
-const BtnContainer = styled.div`
-  width: 156px;
-  margin: 0 auto;
-  display: flex;
-  gap: 12px;
-`;
-
-const Btn = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
 `;
 
 export default Post;

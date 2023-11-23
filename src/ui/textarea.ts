@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import COLORS from "@/ui/colors";
 
-const Textarea = styled.input<{
+const Textarea = styled.textarea<{
   maxWidth?: string;
   padding?: string;
   height?: string;
@@ -12,11 +12,14 @@ const Textarea = styled.input<{
   padding: ${({ padding }) => padding || "12px"};
   background: #fff;
   border: 1px solid ${COLORS.LINE03};
+  border-radius: 4px;
   color: ${COLORS.TEXT01};
   font-size: 16px;
   line-height: 28px;
   letter-spacing: -0.6px;
   resize: none;
+  outline: none;
+  white-space: pre-wrap;
 
   &::placeholder {
     color: ${COLORS.TEXT04};

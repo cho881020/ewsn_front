@@ -4,16 +4,15 @@ import { isAxiosError } from "axios";
 import api from "@/apis/client";
 
 interface ReplyParams {
-  postingId: number;
   content: string;
-  replyId?: number;
+  id: number;
 }
 
 const fetcher = async (params: ReplyParams) => {
-  await api.post("reply", params);
+  await api.put(`reply/${params.id}`, params);
 };
 
-const useReply = (postingId: number) => {
+const useChangeReply = (postingId: number) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(fetcher, {
@@ -30,4 +29,4 @@ const useReply = (postingId: number) => {
   return { mutate };
 };
 
-export default useReply;
+export default useChangeReply;

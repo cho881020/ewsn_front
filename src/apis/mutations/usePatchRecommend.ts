@@ -4,21 +4,20 @@ import { isAxiosError } from "axios";
 import api from "@/apis/client";
 
 interface ReplyParams {
-  postingId: number;
-  content: string;
-  replyId?: number;
+  id: number;
+  likeType: string;
 }
 
 const fetcher = async (params: ReplyParams) => {
-  await api.post("reply", params);
+  await api.patch(`posting/${params.id}/likeType`, params);
 };
 
-const useReply = (postingId: number) => {
+const usePatchRecommend = (id: number) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(fetcher, {
     onSuccess: () => {
-      queryClient.invalidateQueries([`posting/${postingId}/reply`]);
+      queryClient.invalidateQueries([`posting/${id}`]);
     },
     onError: (err) => {
       if (isAxiosError(err)) {
@@ -30,4 +29,4 @@ const useReply = (postingId: number) => {
   return { mutate };
 };
 
-export default useReply;
+export default usePatchRecommend;

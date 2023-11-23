@@ -3,17 +3,11 @@ import { isAxiosError } from "axios";
 
 import api from "@/apis/client";
 
-interface ReplyParams {
-  postingId: number;
-  content: string;
-  replyId?: number;
-}
-
-const fetcher = async (params: ReplyParams) => {
-  await api.post("reply", params);
+const fetcher = async (id: number) => {
+  await api.delete(`reply/${id}`);
 };
 
-const useReply = (postingId: number) => {
+const useDeleteReply = (postingId: number) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(fetcher, {
@@ -30,4 +24,4 @@ const useReply = (postingId: number) => {
   return { mutate };
 };
 
-export default useReply;
+export default useDeleteReply;

@@ -47,6 +47,7 @@ export interface Posting {
   replies: Replies[];
   userPostLikes: {
     id: number;
+    userId: number;
     likeType: string;
   }[];
 }

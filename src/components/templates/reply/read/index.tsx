@@ -1,19 +1,21 @@
-import { Replies } from "@/types/posting";
-import AllReplies from "./AllReplies";
-import BestReplies from "./BestReplies";
-import styled from "styled-components";
-import { Title } from "@/ui/fonts";
-import COLORS from "@/ui/colors";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+
 import authState from "@/stores/authState";
+import { Posting, Replies } from "@/types/posting";
+
+import COLORS from "@/ui/colors";
+import { Title } from "@/ui/fonts";
+import BestReplies from "@/components/templates/reply/read/BestReplies";
+import AllReplies from "@/components/templates/reply/read/AllReplies/index";
 
 interface Props {
   replies: Replies[];
   bestReplies: Replies[];
+  post: Posting;
 }
 
-const Read = ({ replies, bestReplies }: Props) => {
-  const { id } = useRecoilValue(authState);
+const Read = ({ replies, bestReplies, post }: Props) => {
   return (
     <>
       <Header>
@@ -25,9 +27,9 @@ const Read = ({ replies, bestReplies }: Props) => {
         </Title>
       </Header>
       {!!bestReplies.length && (
-        <BestReplies bestReplies={bestReplies} myId={id} />
+        <BestReplies bestReplies={bestReplies} post={post} />
       )}
-      {!!replies.length && <AllReplies replies={replies} myId={id} />}
+      {!!replies.length && <AllReplies replies={replies} post={post} />}
     </>
   );
 };

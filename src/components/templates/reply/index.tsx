@@ -12,7 +12,7 @@ const Reply = ({ post, replies, bestReplies }: Props) => {
   return (
     <>
       <Write post={post} />
-      <Read replies={replies} bestReplies={bestReplies} />
+      <Read replies={replies} bestReplies={bestReplies} post={post} />
     </>
   );
 };

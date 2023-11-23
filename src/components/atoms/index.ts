@@ -1,3 +1,4 @@
+import COLORS from "@/ui/colors";
 import styled from "styled-components";
 
 export const Container = styled.div`
