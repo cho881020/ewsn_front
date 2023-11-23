@@ -1,13 +1,16 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 import usePostingQuery from "@/apis/queries/usePostingQuery";
 import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
 
-import { CAMP_COLORS } from "@/ui/colors";
+import COLORS, { CAMP_COLORS } from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
+import { Color } from "@/components/atoms/reply";
 
 const Board = () => {
+  const router = useRouter();
   const { postings } = usePostingQuery({ page: 1 });
   const { hotPostings } = usePostingHotQuery({ page: 1 });
 
@@ -26,23 +29,34 @@ const Board = () => {
 
   return (
     <Container>
-      {POSTING.map(({ title, list, link }) => (
-        <Item key={title}>
+      {POSTING.map((posting) => (
+        <Item key={posting.title}>
           <Header>
-            <Title level="head1">{title}</Title>
-            <Link href={link}>
+            <Title level="head1">{posting.title}</Title>
+            <Link href={posting.link}>
               <Content level="body1">더보기</Content>
             </Link>
           </Header>
-          <Posts>
-            {list?.map(({ id, title, politicalOrientationId }, i) => (
-              <Post key={id}>
-                <Number>{i + 1}</Number>
-                <Color color={CAMP_COLORS[politicalOrientationId - 1].color} />
-                <p>{title}</p>
+          <div className="py-4 px-3">
+            {posting.list?.map(({ id, title, politicalOrientationId }, i) => (
+              <Post
+                key={id}
+                onClick={() =>
+                  router.push(
+                    posting.title === "HOT"
+                      ? `/post/${id}?hot=&camp=all&page=1`
+                      : `/post/${id}?camp=all&page=1`
+                  )
+                }
+              >
+                <Title level="sub2" className="mr-[7px]">
+                  {i + 1}
+                </Title>
+                <Color $color={CAMP_COLORS[politicalOrientationId - 1].color} />
+                <Content color={COLORS.TEXT01}>{title}</Content>
               </Post>
             ))}
-          </Posts>
+          </div>
         </Item>
       ))}
     </Container>
@@ -72,24 +86,12 @@ const Header = styled.div`
   }
 `;
 
-const Posts = styled.div`
-  padding: 16px 12px;
-`;
-
 const Post = styled.div`
   display: flex;
   margin-bottom: 12px;
-`;
-
-const Number = styled.p`
-  width: 26px;
-`;
-
-const Color = styled.div<{ color: string }>`
-  width: 4px;
-  height: 20px;
-  background-color: ${({ color }) => color};
-  margin-right: 8px;
+  cursor: pointer;
+  align-items: center;
+  gap: 8px;
 `;
 
 export default Board;
