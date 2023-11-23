@@ -15,7 +15,6 @@ import centerActive from "@/assets/nav/centerActive.png";
 const DATAS = [
   {
     id: 0,
-    camp: "all",
     btn: (
       <Title level="sub1" color="#fff">
         전체
@@ -29,31 +28,31 @@ const DATAS = [
   },
   {
     id: 1,
-    camp: "east",
+    camp: "1",
     btn: <Image src={east} alt="" />,
     activeBtn: <Image src={eastActive} alt="" />,
   },
   {
     id: 2,
-    camp: "west",
+    camp: "2",
     btn: <Image src={west} alt="" />,
     activeBtn: <Image src={westActive} alt="" />,
   },
   {
     id: 3,
-    camp: "sourth",
+    camp: "3",
     btn: <Image src={sourth} alt="" />,
     activeBtn: <Image src={sourthActive} alt="" />,
   },
   {
     id: 4,
-    camp: "north",
+    camp: "4",
     btn: <Image src={north} alt="" />,
     activeBtn: <Image src={northActive} alt="" />,
   },
   {
     id: 5,
-    camp: "center",
+    camp: "5",
     btn: <Image src={center} alt="" />,
     activeBtn: <Image src={centerActive} alt="" />,
   },

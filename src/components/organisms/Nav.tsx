@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -16,9 +17,9 @@ import { Content } from "@/ui/fonts";
 
 const Nav = () => {
   const { isLogin, nickName } = useRecoilValue(authState);
+  const [selectCamp, setSelectCamp] = useState(0);
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const campParams = searchParams.get("camp");
 
   const handleLogout = () => {
     delete localStorage.TOKEN;
@@ -40,15 +41,18 @@ const Nav = () => {
             ) : (
               <CampContainer>
                 {DATAS.map(({ id, btn, activeBtn, camp }) => {
-                  const isHot = camp === "all" && searchParams.has("hot");
-                  const query = `${isHot ? "hot=&" : ""}camp=${camp}&page=1`;
+                  const isHot = searchParams.has("hot");
+                  const query = camp
+                    ? `camp=${camp}&page=1`
+                    : `${isHot ? "hot=&" : ""}&page=1`;
                   return (
                     <Btn
                       key={id}
-                      $active={campParams === camp}
+                      $active={selectCamp === id}
                       href={{ query }}
+                      onClick={() => setSelectCamp(id)}
                     >
-                      {campParams === camp ? activeBtn : btn}
+                      {selectCamp === id ? activeBtn : btn}
                     </Btn>
                   );
                 })}
