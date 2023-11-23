@@ -1,8 +1,7 @@
-"use client";
-
-import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styled, { css } from "styled-components";
 
 import { CATEGORIES } from "@/datas/board";
@@ -18,11 +17,18 @@ interface Props {
 }
 
 const Header = ({ category, onChangeCategory }: Props) => {
+  const [keyword, setKeyword] = useState("");
+
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const router = useRouter();
 
   const isAll = searchParams.get("camp") === "all";
   const isHot = searchParams.has("hot");
+
+  const handleSearch = () => {
+    router.push(`${pathname}?camp=all&page=1&keyword=${keyword}`);
+  };
 
   return (
     <div className="flex justify-between items-center w-full mb-5">
@@ -52,14 +58,20 @@ const Header = ({ category, onChangeCategory }: Props) => {
       )}
       <div className="flex gap-2 min-w-[380px]">
         <div className="relative w-[292px]">
-          <Input placeholder="제목,내용,닉네임" padding="11px 12px 11px 40px" />
+          <Input
+            placeholder="제목,내용,닉네임"
+            padding="11px 12px 11px 40px"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
           <Image
             src={search}
             alt=""
             className="absolute left-[10px] top-[10px]"
           />
         </div>
-        <Btn $middle width="80px" height="44px">
+        <Btn $middle width="80px" height="44px" onClick={handleSearch}>
           검색
         </Btn>
       </div>
