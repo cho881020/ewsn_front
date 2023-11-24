@@ -45,6 +45,9 @@ export interface Posting {
     updatedAt: string;
   };
   replies: Replies[];
+  isDelete: boolean;
+  isFixed: boolean;
+  isRestrict: boolean;
   userPostLikes: {
     id: number;
     userId: number;

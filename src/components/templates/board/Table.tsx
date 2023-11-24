@@ -16,6 +16,7 @@ const Table = ({ list }: { list: Posting[] }) => {
   const searchParams = useSearchParams();
   const camp = searchParams.get("camp");
   const page = searchParams.get("page");
+  const postings = list.filter(({ isDelete }) => !isDelete);
 
   return (
     <TABLE>
@@ -29,7 +30,7 @@ const Table = ({ list }: { list: Posting[] }) => {
         </TR>
       </THEAD>
       <TBODY>
-        {list.map(
+        {postings.map(
           ({
             id,
             title,
@@ -42,13 +43,12 @@ const Table = ({ list }: { list: Posting[] }) => {
             <TR
               key={id}
               className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
-              onClick={() =>
+              onClick={() => {
+                const hot = `${searchParams.has("hot") ? "&hot" : ""}`;
                 router.push(
-                  searchParams.has("hot")
-                    ? `/post/${id}?hot=&camp=${camp}&page=${page}`
-                    : `/post/${id}?camp=${camp}&page=${page}`
-                )
-              }
+                  `/post/${id}?${camp ? `camp=${camp}` : ""}&page=${page}${hot}`
+                );
+              }}
             >
               <TD $gray>{id}</TD>
               <TD>{category.name}</TD>

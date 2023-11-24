@@ -18,12 +18,12 @@ const Board = () => {
     {
       title: "NEW",
       list: postings?.slice(0, 10) || [],
-      link: { pathname: "board", query: { camp: "all", page: "1" } },
+      link: { pathname: "board", query: { page: "1" } },
     },
     {
       title: "HOT",
       list: hotPostings?.slice(0, 10) || [],
-      link: { pathname: "board", query: { hot: "", camp: "all", page: "1" } },
+      link: { pathname: "board", query: { hot: "", page: "1" } },
     },
   ];
 
@@ -44,8 +44,8 @@ const Board = () => {
                 onClick={() =>
                   router.push(
                     posting.title === "HOT"
-                      ? `/post/${id}?hot=&camp=all&page=1`
-                      : `/post/${id}?camp=all&page=1`
+                      ? `/post/${id}?hot=&page=1`
+                      : `/post/${id}?page=1`
                   )
                 }
               >

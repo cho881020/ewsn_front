@@ -33,6 +33,8 @@ const Recommend = ({ post, likeCounts }: Props) => {
   const myRecommend = post.userPostLikes.find(({ userId }) => userId === id);
 
   const handleRecommend = (likeType: string) => {
+    if (post.userId === id)
+      return alert("자신의 글에는 좋아요/싫어요를 할 수 없습니다.");
     if (!id) return alert("비회원은 좋아요/싫어요를 할 수 없습니다.");
     if (
       !isAdmin &&
