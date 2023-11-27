@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
@@ -7,63 +8,91 @@ import { Posting } from "@/types/posting";
 import { getDate } from "@/utils/getDate";
 import { HEADERS } from "@/datas/board";
 
-import { CAMP_COLORS } from "@/ui/colors";
+import { Content, Title } from "@/ui/fonts";
+import COLORS, { CAMP_COLORS } from "@/ui/colors";
 
 import { TABLE, TD, TH, THEAD, TR, TBODY } from "@/components/atoms/table";
+import ModalEnter from "@/components/organisms/ModalEnter";
 
 const Table = ({ list }: { list: Posting[] }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [id, setId] = useState(0);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const camp = searchParams.get("camp");
   const page = searchParams.get("page");
-  const postings = list.filter(({ isDelete }) => !isDelete);
+
+  const handleEnterPost = (id: number, isRestrict: boolean) => {
+    const hot = `${searchParams.has("hot") ? "&hot" : ""}`;
+    const camps = camp ? `camp=${camp}` : "";
+    isRestrict
+      ? setIsOpenModal(true)
+      : router.push(`/post/${id}?${camps}&page=${page}${hot}`);
+  };
 
   return (
-    <TABLE>
-      <THEAD className="overflow-scroll">
-        <TR>
-          {HEADERS.map((title, i) => (
-            <TH key={i} className="h-[28px]" $left={title === "제목"}>
-              {title}
-            </TH>
-          ))}
-        </TR>
-      </THEAD>
-      <TBODY>
-        {postings.map(
-          ({
-            id,
-            title,
-            category,
-            politicalOrientationId,
-            createdAt,
-            hits,
-            user,
-          }) => (
-            <TR
-              key={id}
-              className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
-              onClick={() => {
-                const hot = `${searchParams.has("hot") ? "&hot" : ""}`;
-                router.push(
-                  `/post/${id}?${camp ? `camp=${camp}` : ""}&page=${page}${hot}`
-                );
-              }}
-            >
-              <TD $gray>{id}</TD>
-              <TD>{category.name}</TD>
-              <TD $large className="flex items-center pt-1">
-                <Color $color={CAMP_COLORS[politicalOrientationId - 1].color} />
-                <p className="flex-1">{title}</p>
-              </TD>
-              <TD>{user.nickName}</TD>
-              <TD $small>{getDate(createdAt)}</TD>
-              <TD $small>{hits}</TD>
-            </TR>
-          )
-        )}
-      </TBODY>
-    </TABLE>
+    <div className="w-full">
+      <TABLE>
+        <THEAD className="overflow-scroll">
+          <TR>
+            {HEADERS.map((title, i) => (
+              <TH key={i} className="h-[28px]" $left={title === "제목"}>
+                {title}
+              </TH>
+            ))}
+          </TR>
+        </THEAD>
+        <TBODY>
+          {list.map(
+            ({
+              id,
+              title,
+              category,
+              politicalOrientationId,
+              createdAt,
+              hits,
+              user,
+              isRestrict,
+              replies,
+            }) => (
+              <TR
+                key={id}
+                className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
+                onClick={() => {
+                  setId(id);
+                  handleEnterPost(id, isRestrict);
+                }}
+              >
+                <TD $gray>{id}</TD>
+                <TD>{category.name}</TD>
+                <TD $large className="flex items-center pt-1">
+                  <Color
+                    $color={CAMP_COLORS[politicalOrientationId - 1].color}
+                  />
+                  {isRestrict ? (
+                    <RestrictContent>{title}</RestrictContent>
+                  ) : (
+                    <Content color={COLORS.TEXT02}>{title}</Content>
+                  )}
+                  <Title level="sub2" color={COLORS.RED} className="ml-2">
+                    {!!replies.length && replies.length}
+                  </Title>
+                </TD>
+                <TD>{user.nickName}</TD>
+                <TD $small>{getDate(createdAt)}</TD>
+                <TD $small>{hits}</TD>
+              </TR>
+            )
+          )}
+        </TBODY>
+      </TABLE>
+      {isOpenModal && (
+        <ModalEnter
+          onClose={() => setIsOpenModal(false)}
+          onEnter={() => handleEnterPost(id, false)}
+        />
+      )}
+    </div>
   );
 };
 
@@ -72,6 +101,15 @@ const Color = styled.div<{ $color: string }>`
   height: 20px;
   background-color: ${({ $color }) => $color};
   margin-right: 8px;
+`;
+
+const RestrictContent = styled.p`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.6px;
+  color: ${COLORS.TEXT04};
+  text-decoration: line-through;
 `;
 
 export default Table;

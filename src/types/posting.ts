@@ -12,7 +12,7 @@ export interface Replies {
     nickName: string;
     politicalOrientationId: number;
   };
-  comments?: Replies[];
+  comments: Replies[];
   userReplyLikes: {
     userId: number;
     likeType: string;

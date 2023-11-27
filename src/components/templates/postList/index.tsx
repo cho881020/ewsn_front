@@ -15,12 +15,14 @@ import Header from "@/components/templates/board/Header";
 const PostList = () => {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
+  const politicalOrientationId = Number(searchParams.get("camp")) || null;
   const keyword = searchParams.get("keyword") || "";
 
   const [category, setCategory] = useState(0);
+  const params = { page, keyword, politicalOrientationId };
 
-  const { postings, total } = usePostingQuery({ page, keyword });
-  const { hotPostings, hotTotal } = usePostingHotQuery({ page, keyword });
+  const { postings, total } = usePostingQuery(params);
+  const { hotPostings, hotTotal } = usePostingHotQuery(params);
 
   return (
     <Container>

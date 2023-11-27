@@ -25,6 +25,7 @@ import Header from "@/components/templates/post/Header";
 import Reply from "@/components/templates/reply";
 import Recommend from "@/components/templates/post/Recommend";
 import ModalDelete from "@/components/organisms/ModalDelete";
+import Report from "@/components/templates/post/Report";
 
 const Post = () => {
   const { id } = useParams();
@@ -97,13 +98,7 @@ const Post = () => {
                 )}
               </div>
             ) : (
-              <div className="mt-10 w-full flex justify-end">
-                <BtnGray width="52px" height="32px" $small>
-                  <Title level="sub1" color={COLORS.TEXT02}>
-                    신고
-                  </Title>
-                </BtnGray>
-              </div>
+              <Report politicalOrientation={post?.politicalOrientationId} />
             )}
           </>
           <Banner mt="40px" />

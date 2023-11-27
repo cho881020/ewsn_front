@@ -3,27 +3,26 @@ import { isAxiosError } from "axios";
 
 import api from "@/apis/client";
 
-interface Props {
-  id: number;
-  title: string;
-  content: string;
-  categoryId: number;
-  isFixed: boolean;
+interface ReportParams {
+  postingId?: number;
+  replyId?: number;
+  reason: string;
   onSuccess: () => void;
 }
 
-const useEditPosting = (props: Props) => {
-  const { onSuccess, id, ...params } = props;
+const useReport = (params: ReportParams) => {
   const queryClient = useQueryClient();
 
   const fetcher = async () => {
-    await api.put(`posting/${id}`, params);
+    await api.post("report", params);
   };
+
+  const queries = [params.postingId && `${params.postingId}`, "postings"];
 
   const { mutate } = useMutation(fetcher, {
     onSuccess: () => {
-      queryClient.invalidateQueries([`posting/${id}`, "posting"]);
-      onSuccess();
+      queryClient.invalidateQueries(queries);
+      params.onSuccess();
     },
     onError: (err) => {
       if (isAxiosError(err)) {
@@ -35,4 +34,4 @@ const useEditPosting = (props: Props) => {
   return { mutate };
 };
 
-export default useEditPosting;
+export default useReport;

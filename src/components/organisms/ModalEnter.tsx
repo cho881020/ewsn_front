@@ -3,41 +3,36 @@ import styled, { css } from "styled-components";
 import COLORS from "@/ui/colors";
 import { Btn } from "@/ui/buttons";
 import { Content, Title } from "@/ui/fonts";
+
 import { Backdrop, Container } from "@/components/atoms/modal";
 
 interface Props {
-  title: string;
   onClose: () => void;
-  onDelete: () => void;
+  onEnter: () => void;
 }
 
-const ModalDelete = ({ title, onClose, onDelete }: Props) => {
-  const handleDelete = () => {
-    onDelete();
+const ModalEnter = ({ onClose, onEnter }: Props) => {
+  const handleEnter = () => {
+    onEnter();
     onClose();
-  };
-
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (e.currentTarget === e.target) {
-      onClose();
-    }
   };
 
   return (
     <>
-      <Backdrop onClick={handleClick} />
+      <Backdrop />
       <Container>
         <Title level="head1" color="#000">
-          삭제
+          블라인드 안내문
         </Title>
         <Content level="body1l" color={COLORS.TEXT02} className="mt-[34px]">
-          정말로 {title}을 삭제 하시겠습니까?
+          이 글은 회원들의 신고 누적으로 <br />
+          블라인드 처리된 게시글 입니다.
         </Content>
         <div className="flex mt-[42px]">
           <CustomBtn onClick={onClose} $gray>
-            취소
+            돌아가기
           </CustomBtn>
-          <CustomBtn onClick={handleDelete}>삭제</CustomBtn>
+          <CustomBtn onClick={handleEnter}>보기</CustomBtn>
         </div>
       </Container>
     </>
@@ -56,4 +51,4 @@ const CustomBtn = styled(Btn)<{ $gray?: boolean }>`
     `}
 `;
 
-export default ModalDelete;
+export default ModalEnter;

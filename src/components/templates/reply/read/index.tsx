@@ -16,6 +16,10 @@ interface Props {
 }
 
 const Read = ({ replies, bestReplies, post }: Props) => {
+  const allReplies = [
+    replies.length,
+    ...replies.map(({ comments }) => comments.length),
+  ].reduce((a, b) => a + b);
   return (
     <>
       <Header>
@@ -23,7 +27,7 @@ const Read = ({ replies, bestReplies, post }: Props) => {
           전체 댓글
         </Title>
         <Title level="sub3" color={COLORS.RED}>
-          {replies.length}
+          {allReplies}
         </Title>
       </Header>
       {!!bestReplies.length && (
