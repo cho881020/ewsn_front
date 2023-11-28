@@ -98,7 +98,11 @@ const Post = () => {
                 )}
               </div>
             ) : (
-              <Report politicalOrientation={post?.politicalOrientationId} />
+              <>
+                {!(post.categoryId === 10 || post.categoryId === 11) && (
+                  <Report politicalOrientation={post?.politicalOrientationId} />
+                )}
+              </>
             )}
           </>
           <Banner mt="40px" />

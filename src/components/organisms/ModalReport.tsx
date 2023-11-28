@@ -76,6 +76,7 @@ const ModalReport = ({ reason, onChangeReason, onClose, onReport }: Props) => {
               <li
                 className="mt-4 flex gap-1 cursor-pointer"
                 onClick={() => setReasonId(id)}
+                key={id}
               >
                 <Image src={reasonId === id ? checekd : radio} alt="radio" />
                 <Content color={COLORS.TEXT02}>{content}</Content>

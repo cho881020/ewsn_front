@@ -43,7 +43,7 @@ const Nav = () => {
                   const isHot = searchParams.has("hot");
                   const query = camp
                     ? `camp=${camp}&page=1`
-                    : `${isHot ? "hot=&" : ""}&page=1`;
+                    : `${isHot ? "hot" : ""}&page=1`;
                   return (
                     <Btn
                       key={id}

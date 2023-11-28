@@ -5,7 +5,7 @@ import { Postings } from "@/types/posting";
 
 interface Props {
   politicalOrientationId?: number | null;
-  categoryId?: number;
+  categoryId?: number | null;
   page?: number;
   keyword?: string;
 }

@@ -11,15 +11,25 @@ import Pagination from "@/components/organisms/Pagination";
 import Banner from "@/components/templates/banner";
 import Table from "@/components/templates/board/Table";
 import Header from "@/components/templates/board/Header";
+import { getPeriod } from "@/utils/getDate";
 
 const PostList = () => {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const politicalOrientationId = Number(searchParams.get("camp")) || null;
   const keyword = searchParams.get("keyword") || "";
+  const categoryId = Number(searchParams.get("category")) || null;
+  const typeParams = searchParams.get("type") || "d";
+  const { startDate, endDate } = getPeriod(typeParams);
 
-  const [category, setCategory] = useState(0);
-  const params = { page, keyword, politicalOrientationId };
+  const params = {
+    page,
+    keyword,
+    politicalOrientationId,
+    categoryId,
+    startDate,
+    endDate,
+  };
 
   const { postings, total } = usePostingQuery(params);
   const { hotPostings, hotTotal } = usePostingHotQuery(params);
@@ -27,10 +37,7 @@ const PostList = () => {
   return (
     <Container>
       <Banner />
-      <Header
-        category={category}
-        onChangeCategory={(e: number) => setCategory(e)}
-      />
+      <Header categoryId={categoryId} />
       {postings && hotPostings && (
         <Table list={searchParams.has("hot") ? hotPostings : postings} />
       )}
