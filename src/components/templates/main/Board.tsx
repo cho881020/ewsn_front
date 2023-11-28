@@ -47,15 +47,13 @@ const Board = () => {
           </Header>
           <div className="py-4 px-3">
             {posting.list?.map(
-              (
-                { id, title, politicalOrientationId, isRestrict, replies },
-                i
-              ) => (
+              ({ id, title, politicalOrientationId, isRestrict }, i) => (
                 <Post key={id}>
-                  <Title level="sub2" className="mr-[7px]">
+                  <Title level="sub2" className="mr-[6px] min-w-[16px]">
                     {i + 1}
                   </Title>
                   <Color
+                    className="mr-2"
                     $color={CAMP_COLORS[politicalOrientationId - 1].color}
                   />
                   {isRestrict ? (
@@ -124,7 +122,6 @@ const Post = styled.div`
   margin-bottom: 12px;
   cursor: pointer;
   align-items: center;
-  gap: 8px;
 `;
 
 const RestrictContent = styled.p`
@@ -134,6 +131,9 @@ const RestrictContent = styled.p`
   letter-spacing: -0.6px;
   color: ${COLORS.TEXT04};
   text-decoration: line-through;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export default Board;

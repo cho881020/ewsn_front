@@ -57,9 +57,9 @@ const Post = () => {
             <Header post={post} />
             <Main>
               <Posting>
-                <Content level="body1l" color={COLORS.TEXT01}>
+                <CustomContent level="body1l" color={COLORS.TEXT01}>
                   {post?.content}
-                </Content>
+                </CustomContent>
               </Posting>
               <Recommend post={post} likeCounts={likeCounts} />
             </Main>
@@ -132,6 +132,13 @@ const Main = styled.div`
 const Posting = styled.div`
   min-height: 144px;
   margin-bottom: 20px;
+`;
+
+const CustomContent = styled(Content)`
+  max-width: 100%;
+  overflow: visible;
+  white-space: pre-line;
+  word-break: break-all;
 `;
 
 export default Post;

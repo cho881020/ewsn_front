@@ -26,7 +26,7 @@ const useReport = (params: ReportParams) => {
     },
     onError: (err) => {
       if (isAxiosError(err)) {
-        console.log(err.response?.data.message);
+        alert(err.response?.data.message);
       }
     },
   });

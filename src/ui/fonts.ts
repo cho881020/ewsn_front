@@ -6,6 +6,9 @@ export const Title = styled.h1<{ level?: string; color?: string }>`
   line-height: 52px;
   letter-spacing: -0.6px;
   color: ${({ color }) => (color ? color : "#0d0d0d")};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   ${({ level }) =>
     level === "dis4" &&
     css`
@@ -71,6 +74,9 @@ export const Content = styled.p<{
   letter-spacing: -0.6px;
   opacity: ${({ opacity }) => (opacity ? opacity : "1")};
   color: ${({ color }) => (color ? color : "#000")};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   ${({ level }) =>
     level === "body2l" &&
     css`

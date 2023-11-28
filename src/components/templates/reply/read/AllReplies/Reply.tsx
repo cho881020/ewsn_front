@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 
 import useChangeReply from "@/apis/mutations/useChangeReply";
 import useDeleteReply from "@/apis/mutations/useDeleteReply";
@@ -148,12 +149,18 @@ const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
           </div>
         </>
       ) : (
-        <Content level="body1l" className="whitespace-pre-wrap">
+        <CustomContent level="body1l" className="whitespace-pre-wrap">
           {content}
-        </Content>
+        </CustomContent>
       )}
     </Item>
   );
 };
+
+const CustomContent = styled(Content)`
+  width: 100%;
+  white-space: pre-line;
+  word-break: break-all;
+`;
 
 export default Reply;

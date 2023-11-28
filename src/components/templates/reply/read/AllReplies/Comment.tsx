@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 
 import useChangeReply from "@/apis/mutations/useChangeReply";
 import useDeleteReply from "@/apis/mutations/useDeleteReply";
@@ -118,12 +119,16 @@ const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
           </div>
         </>
       ) : (
-        <Content level="body1l" className="whitespace-pre-wrap">
-          {content}
-        </Content>
+        <CustomContent level="body1l">{content}</CustomContent>
       )}
     </Item>
   );
 };
+
+const CustomContent = styled(Content)`
+  width: 100%;
+  white-space: pre-line;
+  word-break: break-all;
+`;
 
 export default Comment;

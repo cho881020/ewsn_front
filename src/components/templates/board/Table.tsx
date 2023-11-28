@@ -72,7 +72,9 @@ const Table = ({ list }: { list: Posting[] }) => {
                   {isRestrict ? (
                     <RestrictContent>{title}</RestrictContent>
                   ) : (
-                    <Content color={COLORS.TEXT02}>{title}</Content>
+                    <Content color={COLORS.TEXT02} className="max-w-[614px]">
+                      {title}
+                    </Content>
                   )}
                   <Title level="sub2" color={COLORS.RED} className="ml-2">
                     {!!replies.length && replies.length}
@@ -110,6 +112,10 @@ const RestrictContent = styled.p`
   letter-spacing: -0.6px;
   color: ${COLORS.TEXT04};
   text-decoration: line-through;
+  max-width: 614px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export default Table;
