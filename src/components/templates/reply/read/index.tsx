@@ -23,7 +23,7 @@ const Read = ({ replies, bestReplies, post }: Props) => {
           전체 댓글
         </Title>
         <Title level="sub3" color={COLORS.RED}>
-          {replies.length}
+          {post.replies.length}
         </Title>
       </Header>
       {!!bestReplies.length && (

@@ -2,9 +2,11 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRecoilValue } from "recoil";
 import styled, { css } from "styled-components";
 
 import { CATEGORIES } from "@/datas/board";
+import authState from "@/stores/authState";
 
 import Input from "@/ui/input";
 import { Btn } from "@/ui/buttons";
@@ -21,9 +23,9 @@ const Header = ({ category, onChangeCategory }: Props) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [keyword, setKeyword] = useState("");
+  const { id, politicalOrientationId, isAdmin } = useRecoilValue(authState);
 
-  const isAll = searchParams.get("camp") === "all";
-  const camp = searchParams.get("camp") || null;
+  const camp = Number(searchParams.get("camp")) || null;
   const isHot = searchParams.has("hot");
 
   const handleSearch = () => {
@@ -32,18 +34,25 @@ const Header = ({ category, onChangeCategory }: Props) => {
       : router.push(`${pathname}?page=1&keyword=${keyword}`);
   };
 
+  const handleWrite = () => {
+    if (!id) return alert("비회원은 글쓰기를 할 수 없습니다.");
+    if (!isAdmin && camp !== 5 && politicalOrientationId !== camp) {
+      return alert("다른 진영에는 글을 쓸 수 없습니다.");
+    }
+
+    router.push(`/write?camp=${camp}`);
+  };
+
   return (
     <Container>
       <Top>
         <BtnContainer>
-          {isAll && (
+          {!camp && (
             <>
-              <CustomLink href={{ pathname, query: { camp: "all", page: 1 } }}>
+              <CustomLink href={{ pathname, query: { page: 1 } }}>
                 <CustomBtn $gray={!isHot}>NEW</CustomBtn>
               </CustomLink>
-              <CustomLink
-                href={{ pathname, query: { hot: "", camp: "all", page: 1 } }}
-              >
+              <CustomLink href={{ pathname, query: { hot: "", page: 1 } }}>
                 <CustomBtn $gray={isHot}>HOT</CustomBtn>
               </CustomLink>
             </>
@@ -69,7 +78,7 @@ const Header = ({ category, onChangeCategory }: Props) => {
           </Btn>
         </div>
       </Top>
-      {!isAll && (
+      {camp && (
         <Bottom>
           <BtnContainer>
             {CATEGORIES.map(({ id, title }) => (
@@ -82,7 +91,7 @@ const Header = ({ category, onChangeCategory }: Props) => {
               </CustomBtn>
             ))}
           </BtnContainer>
-          <Btn $small width="52px" height="32px" onClick={handleSearch}>
+          <Btn $small width="52px" height="32px" onClick={handleWrite}>
             글쓰기
           </Btn>
         </Bottom>

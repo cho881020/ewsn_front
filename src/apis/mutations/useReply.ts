@@ -19,6 +19,8 @@ const useReply = (postingId: number) => {
   const { mutate } = useMutation(fetcher, {
     onSuccess: () => {
       queryClient.invalidateQueries([`posting/${postingId}/reply`]);
+      queryClient.invalidateQueries([`posting/${postingId}`]);
+      queryClient.invalidateQueries([`posting`]);
     },
     onError: (err) => {
       if (isAxiosError(err)) {

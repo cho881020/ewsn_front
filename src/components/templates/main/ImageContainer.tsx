@@ -18,29 +18,29 @@ const ImageContainer = () => {
       <Image
         src={north}
         alt=""
-        onClick={() => router.push("/board?camp=north&page=1")}
+        onClick={() => router.push("/board?camp=4&page=1")}
       />
       <div className="flex gap-5">
         <Image
           src={west}
           alt=""
-          onClick={() => router.push("/board?camp=west&page=1")}
+          onClick={() => router.push("/board?camp=2&page=1")}
         />
         <Image
           src={center}
           alt=""
-          onClick={() => router.push("/board?camp=center&page=1")}
+          onClick={() => router.push("/board?camp=5&page=1")}
         />
         <Image
           src={east}
           alt=""
-          onClick={() => router.push("/board?camp=east&page=1")}
+          onClick={() => router.push("/board?camp=1&page=1")}
         />
       </div>
       <Image
         src={sourth}
         alt=""
-        onClick={() => router.push("/board?camp=sourth&page=1")}
+        onClick={() => router.push("/board?camp=3&page=1")}
       />
     </Container>
   );

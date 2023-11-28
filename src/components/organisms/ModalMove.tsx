@@ -11,33 +11,33 @@ interface Props {
   onDelete: () => void;
 }
 
-const ModalDelete = ({ title, onClose, onDelete }: Props) => {
-  const handleDelete = () => {
-    onDelete();
-    onClose();
-  };
+const ModalMove = () => {
+  // const handleDelete = () => {
+  //   onDelete();
+  //   onClose();
+  // };
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (e.currentTarget === e.target) {
-      onClose();
-    }
-  };
+  // const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  //   if (e.currentTarget === e.target) {
+  //     onClose();
+  //   }
+  // };
 
   return (
     <>
-      <Backdrop onClick={handleClick} />
+      <Backdrop />
       <Container>
         <Title level="head1" color="#000">
           삭제
         </Title>
-        <Content level="body1l" color={COLORS.TEXT02} className="mt-[34px]">
-          정말로 {title}을 삭제 하시겠습니까?
-        </Content>
+        <Content
+          level="body1l"
+          color={COLORS.TEXT02}
+          className="mt-[34px]"
+        ></Content>
         <div className="flex mt-[42px]">
-          <CustomBtn onClick={onClose} $gray>
-            취소
-          </CustomBtn>
-          <CustomBtn onClick={handleDelete}>삭제</CustomBtn>
+          <CustomBtn $gray>취소</CustomBtn>
+          <CustomBtn>삭제</CustomBtn>
         </div>
       </Container>
     </>
@@ -56,4 +56,4 @@ const CustomBtn = styled(Btn)<{ $gray?: boolean }>`
     `}
 `;
 
-export default ModalDelete;
+export default ModalMove;

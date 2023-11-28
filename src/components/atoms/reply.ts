@@ -19,7 +19,7 @@ export const Info = styled.div`
 `;
 
 export const Color = styled.div<{ $color: string }>`
-  width: 4px;
+  min-width: 4px;
   height: 20px;
   background-color: ${({ $color }) => $color};
 `;

@@ -1,16 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 import usePostQuery from "@/apis/queries/usePostQuery";
+import useReplyQuery from "@/apis/queries/useReplyQuery";
+import useDeletePosting from "@/apis/mutations/useDeletePosting";
+import authState from "@/stores/authState";
 
 import arrow from "@/assets/post/arrow.png";
-import like from "@/assets/post/like.png";
-import likeFill from "@/assets/post/likeFill.png";
-import hate from "@/assets/post/hate.png";
-import hateFill from "@/assets/post/hateFill.png";
 
 import COLORS from "@/ui/colors";
 import { BtnGray } from "@/ui/buttons";
@@ -22,13 +23,24 @@ import Banner from "@/components/templates/banner";
 import PostList from "@/components/templates/postList";
 import Header from "@/components/templates/post/Header";
 import Reply from "@/components/templates/reply";
-import useReplyQuery from "@/apis/queries/useReplyQuery";
 import Recommend from "@/components/templates/post/Recommend";
+import ModalDelete from "@/components/organisms/ModalDelete";
+import Report from "@/components/templates/post/Report";
 
 const Post = () => {
   const { id } = useParams();
+  const router = useRouter();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+
+  const myInfo = useRecoilValue(authState);
   const { post, likeCounts } = usePostQuery(Number(id));
   const { bestReplies, replies } = useReplyQuery(Number(id));
+  const isMine = post?.userId === myInfo.id;
+
+  const { mutate: deleteMutate } = useDeletePosting({
+    id: post?.id || 0,
+    onSuccess: () => router.back(),
+  });
 
   return (
     <>
@@ -45,19 +57,49 @@ const Post = () => {
             <Header post={post} />
             <Main>
               <Posting>
-                <Content level="body1l" color={COLORS.TEXT01}>
+                <CustomContent level="body1l" color={COLORS.TEXT01}>
                   {post?.content}
-                </Content>
+                </CustomContent>
               </Posting>
               <Recommend post={post} likeCounts={likeCounts} />
             </Main>
-            <div className="mt-10 w-full flex justify-end">
-              <BtnGray width="52px" height="32px" $small>
-                <Title level="sub1" color={COLORS.TEXT02}>
-                  신고
-                </Title>
-              </BtnGray>
-            </div>
+            {isMine ? (
+              <div className="mt-10 w-full flex justify-end gap-5">
+                <BtnGray
+                  width="52px"
+                  height="32px"
+                  $small
+                  onClick={() =>
+                    router.push(
+                      `/write/${post.id}?camp=${post.politicalOrientationId}`
+                    )
+                  }
+                >
+                  <Title level="sub1" color={COLORS.TEXT02}>
+                    수정
+                  </Title>
+                </BtnGray>
+                <BtnGray
+                  width="52px"
+                  height="32px"
+                  $small
+                  onClick={() => setIsOpenDeleteModal(true)}
+                >
+                  <Title level="sub1" color={COLORS.TEXT02}>
+                    삭제
+                  </Title>
+                </BtnGray>
+                {isOpenDeleteModal && (
+                  <ModalDelete
+                    title="댓글"
+                    onClose={() => setIsOpenDeleteModal(false)}
+                    onDelete={() => deleteMutate()}
+                  />
+                )}
+              </div>
+            ) : (
+              <Report politicalOrientation={post?.politicalOrientationId} />
+            )}
           </>
           <Banner mt="40px" />
           <Reply
@@ -90,6 +132,13 @@ const Main = styled.div`
 const Posting = styled.div`
   min-height: 144px;
   margin-bottom: 20px;
+`;
+
+const CustomContent = styled(Content)`
+  max-width: 100%;
+  overflow: visible;
+  white-space: pre-line;
+  word-break: break-all;
 `;
 
 export default Post;

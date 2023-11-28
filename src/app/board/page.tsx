@@ -16,21 +16,14 @@ import Header from "@/components/templates/board/Header";
 const Board = () => {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
-  const camp = Number(searchParams.get("camp")) || null;
+  const politicalOrientationId = Number(searchParams.get("camp")) || null;
   const keyword = searchParams.get("keyword") || "";
 
   const [category, setCategory] = useState(0);
+  const params = { page, keyword, politicalOrientationId };
 
-  const { postings, total } = usePostingQuery({
-    page,
-    keyword,
-    politicalOrientationId: camp,
-  });
-  const { hotPostings, hotTotal } = usePostingHotQuery({
-    page,
-    keyword,
-    politicalOrientationId: camp,
-  });
+  const { postings, total } = usePostingQuery(params);
+  const { hotPostings, hotTotal } = usePostingHotQuery(params);
 
   return (
     <>

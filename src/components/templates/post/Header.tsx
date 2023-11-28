@@ -21,13 +21,20 @@ const Header = ({ post }: { post: Posting }) => {
 
   const FEEDBACKS = [
     { title: "조회", data: hits },
-    { title: "좋아요", data: userPostLikes.filter(({likeType})=>likeType==="LIKE").length },
+    {
+      title: "좋아요",
+      data: userPostLikes.filter(({ likeType }) => likeType === "LIKE").length,
+    },
     { title: "댓글", data: replies.length },
   ];
 
   return (
     <Container>
-      <Title level="sub2" color={COLORS.TEXT01}>
+      <Title
+        level="sub2"
+        color={COLORS.TEXT01}
+        className="w-[1156px] max-w-full"
+      >
         {title}
       </Title>
 

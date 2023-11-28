@@ -12,7 +12,7 @@ export interface Replies {
     nickName: string;
     politicalOrientationId: number;
   };
-  comments?: Replies[];
+  comments: Replies[];
   userReplyLikes: {
     userId: number;
     likeType: string;
@@ -45,6 +45,9 @@ export interface Posting {
     updatedAt: string;
   };
   replies: Replies[];
+  isDelete: boolean;
+  isFixed: boolean;
+  isRestrict: boolean;
   userPostLikes: {
     id: number;
     userId: number;

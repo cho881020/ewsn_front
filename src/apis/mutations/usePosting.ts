@@ -3,22 +3,25 @@ import { isAxiosError } from "axios";
 
 import api from "@/apis/client";
 
-interface ReplyParams {
+interface Params {
+  title: string;
   content: string;
-  id: number;
+  categoryId: number;
+  politicalOrientationId: number;
+  isFixed: boolean;
 }
 
-const fetcher = async (params: ReplyParams) => {
-  await api.put(`reply/${params.id}`, params);
+const fetcher = async (params: Params) => {
+  await api.post("posting", params);
 };
 
-const useChangeReply = (postingId: number) => {
+const usePosting = (onSuccess: () => void) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(fetcher, {
     onSuccess: () => {
-      queryClient.invalidateQueries([`posting/${postingId}/reply`]);
-      queryClient.invalidateQueries([`posting/${postingId}`]);
+      queryClient.invalidateQueries(["posting"]);
+      onSuccess();
     },
     onError: (err) => {
       if (isAxiosError(err)) {
@@ -30,4 +33,4 @@ const useChangeReply = (postingId: number) => {
   return { mutate };
 };
 
-export default useChangeReply;
+export default usePosting;
