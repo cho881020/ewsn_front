@@ -67,9 +67,7 @@ const Login = () => {
             />
           </Form>
           <Btn onClick={handleLogin}>로그인</Btn>
-          <div className="flex items-center gap-3 mt-6">
-            <Content color={COLORS.TEXT03}>아이디 찾기</Content>
-            <Line />
+          <div className="mt-6">
             <Content color={COLORS.TEXT03}>비밀번호 찾기</Content>
           </div>
           <div className="flex justify-center gap-3 mt-6 w-full">
