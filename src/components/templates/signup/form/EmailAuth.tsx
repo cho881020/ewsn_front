@@ -2,23 +2,35 @@
 
 import { useState } from "react";
 
+import useCompareCode from "@/apis/mutations/useCompareCode";
+
 import { Title } from "@/ui/fonts";
 import { BtnActive } from "@/ui/buttons";
 
 import ValidationInput from "@/components/molecules/ValidationInput";
 
 interface Props {
+  email: string;
   validation: boolean;
   onChangeValidation: (e: boolean) => void;
 }
 
-const EmailAuth = ({ validation, onChangeValidation }: Props) => {
-  const [value, setValue] = useState("");
+const EmailAuth = ({ email, validation, onChangeValidation }: Props) => {
+  const [code, setCode] = useState("");
   const [checkedEmail, setCheckedEmail] = useState(false);
 
+  const { mutate } = useCompareCode({
+    email,
+    code,
+    onSuccess: () => {
+      setCheckedEmail(true);
+      onChangeValidation(true);
+    },
+  });
+
   const handleCheck = () => {
-    setCheckedEmail(true);
-    onChangeValidation(true);
+    if (!code) return alert("인증 코드를 입력해주세요.");
+    mutate();
   };
 
   return (
@@ -31,8 +43,8 @@ const EmailAuth = ({ validation, onChangeValidation }: Props) => {
           successContent="인증 완료"
           failure={checkedEmail && !validation}
           failureContent="인증번호를 다시 입력해 주세요."
-          value={value}
-          onChange={(e: string) => setValue(e)}
+          value={code}
+          onChange={(e: string) => setCode(e)}
           required
         />
         <BtnActive
@@ -40,8 +52,8 @@ const EmailAuth = ({ validation, onChangeValidation }: Props) => {
           width="80px"
           height="44px"
           type="button"
-          $active={!!value}
-          onClick={() => value && handleCheck()}
+          $active={!!code}
+          onClick={handleCheck}
         >
           인증
         </BtnActive>

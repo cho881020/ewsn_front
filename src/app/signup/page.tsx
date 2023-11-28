@@ -58,6 +58,7 @@ const SignUp = () => {
               onChange={(e: string) => setState({ ...state, email: e })}
             />
             <EmailAuth
+              email={email}
               validation={validations.email}
               onChangeValidation={(e: boolean) =>
                 setValidations({ ...validations, email: e })
