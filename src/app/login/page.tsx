@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
+import api from "@/apis/client";
 import login from "@/apis/mutations/login";
 
 import back from "@/assets/common/back.png";
@@ -14,9 +16,9 @@ import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
 import { Btn, BtnWhite } from "@/ui/buttons";
-import api from "@/apis/client";
 
 const Login = () => {
+  const router = useRouter();
   const [state, setState] = useState({ email: "", password: "" });
   const { email, password } = state;
 
@@ -68,7 +70,13 @@ const Login = () => {
           </Form>
           <Btn onClick={handleLogin}>로그인</Btn>
           <div className="mt-6">
-            <Content color={COLORS.TEXT03}>비밀번호 찾기</Content>
+            <Content
+              color={COLORS.TEXT03}
+              onClick={() => router.push("/findpw")}
+              className="cursor-pointer"
+            >
+              비밀번호 찾기
+            </Content>
           </div>
           <div className="flex justify-center gap-3 mt-6 w-full">
             <Content color={COLORS.TEXT03}>아직 회원이 아니세요?</Content>

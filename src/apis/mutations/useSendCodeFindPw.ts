@@ -8,9 +8,9 @@ interface Props {
   onSuccess: () => void;
 }
 
-const useSendCode = (params: Props) => {
+const useSendCodeFindPw = (params: Props) => {
   const fetcher = async () => {
-    await instance.post("auth/sendCode", params);
+    await instance.post("auth/sendCode/forgotPassword", params);
   };
 
   const { mutate } = useMutation(fetcher, {
@@ -28,4 +28,4 @@ const useSendCode = (params: Props) => {
   return { mutate };
 };
 
-export default useSendCode;
+export default useSendCodeFindPw;
