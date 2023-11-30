@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
@@ -15,6 +15,7 @@ import COLORS from "@/ui/colors";
 import { Content } from "@/ui/fonts";
 
 const Nav = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { isLogin, nickName } = useRecoilValue(authState);
@@ -60,7 +61,9 @@ const Nav = () => {
           <div className="flex gap-3 items-center text-sm font-bold">
             {isLogin ? (
               <>
-                <button className="text-white">{nickName}</button>
+                <button className="text-white" onClick={() => router.push("/myinfo")}>
+                  {nickName}
+                </button>
                 <Line />
                 <button className="text-white" onClick={handleLogout}>
                   로그아웃

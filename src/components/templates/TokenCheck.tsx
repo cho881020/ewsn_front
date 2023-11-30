@@ -1,10 +1,9 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 
 import api from "@/apis/client";
-import instance from "@/apis/client";
 
 import authAtom from "@/stores/authState";
 
@@ -24,7 +23,7 @@ const TokenCheck = ({ children }: Props) => {
       const token = localStorage.getItem("TOKEN");
       if (!token) return;
 
-      const result = await instance.get("user/me", {
+      const result = await api.get("user/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
 

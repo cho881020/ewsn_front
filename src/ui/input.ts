@@ -8,6 +8,7 @@ const Input = styled.input<{
   height?: string;
   $center?: boolean;
   $noneBorder?: boolean;
+  $gray?: boolean;
 }>`
   text-align: ${({ $center }) => $center && "center"};
   outline: none;
@@ -18,7 +19,7 @@ const Input = styled.input<{
   background: #fff;
   border: 1px solid ${({ red }) => (red ? COLORS.RED : COLORS.LINE03)};
   border-radius: 4px;
-  color: ${COLORS.TEXT01};
+  color: ${({ $gray }) => ($gray ? COLORS.TEXT04 : COLORS.TEXT01)};
   font-size: 16px;
   line-height: 22px;
   &::placeholder {
