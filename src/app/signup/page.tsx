@@ -58,6 +58,7 @@ const SignUp = () => {
               onChange={(e: string) => setState({ ...state, email: e })}
             />
             <EmailAuth
+              email={email}
               validation={validations.email}
               onChangeValidation={(e: boolean) =>
                 setValidations({ ...validations, email: e })
@@ -112,7 +113,7 @@ const SignUp = () => {
               height="44px"
               $middle
               type="button"
-              className="mb-3"
+              className="mb-3 max-w-[119px]"
             >
               테스트 하러 가기
             </BtnWhite>

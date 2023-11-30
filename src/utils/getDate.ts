@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { ManipulateType } from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
@@ -20,4 +20,11 @@ export const getDateTime = (date: string) => {
 
 export const getDateTimeSecond = (date: string) => {
   return dayjs(new Date(date)).format("YYYY.MM.DD HH:mm:ss");
+};
+
+export const getPeriod = (type: any) => {
+  return {
+    startDate: dayjs(new Date()).subtract(1, type).format(),
+    endDate: dayjs(new Date()).format(),
+  };
 };

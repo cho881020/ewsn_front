@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import usePostingQuery from "@/apis/queries/usePostingQuery";
 import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
+import { getPeriod } from "@/utils/getDate";
 
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
@@ -18,23 +18,39 @@ const Board = () => {
   const page = Number(searchParams.get("page")) || 1;
   const politicalOrientationId = Number(searchParams.get("camp")) || null;
   const keyword = searchParams.get("keyword") || "";
+  const categoryId = Number(searchParams.get("category")) || null;
+  const typeParams = searchParams.get("type") || "d";
+  const { startDate, endDate } = getPeriod(typeParams);
+  const isCamp = !!politicalOrientationId;
 
-  const [category, setCategory] = useState(0);
-  const params = { page, keyword, politicalOrientationId };
+  const campParams = {
+    page,
+    keyword,
+    politicalOrientationId,
+    categoryId,
+  };
 
-  const { postings, total } = usePostingQuery(params);
-  const { hotPostings, hotTotal } = usePostingHotQuery(params);
+  const params = {
+    page,
+    keyword,
+    politicalOrientationId,
+    categoryId,
+    startDate,
+    endDate,
+  };
+
+  const { postings, total } = usePostingQuery(isCamp ? campParams : params);
+  const { hotPostings, hotTotal } = usePostingHotQuery(
+    isCamp ? campParams : params
+  );
 
   return (
     <>
       <Nav />
       <Container>
         <Banner />
-        <Header
-          category={category}
-          onChangeCategory={(e: number) => setCategory(e)}
-        />
-        {postings && hotPostings && (
+        <Header categoryId={categoryId} />
+        {!!postings && !!hotPostings && (
           <Table list={searchParams.has("hot") ? hotPostings : postings} />
         )}
         {!!total && !!hotTotal && (

@@ -86,7 +86,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
 `;
 
 const Wrap = styled.div`

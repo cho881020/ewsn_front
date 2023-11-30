@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import useCheckNickName from "@/apis/mutations/useCheckNickName";
 
@@ -23,17 +23,29 @@ const Nickname = ({
   onChangeValidation,
 }: Props) => {
   const [isCheckNickname, setIsCheckNickname] = useState(false);
+  const [newNickname, setNewNickname] = useState(value);
 
   const { mutate } = useCheckNickName({
     onSuccess: () => {
       setIsCheckNickname(true);
       onChangeValidation(true);
+      onChange(newNickname);
     },
     onError: () => {
       setIsCheckNickname(true);
       onChangeValidation(false);
     },
   });
+
+  const handleChange = (e: string) => {
+    setIsCheckNickname(false);
+    onChangeValidation(false);
+    setNewNickname(e);
+  };
+
+  useEffect(() => {
+    setNewNickname(value);
+  }, [value]);
 
   return (
     <>
@@ -44,9 +56,9 @@ const Nickname = ({
           successContent="사용 가능한 닉네임 입니다."
           failure={isCheckNickname && !validation}
           failureContent="중복된 닉네임 입니다."
-          value={value}
+          value={newNickname}
           placeholder="닉네임"
-          onChange={(e: string) => onChange(e)}
+          onChange={(e: string) => handleChange(e)}
           required
         />
         <BtnActive
@@ -54,8 +66,8 @@ const Nickname = ({
           width="80px"
           height="44px"
           type="button"
-          $active={!!value}
-          onClick={() => value && mutate({ nickName: value })}
+          $active={newNickname !== value && !!newNickname}
+          onClick={() => mutate({ nickName: newNickname })}
         >
           중복확인
         </BtnActive>

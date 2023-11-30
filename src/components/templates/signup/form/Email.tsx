@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import useSendCode from "@/apis/mutations/useSendCode";
+
 import { Title } from "@/ui/fonts";
 import { BtnActive } from "@/ui/buttons";
 
@@ -14,6 +16,15 @@ interface Props {
 
 const Email = ({ value, onChange }: Props) => {
   const [isPostEmail, setIsPostEmail] = useState(false);
+  const { mutate } = useSendCode({
+    email: value,
+    onSuccess: () => setIsPostEmail(true),
+  });
+
+  const handlePost = () => {
+    if (!value) return alert("이메일 주소를 입력해주세요.");
+    mutate();
+  };
 
   return (
     <>
@@ -33,7 +44,7 @@ const Email = ({ value, onChange }: Props) => {
           height="44px"
           type="button"
           $active={!!value}
-          onClick={() => value && setIsPostEmail(true)}
+          onClick={handlePost}
         >
           {isPostEmail ? "재전송" : "인증"}
         </BtnActive>

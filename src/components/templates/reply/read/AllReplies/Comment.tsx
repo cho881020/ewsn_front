@@ -18,6 +18,7 @@ import COLORS, { CAMP_COLORS } from "@/ui/colors";
 import { Color, Info, Item } from "@/components/atoms/reply";
 import ModalDelete from "@/components/organisms/ModalDelete";
 import Recommend from "@/components/templates/reply/read/Recommend";
+import Report from "@/components/templates/reply/read/AllReplies/Report";
 
 const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
   const { id } = useRecoilValue(authState);
@@ -91,13 +92,10 @@ const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
               )}
             </>
           ) : (
-            <Content
-              level="cap2"
-              color={COLORS.TEXT04}
-              className="cursor-pointer"
-            >
-              신고
-            </Content>
+            <Report
+              replyId={data.id}
+              politicalOrientation={post.politicalOrientationId}
+            />
           )}
         </div>
         <Recommend reply={data} post={post} />

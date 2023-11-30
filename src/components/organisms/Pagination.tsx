@@ -10,9 +10,14 @@ import COLORS from "@/ui/colors";
 
 const Pagination = ({ total }: { total: number }) => {
   const searchParams = useSearchParams();
-  const isHot = searchParams.has("hot");
-  const camp = searchParams.get("camp");
   const page = Number(searchParams.get("page")) || 1;
+  const camp = searchParams.get("camp");
+  const type = searchParams.get("type") || "";
+  const categoryId = Number(searchParams.get("category")) || null;
+  const hot = `${searchParams.has("hot") ? "&hot" : ""}`;
+  const camps = camp ? `camp=${camp}` : "";
+  const types = type ? `&type=${type}` : "";
+  const category = categoryId ? `&category=${categoryId}` : "";
 
   const pageLimit = 9;
   const startPage = parseInt((page - 1) / 10 + "") * 10 + 1;
@@ -28,9 +33,7 @@ const Pagination = ({ total }: { total: number }) => {
     <Container>
       <BtnArrow disabled={page === 1}>
         <Link
-          href={{
-            query: `${isHot ? "hot=&" : ""}camp=${camp}&page=${page - 1}`,
-          }}
+          href={{ query: `${camps}&page=${page - 1}${hot}${category}${types}` }}
         >
           {page <= 1 ? (
             <Image src={arrow} alt="" />
@@ -43,7 +46,7 @@ const Pagination = ({ total }: { total: number }) => {
         {pageArray.map((i) => (
           <Link
             key={i}
-            href={{ query: `${isHot ? "hot=&" : ""}camp=${camp}&page=${i}` }}
+            href={{ query: `${camps}&page=${i}${hot}${category}${types}` }}
           >
             <Button $current={page === i}>{i}</Button>
           </Link>
@@ -52,7 +55,7 @@ const Pagination = ({ total }: { total: number }) => {
       <BtnArrow disabled={page === numPages}>
         <Link
           href={{
-            query: `${isHot ? "hot=&" : ""}camp=${camp}&page=${page + 1}`,
+            query: `${camps}&page=${page + 1}${hot}${category}${types}`,
           }}
         >
           {page >= numPages ? (
@@ -105,6 +108,11 @@ const BtnArrow = styled.button`
   cursor: pointer;
   .reverse {
     transform: rotate(180deg);
+  }
+  &:disabled {
+    a {
+      pointer-events: none;
+    }
   }
 `;
 
