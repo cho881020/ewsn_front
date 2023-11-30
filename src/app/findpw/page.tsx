@@ -12,7 +12,7 @@ import Header from "@/components/templates/findpw/Header";
 import Email from "@/components/templates/findpw/Email";
 import Password from "@/components/templates/findpw/Password";
 
-const findPassword = () => {
+const FindPassword = () => {
   const [page, setPage] = useState(0);
   const [state, setState] = useState({ email: "", password: "" });
   const router = useRouter();
@@ -33,11 +33,13 @@ const findPassword = () => {
           {
             [
               <Email
+                key={0}
                 onMoveNextPage={() => setPage(1)}
                 email={state.email}
                 onChangeEmail={(e) => setState({ ...state, email: e })}
               />,
               <Password
+                key={1}
                 password={state.password}
                 onChangePassword={(e) => setState({ ...state, password: e })}
                 onMutate={() => mutate()}
@@ -69,4 +71,4 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default findPassword;
+export default FindPassword;
