@@ -91,7 +91,7 @@ const Post = () => {
                 </BtnGray>
                 {isOpenDeleteModal && (
                   <ModalDelete
-                    title="댓글"
+                    title="게시글"
                     onClose={() => setIsOpenDeleteModal(false)}
                     onDelete={() => deleteMutate()}
                   />
