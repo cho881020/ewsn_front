@@ -29,6 +29,8 @@ const Recommend = ({ reply, post }: Props) => {
   const myRecommend = reply.userReplyLikes.find(({ userId }) => userId === id);
   const handleRecommend = (likeType: string) => {
     if (!id) return alert("비회원은 좋아요/싫어요를 할 수 없습니다.");
+    if (reply.userId === id)
+      return alert("자신의 글에는 좋아요/싫어요를 할 수 없습니다.");
     if (
       !isAdmin &&
       post.politicalOrientationId !== 5 &&
