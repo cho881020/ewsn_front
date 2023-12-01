@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
+import usePostingNoticeQuery from "@/apis/queries/usePostingNoticeQuery";
 import { Posting } from "@/types/posting";
 import { getDate } from "@/utils/getDate";
 import { HEADERS } from "@/datas/board";
@@ -36,6 +37,10 @@ const Table = ({ list }: { list: Posting[] }) => {
         );
   };
 
+  const { notice } = usePostingNoticeQuery({
+    politicalOrientationId: Number(camp) || null,
+  });
+
   return (
     <div className="w-full max-w-full">
       <TABLE>
@@ -57,6 +62,54 @@ const Table = ({ list }: { list: Posting[] }) => {
           </TR>
         </THEAD>
         <TBODY>
+          {notice?.map(
+            ({
+              id,
+              title,
+              politicalOrientationId,
+              createdAt,
+              hits,
+              user,
+              replies,
+            }) => (
+              <TR
+                key={id}
+                $active
+                className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
+                onClick={() => {
+                  setId(id);
+                  handleEnterPost(id, false);
+                }}
+              >
+                <TD>
+                  <Btn>필독</Btn>
+                </TD>
+                <TD>공지</TD>
+                <TD $large className="flex items-center pt-1">
+                  <Color
+                    $color={CAMP_COLORS[politicalOrientationId - 1].color}
+                  />
+                  <Title
+                    level="sub3"
+                    color={COLORS.TEXT01}
+                    className="max-w-[614px]"
+                  >
+                    {title}
+                  </Title>
+                  <Title
+                    level="sub2"
+                    color={COLORS.RED}
+                    className="ml-2 min-w-[26px]"
+                  >
+                    {!!replies.length && replies.length}
+                  </Title>
+                </TD>
+                <TD>{user.nickName}</TD>
+                <TD $small>{getDate(createdAt)}</TD>
+                <TD $small>{hits}</TD>
+              </TR>
+            )
+          )}
           {list.map(
             ({
               id,
@@ -68,24 +121,16 @@ const Table = ({ list }: { list: Posting[] }) => {
               user,
               isRestrict,
               replies,
-              isFixed,
             }) => (
               <TR
                 key={id}
-                $active={isFixed}
                 className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
                 onClick={() => {
                   setId(id);
                   handleEnterPost(id, isRestrict);
                 }}
               >
-                {isFixed ? (
-                  <TD>
-                    <Btn>필독</Btn>
-                  </TD>
-                ) : (
-                  <TD $gray>{id}</TD>
-                )}
+                <TD $gray>{id}</TD>
                 <TD>{category.name}</TD>
                 <TD $large className="flex items-center pt-1">
                   <Color
@@ -94,24 +139,9 @@ const Table = ({ list }: { list: Posting[] }) => {
                   {isRestrict ? (
                     <RestrictContent>{title}</RestrictContent>
                   ) : (
-                    <>
-                      {isFixed ? (
-                        <Title
-                          level="sub3"
-                          color={COLORS.TEXT01}
-                          className="max-w-[614px]"
-                        >
-                          {title}
-                        </Title>
-                      ) : (
-                        <Content
-                          color={COLORS.TEXT02}
-                          className="max-w-[614px]"
-                        >
-                          {title}
-                        </Content>
-                      )}
-                    </>
+                    <Content color={COLORS.TEXT02} className="max-w-[614px]">
+                      {title}
+                    </Content>
                   )}
                   <Title
                     level="sub2"

@@ -74,7 +74,11 @@ const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
     <Item bg={user.id === id ? COLORS.BG : "#fff"}>
       <Info>
         <div className="flex gap-2 items-center">
-          <Color $color={CAMP_COLORS[user.politicalOrientationId - 1].color} />
+          {user.politicalOrientationId && (
+            <Color
+              $color={CAMP_COLORS[user.politicalOrientationId - 1]?.color}
+            />
+          )}
           <Content level="body1" color={COLORS.TEXT02}>
             {user.nickName}
           </Content>

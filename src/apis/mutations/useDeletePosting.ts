@@ -17,6 +17,7 @@ const useDeletePosting = ({ id, onSuccess }: Props) => {
   const { mutate } = useMutation(fetcher, {
     onSuccess: () => {
       queryClient.invalidateQueries([`posting`]);
+      queryClient.invalidateQueries([`posting/notice`]);
       onSuccess();
     },
     onError: (err) => {

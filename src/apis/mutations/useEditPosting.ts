@@ -22,7 +22,9 @@ const useEditPosting = (props: Props) => {
 
   const { mutate } = useMutation(fetcher, {
     onSuccess: () => {
-      queryClient.invalidateQueries([`posting/${id}`, "posting"]);
+      queryClient.invalidateQueries([`posting/${id}`]);
+      queryClient.invalidateQueries(["posting"]);
+      queryClient.invalidateQueries(["posting/notice"]);
       onSuccess();
     },
     onError: (err) => {

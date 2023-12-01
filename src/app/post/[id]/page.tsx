@@ -39,7 +39,7 @@ const Post = () => {
 
   const { mutate: deleteMutate } = useDeletePosting({
     id: post?.id || 0,
-    onSuccess: () => router.back(),
+    onSuccess: () => router.push("/board"),
   });
 
   return (
