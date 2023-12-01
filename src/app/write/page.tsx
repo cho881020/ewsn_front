@@ -26,7 +26,6 @@ const Post = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = Number(searchParams.get("camp"));
-  const { mutate } = usePosting(() => router.back());
   const { politicalOrientation } = usePoliticalOrientationQuery({ id });
 
   const [state, setState] = useState({
@@ -41,11 +40,12 @@ const Post = () => {
     router.back();
   };
 
+  const { mutate } = usePosting(state);
   const handleWrite = () => {
     if (!categoryId) return alert("카테고리를 선택해주세요.");
     if (!title) return alert("제목을 입력해주세요.");
     if (!content) return alert("내용을 입력해주세요.");
-    mutate(state);
+    mutate();
   };
 
   const { title, content, isFixed, categoryId } = state;

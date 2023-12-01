@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "react-query";
 import { isAxiosError } from "axios";
 
@@ -11,17 +12,21 @@ interface Params {
   isFixed: boolean;
 }
 
-const fetcher = async (params: Params) => {
-  await api.post("posting", params);
-};
-
-const usePosting = (onSuccess: () => void) => {
+const usePosting = (params: Params) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
+  const fetcher = async () => {
+    const result = await api.post("posting", params);
+    return result;
+  };
+
   const { mutate } = useMutation(fetcher, {
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries(["posting"]);
-      onSuccess();
+      router.push(
+        `post/${result.data.id}?camp=${params.politicalOrientationId}&category=${params.categoryId}`
+      );
     },
     onError: (err) => {
       if (isAxiosError(err)) {
