@@ -36,6 +36,9 @@ const TD = styled.td<{ $large?: boolean; $small?: boolean; $gray?: boolean }>`
     $large ? "16px" : $small ? "12px" : "14px"};
   line-height: ${({ $large }) => ($large ? "22px" : "20px")};
   color: ${({ $gray }) => ($gray ? "#8b8b8b" : "#242424")};
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const TR = styled.tr<{ $active?: boolean }>`
