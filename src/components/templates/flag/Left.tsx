@@ -68,7 +68,7 @@ const Left = ({ openModal }: { openModal: () => void }) => {
     mutate({
       purpose,
       name,
-      term: term.day + term.time,
+      term: term.day + ", " + term.time,
       numberOfPeople: Number(numberOfPeople),
       content,
       materials: materials.join(","),
