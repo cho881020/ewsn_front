@@ -10,13 +10,13 @@ import { Posting } from "@/types/posting";
 
 const Header = ({ post }: { post: Posting }) => {
   const {
-    politicalOrientation,
     title,
     user,
     createdAt,
     hits,
     replies,
     userPostLikes,
+    userPoliticalOrientationId,
   } = post;
 
   const FEEDBACKS = [
@@ -40,7 +40,7 @@ const Header = ({ post }: { post: Posting }) => {
 
       <Info>
         <div className="flex items-center">
-          <Color color={CAMP_COLORS[politicalOrientation.id - 1].color} />
+          <Color color={CAMP_COLORS[userPoliticalOrientationId - 1].color} />
           <Content level="cap2" color={COLORS.TEXT01}>
             {user.nickName}
           </Content>

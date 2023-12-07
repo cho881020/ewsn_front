@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const TABLE = styled.table`
   max-width: 100%;
-  width: 1180px;
+  width: 1220px;
   background-color: #fff;
   table-layout: fixed;
 `;

@@ -34,8 +34,8 @@ const Email = ({ email, onChangeEmail, onMoveNextPage }: Props) => {
   });
 
   return (
-    <>
-      <div className="w-full mb-3">
+    <div className="w-full sm:max-w-[500px]">
+      <div className="mb-3">
         <Title level="sub3">이메일 주소</Title>
       </div>
       <div className="flex gap-3 mb-3 w-full">
@@ -71,11 +71,11 @@ const Email = ({ email, onChangeEmail, onMoveNextPage }: Props) => {
         $active={!!email && !!code && !!isPostEmail}
         disabled={!code || !email || !isPostEmail}
         onClick={() => compareMutate()}
-        className="mt-12"
+        className="mt-12 sm:mt-6"
       >
         다음
       </BtnActive>
-    </>
+    </div>
   );
 };
 

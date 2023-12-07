@@ -31,17 +31,21 @@ const Pagination = ({ total }: { total: number }) => {
 
   return (
     <Container>
-      <BtnArrow disabled={page === 1}>
-        <Link
-          href={{ query: `${camps}&page=${page - 1}${hot}${category}${types}` }}
-        >
-          {page <= 1 ? (
-            <Image src={arrow} alt="" />
-          ) : (
-            <Image src={arrowActive} alt="" className="reverse" />
-          )}
-        </Link>
-      </BtnArrow>
+      {total !== 0 && (
+        <BtnArrow disabled={page === 1}>
+          <Link
+            href={{
+              query: `${camps}&page=${page - 1}${hot}${category}${types}`,
+            }}
+          >
+            {page <= 1 ? (
+              <Image src={arrow} alt="" />
+            ) : (
+              <Image src={arrowActive} alt="" className="reverse" />
+            )}
+          </Link>
+        </BtnArrow>
+      )}
       <ButtonWrap>
         {pageArray.map((i) => (
           <Link
@@ -52,19 +56,21 @@ const Pagination = ({ total }: { total: number }) => {
           </Link>
         ))}
       </ButtonWrap>
-      <BtnArrow disabled={page === numPages}>
-        <Link
-          href={{
-            query: `${camps}&page=${page + 1}${hot}${category}${types}`,
-          }}
-        >
-          {page >= numPages ? (
-            <Image src={arrow} alt="" className="reverse" />
-          ) : (
-            <Image src={arrowActive} alt="" />
-          )}
-        </Link>
-      </BtnArrow>
+      {total !== 0 && (
+        <BtnArrow disabled={page === numPages}>
+          <Link
+            href={{
+              query: `${camps}&page=${page + 1}${hot}${category}${types}`,
+            }}
+          >
+            {page >= numPages ? (
+              <Image src={arrow} alt="" className="reverse" />
+            ) : (
+              <Image src={arrowActive} alt="" />
+            )}
+          </Link>
+        </BtnArrow>
+      )}
     </Container>
   );
 };
@@ -75,6 +81,11 @@ const Container = styled.div`
   align-items: center;
   width: 380px;
   margin: 40px auto 100px;
+  @media (max-width: 768px) {
+    margin: 40px auto;
+    max-width: 375px;
+    padding: 0 14px;
+  }
 `;
 
 const ButtonWrap = styled.div`
@@ -84,6 +95,9 @@ const ButtonWrap = styled.div`
   width: 308px;
   gap: 7.56px;
   margin: 0 auto;
+  @media (max-width: 768px) {
+    gap: 4px;
+  }
 `;
 
 const Button = styled.button<{ $current?: boolean }>`

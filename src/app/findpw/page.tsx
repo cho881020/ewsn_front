@@ -69,6 +69,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+    width: 100%;
+  }
 `;
 
 export default FindPassword;

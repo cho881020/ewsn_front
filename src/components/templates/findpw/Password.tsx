@@ -21,8 +21,8 @@ const Password = ({ password, onChangePassword, onMutate }: Props) => {
   };
 
   return (
-    <>
-      <div className="w-full mb-3">
+    <div className="w-full sm:max-w-[500px]">
+      <div className="mb-3">
         <Title level="sub3">비밀번호</Title>
       </div>
       <Input
@@ -48,11 +48,11 @@ const Password = ({ password, onChangePassword, onMutate }: Props) => {
         $active={!!password && !!passwordConfirm}
         disabled={!password || !passwordConfirm}
         onClick={handleChangePassword}
-        className="mt-12"
+        className="mt-12 sm:mt-6"
       >
         완료
       </BtnActive>
-    </>
+    </div>
   );
 };
 

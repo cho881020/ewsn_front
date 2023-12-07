@@ -54,6 +54,13 @@ const Container = styled.div`
   img {
     cursor: pointer;
   }
+  @media (max-width: 768px) {
+    width: 335px;
+    height: 335px;
+    img {
+      width: 98px;
+    }
+  }
 `;
 
 export default ImageContainer;

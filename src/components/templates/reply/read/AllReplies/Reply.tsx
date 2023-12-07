@@ -25,7 +25,8 @@ interface Props {
 }
 
 const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
-  const { user, createdAt, content, postingId } = reply;
+  const { user, createdAt, content, postingId, userPoliticalOrientationId } =
+    reply;
   const { id, isAdmin, politicalOrientationId } = useRecoilValue(authState);
 
   const [newReply, setNewReply] = useState(content);
@@ -74,9 +75,9 @@ const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
     <Item bg={user.id === id ? COLORS.BG : "#fff"}>
       <Info>
         <div className="flex gap-2 items-center">
-          {user.politicalOrientationId && (
+          {userPoliticalOrientationId && (
             <Color
-              $color={CAMP_COLORS[user.politicalOrientationId - 1]?.color}
+              $color={CAMP_COLORS[userPoliticalOrientationId - 1]?.color}
             />
           )}
           <Content level="body1" color={COLORS.TEXT02}>

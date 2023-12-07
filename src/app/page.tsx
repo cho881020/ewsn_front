@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import styled from "styled-components";
 
 import flag from "@/assets/main/flag.png";
 import { Container } from "@/components/atoms";
@@ -16,21 +17,27 @@ const Home = () => {
   return (
     <>
       <Nav />
-      <Container>
+      <Layout>
         <ImageContainer />
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end sm:mb-5">
           <Image
             src={flag}
             alt=""
-            className="my-10 cursor-pointer"
+            className="my-10 cursor-pointer sm:my-0 sm:w-10"
             onClick={() => router.push("/flag")}
           />
         </div>
         <Banner />
         <Board />
-      </Container>
+      </Layout>
     </>
   );
 };
+
+const Layout = styled(Container)`
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
+`;
 
 export default Home;
