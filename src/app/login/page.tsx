@@ -68,7 +68,9 @@ const Login = () => {
               $center
             />
           </Form>
-          <Btn onClick={handleLogin}>로그인</Btn>
+          <BtnWrap>
+            <LoginBtn onClick={handleLogin}>로그인</LoginBtn>
+          </BtnWrap>
           <div className="mt-6">
             <Content
               color={COLORS.TEXT03}
@@ -110,6 +112,9 @@ const Nav = styled.div`
     left: 12px;
     cursor: pointer;
   }
+  @media (max-width: 768px) {
+    height: 52px;
+  }
 `;
 
 const Layout = styled.div`
@@ -130,6 +135,14 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+    justify-content: flex-start;
+    width: 100%;
+    img {
+      width: 158px;
+    }
+  }
 `;
 
 const Form = styled.form`
@@ -139,11 +152,24 @@ const Form = styled.form`
   gap: 12px;
   margin: 24px 0;
   width: 100%;
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    max-width: 500px;
+  }
 `;
-const Line = styled.div`
-  width: 1px;
-  height: 12px;
-  background-color: ${COLORS.LINE02};
+
+const BtnWrap = styled.div`
+  width: 100%;
+  @media (max-width: 768px) {
+    max-width: 500px;
+  }
+`;
+
+const LoginBtn = styled(Btn)`
+  @media (max-width: 768px) {
+    font-size: 14px;
+    height: 44px;
+  }
 `;
 
 export default Login;

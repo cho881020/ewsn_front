@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import styled, { css } from "styled-components";
@@ -8,11 +7,9 @@ import styled, { css } from "styled-components";
 import authState from "@/stores/authState";
 import useCategoryQuery from "@/apis/queries/useCategoryQuery";
 
-import Input from "@/ui/input";
 import { Btn } from "@/ui/buttons";
 import COLORS from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
-import search from "@/assets/board/search.png";
 
 const DATAS = [
   { id: 0, type: "d", title: "일간" },
@@ -20,7 +17,7 @@ const DATAS = [
   { id: 2, type: "M", title: "월간" },
 ];
 
-const Header = ({ categoryId }: { categoryId: number | null }) => {
+const MobileHeader = ({ categoryId }: { categoryId: number | null }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -33,14 +30,7 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
 
   const hot = `${isHot ? "&hot" : ""}`;
   const camps = camp ? `camp=${camp}` : "";
-  const category = categoryId ? `&category=${categoryId}` : "";
   const keywords = keyword ? `&keyword=${keyword}` : "";
-
-  const handleSearch = () => {
-    camp
-      ? router.push(`${pathname}?${camps}&page=1${hot}${keywords}${category}`)
-      : router.push(`${pathname}?page=1&keyword=${keyword}`);
-  };
 
   const handleWrite = () => {
     if (!id) return alert("비회원은 글쓰기를 할 수 없습니다.");
@@ -53,9 +43,9 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
 
   return (
     <Container>
-      <Top>
-        <BtnContainer>
-          {!camp && (
+      {!camp && (
+        <Top>
+          <BtnContainer className="px-5">
             <>
               <CustomLink href={{ pathname, query: { page: 1 } }}>
                 <CustomBtn $gray={!isHot}>NEW</CustomBtn>
@@ -64,30 +54,11 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
                 <CustomBtn $gray={isHot}>HOT</CustomBtn>
               </CustomLink>
             </>
-          )}
-        </BtnContainer>
-        <div className="flex gap-2 min-w-[380px]">
-          <div className="relative w-[292px]">
-            <Input
-              placeholder="제목,내용,닉네임"
-              padding="11px 12px 11px 40px"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            />
-            <Image
-              src={search}
-              alt=""
-              className="absolute left-[10px] top-[10px]"
-            />
-          </div>
-          <Btn $middle width="80px" height="44px" onClick={handleSearch}>
-            검색
-          </Btn>
-        </div>
-      </Top>
+          </BtnContainer>
+        </Top>
+      )}
       {!camp && isHot && (
-        <Bottom className="mt-[26px]" $margin="0">
+        <Bottom $margin="0">
           <DateBtnContainer>
             <>
               {DATAS.map(({ id, type, title }) => (
@@ -112,41 +83,48 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
                 </DateBtn>
               ))}
             </>
-            <Line />
           </DateBtnContainer>
         </Bottom>
       )}
       {!!camp && !!categories && (
-        <Bottom>
-          <BtnContainer>
-            <CustomBtn
-              onClick={() => router.push(`${pathname}?${camps}${keywords}`)}
-              $gray={!categoryId && !isHot}
-            >
-              전체
-            </CustomBtn>
-            <CustomBtn
-              onClick={() => router.push(`${pathname}?${camps}${keywords}&hot`)}
-              $gray={!categoryId && isHot}
-            >
-              인기
-            </CustomBtn>
-            {categories?.map(({ id, name }) => (
+        <>
+          <Bottom>
+            <BtnContainer>
               <CustomBtn
-                key={id}
-                onClick={() =>
-                  router.push(`${pathname}?${camps}${keywords}&category=${id}`)
-                }
-                $gray={categoryId === id}
+                onClick={() => router.push(`${pathname}?${camps}${keywords}`)}
+                $gray={!categoryId && !isHot}
               >
-                {name}
+                전체
               </CustomBtn>
-            ))}
-          </BtnContainer>
-          <Btn $small width="52px" height="32px" onClick={handleWrite}>
-            글쓰기
-          </Btn>
-        </Bottom>
+              <CustomBtn
+                onClick={() =>
+                  router.push(`${pathname}?${camps}${keywords}&hot`)
+                }
+                $gray={!categoryId && isHot}
+              >
+                인기
+              </CustomBtn>
+              {categories?.map(({ id, name }) => (
+                <CustomBtn
+                  key={id}
+                  onClick={() =>
+                    router.push(
+                      `${pathname}?${camps}${keywords}&category=${id}`
+                    )
+                  }
+                  $gray={categoryId === id}
+                >
+                  {name}
+                </CustomBtn>
+              ))}
+            </BtnContainer>
+          </Bottom>
+          <div className="flex justify-end mb-10 px-5">
+            <Btn $small width="52px" height="32px" onClick={handleWrite}>
+              글쓰기
+            </Btn>
+          </div>
+        </>
       )}
     </Container>
   );
@@ -154,8 +132,9 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
 
 const Container = styled.div`
   width: 100%;
+  display: none;
   @media (max-width: 768px) {
-    display: none;
+    display: block;
   }
 `;
 
@@ -172,12 +151,20 @@ const Bottom = styled.div<{ $margin?: string }>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ $margin }) => ($margin ? $margin : "20px")};
+  padding: 0 20px;
 `;
 
 const BtnContainer = styled.div`
   width: 100%;
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const CustomBtn = styled.button<{ $gray?: boolean }>`
@@ -187,6 +174,7 @@ const CustomBtn = styled.button<{ $gray?: boolean }>`
   min-width: 37px;
   border: 1px solid #fff;
   color: ${COLORS.TEXT01};
+  flex: 0 0 auto;
   ${({ $gray }) =>
     $gray &&
     css`
@@ -208,20 +196,14 @@ const DateBtnContainer = styled(BtnContainer)`
   gap: 0;
 `;
 
-const Line = styled.div`
-  width: 100%;
-  border-bottom: 1px solid ${COLORS.LINE03};
-  box-sizing: content-box;
-`;
-
 const DateBtn = styled.div<{ $active: boolean }>`
   cursor: pointer;
-  width: 54px;
+  min-width: 54px;
   height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid ${COLORS.LINE03};
+  margin-bottom: -1px;
   ${({ $active }) =>
     $active &&
     css`
@@ -230,4 +212,4 @@ const DateBtn = styled.div<{ $active: boolean }>`
     `}
 `;
 
-export default Header;
+export default MobileHeader;

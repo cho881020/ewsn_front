@@ -7,7 +7,7 @@ import styled from "styled-components";
 import usePostingNoticeQuery from "@/apis/queries/usePostingNoticeQuery";
 import { Posting } from "@/types/posting";
 import { getDate } from "@/utils/getDate";
-import { HEADERS } from "@/datas/board";
+import { HEADERS } from "@/datas/Board";
 
 import { Content, Title } from "@/ui/fonts";
 import COLORS, { CAMP_COLORS } from "@/ui/colors";
@@ -42,7 +42,7 @@ const Table = ({ list }: { list: Posting[] }) => {
   });
 
   return (
-    <div className="w-full max-w-full">
+    <div className="w-full max-w-full sm:hidden">
       <TABLE>
         <colgroup>
           <col width="80px" />
@@ -115,7 +115,7 @@ const Table = ({ list }: { list: Posting[] }) => {
               id,
               title,
               category,
-              politicalOrientationId,
+              userPoliticalOrientationId,
               createdAt,
               hits,
               user,
@@ -133,9 +133,11 @@ const Table = ({ list }: { list: Posting[] }) => {
                 <TD $gray>{id}</TD>
                 <TD>{category.name}</TD>
                 <TD $large className="flex items-center pt-1">
-                  <Color
-                    $color={CAMP_COLORS[politicalOrientationId - 1].color}
-                  />
+                  {!!CAMP_COLORS[userPoliticalOrientationId - 1] && (
+                    <Color
+                      $color={CAMP_COLORS[userPoliticalOrientationId - 1].color}
+                    />
+                  )}
                   {isRestrict ? (
                     <RestrictContent>{title}</RestrictContent>
                   ) : (

@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import dayjs from "dayjs";
 
 import useMeQuery from "@/apis/queries/useMeQuery";
 import useEditMyInfo from "@/apis/mutations/useEditMyInfo";
@@ -20,11 +21,13 @@ import Header from "@/components/templates/myinfo/Header";
 import Nickname from "@/components/templates/myinfo/form/Nickname";
 import ModalSignout from "@/components/organisms/ModalSignout";
 import ModalPassword from "@/components/organisms/ModalPassword";
+import ModalError from "@/components/organisms/ModalError";
 
 const MyInfo = () => {
   const router = useRouter();
   const { myInfo } = useMeQuery();
   const [nickNameValidation, setNickNameValidation] = useState(false);
+  const [isOpenErrorModal, setIsOpenErrorModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
   const [state, setState] = useState({
@@ -42,6 +45,12 @@ const MyInfo = () => {
     e.preventDefault();
     if (myInfo.nickName !== nickName && !nickNameValidation)
       return alert("닉네임 검증을 해주세요.");
+    if (
+      myInfo.politicalOrientationId !== politicalOrientationId &&
+      dayjs(new Date()) <
+        dayjs(myInfo.politicalOrientationChangeDate).add(2, "month")
+    )
+      return setIsOpenErrorModal(true);
 
     mutate();
   };
@@ -62,6 +71,9 @@ const MyInfo = () => {
       <Layout>
         <Container>
           <Form onSubmit={handleChange}>
+            {isOpenErrorModal && (
+              <ModalError onClose={() => setIsOpenErrorModal(false)} />
+            )}
             <Article>
               <Title level="sub3">이메일 주소</Title>
               <Input height="44px" value={myInfo?.email} disabled $gray />
@@ -151,7 +163,7 @@ const MyInfo = () => {
                 }
               />
             </Article>
-            <div className="w-full text-right mb-12">
+            <div className="w-full text-right mb-12 sm:mb-6">
               <BtnSignout
                 type="button"
                 onClick={() => setIsOpenDeleteModal(true)}
@@ -193,12 +205,19 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 40px 20px;
+  }
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
+  @media (max-width: 768px) {
+    max-width: 500px;
+  }
 `;
 
 const BtnSignout = styled.button`

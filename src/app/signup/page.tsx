@@ -150,6 +150,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 40px 20px;
+  }
 `;
 
 const Form = styled.form`
@@ -157,6 +161,9 @@ const Form = styled.form`
   flex-direction: column;
   gap: 12px;
   width: 100%;
+  @media (max-width: 768px) {
+    max-width: 500px;
+  }
 `;
 
 export default SignUp;

@@ -41,6 +41,9 @@ const Nav = styled.div`
     left: 12px;
     cursor: pointer;
   }
+  @media (max-width: 768px) {
+    height: 52px;
+  }
 `;
 
 export default Header;

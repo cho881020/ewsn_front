@@ -22,7 +22,8 @@ import Report from "@/components/templates/reply/read/AllReplies/Report";
 
 const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
   const { id } = useRecoilValue(authState);
-  const { user, createdAt, content, postingId } = data;
+  const { user, createdAt, content, postingId, userPoliticalOrientationId } =
+    data;
   const [newComment, setNewComment] = useState(content);
   const [isChangeComment, setIsChangeComment] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
@@ -58,7 +59,7 @@ const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
       <Info>
         <div className="flex gap-2 items-center">
           <Image src={comment} alt="comment" />
-          <Color $color={CAMP_COLORS[user.politicalOrientationId - 1].color} />
+          <Color $color={CAMP_COLORS[userPoliticalOrientationId - 1]?.color} />
           <Content level="body1" color={COLORS.TEXT02}>
             {user.nickName}
           </Content>

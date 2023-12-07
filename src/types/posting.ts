@@ -6,7 +6,8 @@ export interface Replies {
   isRestrict: boolean;
   postingId: number;
   replyId?: number;
-  userId: 1;
+  userId: number;
+  userPoliticalOrientationId: number;
   user: {
     id: number;
     nickName: string;
@@ -37,6 +38,7 @@ export interface Posting {
   updatedAt: string;
   userId: number;
   politicalOrientationId: number;
+  userPoliticalOrientationId: number;
   title: string;
   politicalOrientation: {
     createdAt: string;

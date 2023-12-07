@@ -45,16 +45,16 @@ const Board = () => {
               <Content level="body1">더보기</Content>
             </Link>
           </Header>
-          <div className="py-4 px-3">
+          <div className="py-4 px-3 sm:px-5 sm:py-4">
             {posting.list?.map(
-              ({ id, title, politicalOrientationId, isRestrict }, i) => (
+              ({ id, title, userPoliticalOrientationId, isRestrict }, i) => (
                 <Post key={id}>
                   <Title level="sub2" className="mr-[6px] min-w-[16px]">
                     {i + 1}
                   </Title>
                   <Color
                     className="mr-2"
-                    $color={CAMP_COLORS[politicalOrientationId - 1].color}
+                    $color={CAMP_COLORS[userPoliticalOrientationId - 1].color}
                   />
                   {isRestrict ? (
                     <>
@@ -98,11 +98,18 @@ const Container = styled.div`
   display: flex;
   gap: 20px;
   max-width: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding-bottom: 60px;
+  }
 `;
 
 const Item = styled.div`
   width: 580px;
   max-width: calc(50% - 10px);
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 const Header = styled.div`
@@ -114,6 +121,17 @@ const Header = styled.div`
   p {
     color: #555;
     cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    padding: 12px 20px;
+    height: 46px;
+    h1 {
+      font-size: 16px;
+      line-height: 22px;
+    }
+    p {
+      font-size: 12px;
+    }
   }
 `;
 

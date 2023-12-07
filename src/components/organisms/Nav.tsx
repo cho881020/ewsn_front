@@ -9,7 +9,7 @@ import styled from "styled-components";
 import DATAS from "@/datas/Nav";
 import authState from "@/stores/authState";
 
-import logo from "@/assets/nav/logo.png";
+import logo from "@/assets/nav/logo.svg";
 
 import COLORS from "@/ui/colors";
 import { Content } from "@/ui/fonts";
@@ -32,10 +32,10 @@ const Nav = () => {
         <Container>
           <div className="flex items-center gap-7">
             <Link href="/">
-              <Image src={logo} alt="" className="cursor-pointer" />
+              <Image src={logo} alt="" className="cursor-pointer" width={80} />
             </Link>
             {pathname === "/" ? (
-              <Content level="cap2" color="#fff">
+              <Content level="cap2" color="#fff" className="sm:hidden">
                 정치인이 운영하지 않는 정치 커뮤니티
               </Content>
             ) : (
@@ -58,10 +58,13 @@ const Nav = () => {
               </CampContainer>
             )}
           </div>
-          <div className="flex gap-3 items-center text-sm font-bold">
+          <div className="flex gap-3 items-center text-sm font-bold sm:text-xs sm:font-normal">
             {isLogin ? (
               <>
-                <button className="text-white" onClick={() => router.push("/myinfo")}>
+                <button
+                  className="text-white"
+                  onClick={() => router.push("/myinfo")}
+                >
                   {nickName}
                 </button>
                 <Line />
@@ -97,6 +100,12 @@ const Container = styled.div`
   height: 60px;
   color: #fff;
   padding: 0 20px;
+  @media (max-width: 768px) {
+    height: 52px;
+    img {
+      width: 60px;
+    }
+  }
 `;
 
 const Line = styled.div`
@@ -108,6 +117,9 @@ const Line = styled.div`
 const CampContainer = styled.div`
   display: flex;
   gap: 12px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Btn = styled(Link)<{ $active: boolean }>`

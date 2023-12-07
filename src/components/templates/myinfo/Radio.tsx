@@ -87,6 +87,9 @@ const Container = styled.div`
   flex-direction: column;
   gap: 24px;
   margin-bottom: 36px;
+  @media (max-width: 768px) {
+    margin-bottom: 0;
+  }
 `;
 
 const Wrap = styled.div`

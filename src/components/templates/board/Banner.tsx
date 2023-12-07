@@ -2,25 +2,23 @@ import Image from "next/image";
 import styled from "styled-components";
 
 import banner1 from "@/assets/temp/banner1.png";
-import banner2 from "@/assets/temp/banner2.png";
 
-const Banner = ({ mt }: { mt?: string }) => {
+const Banner = () => {
   return (
-    <BannerContainer $mt={mt}>
+    <BannerContainer>
       <Image src={banner1} alt="" />
-      <Image src={banner2} alt="" />
     </BannerContainer>
   );
 };
-const BannerContainer = styled.div<{ $mt?: string }>`
+
+const BannerContainer = styled.div`
   display: flex;
   gap: 20px;
-  margin-top: ${({ $mt }) => $mt && $mt};
   margin-bottom: 40px;
   max-width: 100%;
   img {
-    width: 580px;
-    max-width: calc(50% - 10px);
+    width: 100%;
+    max-height: 90px;
   }
   @media (max-width: 768px) {
     flex-direction: column;

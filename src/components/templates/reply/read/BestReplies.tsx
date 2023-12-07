@@ -19,7 +19,8 @@ const BestReplies = ({ bestReplies, post }: Props) => {
   return (
     <Container>
       {bestReplies.map((bestReply) => {
-        const { id, content, user, createdAt } = bestReply;
+        const { id, content, user, createdAt, userPoliticalOrientationId } =
+          bestReply;
         return (
           <Reply key={id}>
             <Info>
@@ -28,7 +29,7 @@ const BestReplies = ({ bestReplies, post }: Props) => {
                   베플
                 </BtnRed>
                 <Color
-                  $color={CAMP_COLORS[user.politicalOrientationId - 1].color}
+                  $color={CAMP_COLORS[userPoliticalOrientationId - 1]?.color}
                 />
                 <Content level="body1" color={COLORS.TEXT02}>
                   {user.nickName}
