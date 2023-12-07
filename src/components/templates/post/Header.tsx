@@ -40,25 +40,41 @@ const Header = ({ post }: { post: Posting }) => {
 
       <Info>
         <div className="flex items-center">
-          <Color color={CAMP_COLORS[userPoliticalOrientationId - 1].color} />
+          {CAMP_COLORS[userPoliticalOrientationId - 1] && (
+            <Color color={CAMP_COLORS[userPoliticalOrientationId - 1].color} />
+          )}
           <Content level="cap2" color={COLORS.TEXT01}>
             {user.nickName}
           </Content>
           <Line />
-          <Content level="cap2" color={COLORS.TEXT04}>
+          <Content level="cap2" className="sm:hidden" color={COLORS.TEXT04}>
             {getDateTime(createdAt)}
+          </Content>
+          <Content
+            level="cap2"
+            className="hidden sm:block"
+            color={COLORS.TEXT04}
+          >
+            {getDateTime(createdAt, "m")}
           </Content>
         </div>
 
         <div className="flex items-center gap-2">
           {FEEDBACKS.map(({ title, data }) => (
             <div className="flex gap-[2px]" key={title}>
-              <Content level="cap2" color={COLORS.TEXT01}>
+              <Content level="cap2" className="sm:hidden" color={COLORS.TEXT01}>
                 {title}
               </Content>
-              <Title level="sub1" color={COLORS.TEXT01}>
+              <Title level="sub1" className="sm:hidden" color={COLORS.TEXT01}>
                 {data}
               </Title>
+              <Content
+                level="cap2"
+                className="hidden sm:block"
+                color={COLORS.TEXT04}
+              >
+                {title} {data}
+              </Content>
             </div>
           ))}
         </div>
@@ -72,12 +88,20 @@ const Container = styled.div`
   height: 58px;
   padding: 8px 12px;
   background-color: ${COLORS.BG};
+  @media (max-width: 768px) {
+    height: 76px;
+    padding: 12px 20px;
+    border-bottom: 1px solid ${COLORS.LINE03};
+  }
 `;
 
 const Info = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 4px;
+  @media (max-width: 768px) {
+    margin-top: 12px;
+  }
 `;
 
 const Color = styled.div<{ color: string }>`

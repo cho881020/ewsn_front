@@ -36,7 +36,6 @@ const PostList = () => {
 
   return (
     <Container>
-      <Banner />
       <Header categoryId={categoryId} />
       {postings && hotPostings && (
         <Table list={searchParams.has("hot") ? hotPostings : postings} />

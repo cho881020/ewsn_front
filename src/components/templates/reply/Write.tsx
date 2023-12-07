@@ -46,12 +46,12 @@ const Write = ({ post }: { post: Posting }) => {
           댓글쓰기
         </Title>
       </Header>
-      <Textarea
+      <CustomTextarea
         placeholder="타인을 배려하는 마음을 담아 댓글을 작성해 주세요."
         value={content}
         onChange={(e) => setContent(e.target.value)}
         height="123px"
-        className="mb-3"
+        className="mb-3 sm:mb-5"
         onKeyDown={enterKeyPress}
       />
       <div className="flex justify-end">
@@ -67,12 +67,21 @@ const Container = styled.div`
   background-color: ${COLORS.BG};
   width: 100%;
   padding: 12px;
+  @media (max-width: 768px) {
+    padding: 12px 20px;
+  }
 `;
 
 const Header = styled.header`
   padding: 8px 0;
   border-bottom: 1px solid ${COLORS.LINE02};
   margin-bottom: 12px;
+`;
+
+const CustomTextarea = styled(Textarea)`
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 export default Write;

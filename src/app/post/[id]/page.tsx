@@ -19,13 +19,14 @@ import { Content, Title } from "@/ui/fonts";
 
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
-import Banner from "@/components/templates/banner";
+import Banner from "@/components/organisms/Banner";
 import PostList from "@/components/templates/postList";
 import Header from "@/components/templates/post/Header";
 import Reply from "@/components/templates/reply";
 import Recommend from "@/components/templates/post/Recommend";
 import ModalDelete from "@/components/organisms/ModalDelete";
 import Report from "@/components/templates/post/Report";
+import MobileCamp from "@/components/organisms/MobileHeader";
 
 const Post = () => {
   const { id } = useParams();
@@ -45,26 +46,48 @@ const Post = () => {
   return (
     <>
       <Nav />
+      <MobileCamp />
       {post && likeCounts && (
-        <Container>
+        <Layout>
           <>
             <Banner />
             <Category>
-              <Title level="head1">{post?.politicalOrientation.name}</Title>
-              <Image src={arrow} alt="" />
-              <Title level="head1">{post?.category.name}</Title>
+              <Title level="head1" className="sm:hidden">
+                {post?.politicalOrientation.name}
+              </Title>
+              <Title level="sub3" className="hidden sm:block">
+                {post?.politicalOrientation.name}
+              </Title>
+              <Image src={arrow} alt="arrow" className="sm:w-4" />
+              <Title level="head1" className="sm:hidden">
+                {post?.category.name}
+              </Title>
+              <Title level="sub3" className="hidden sm:block">
+                {post?.category.name}
+              </Title>
             </Category>
             <Header post={post} />
             <Main>
               <Posting>
-                <CustomContent level="body1l" color={COLORS.TEXT01}>
+                <CustomContent
+                  level="body1l"
+                  className="sm:hidden"
+                  color={COLORS.TEXT01}
+                >
+                  {post?.content}
+                </CustomContent>
+                <CustomContent
+                  level="body2l"
+                  className="hidden sm:block"
+                  color={COLORS.TEXT01}
+                >
                   {post?.content}
                 </CustomContent>
               </Posting>
               <Recommend post={post} likeCounts={likeCounts} />
             </Main>
             {isMine ? (
-              <div className="mt-10 w-full flex justify-end gap-5">
+              <div className="mt-10 w-full flex justify-end gap-5 sm:mt-5 sm:pr-5">
                 <BtnGray
                   width="52px"
                   height="32px"
@@ -105,18 +128,26 @@ const Post = () => {
               </>
             )}
           </>
-          <Banner mt="40px" />
+          <div className="mt-10 sm:mb-5">
+            <Banner />
+          </div>
           <Reply
             post={post}
             bestReplies={bestReplies || []}
             replies={replies || []}
           />
-        </Container>
+        </Layout>
       )}
       <PostList />
     </>
   );
 };
+
+const Layout = styled(Container)`
+  @media (max-width: 768px) {
+    padding: 20px 0;
+  }
+`;
 
 const Category = styled.div`
   display: flex;
@@ -125,17 +156,27 @@ const Category = styled.div`
   padding: 12px 0;
   width: 100%;
   border-bottom: 2px solid ${COLORS.LINE01};
+  @media (max-width: 768px) {
+    padding: 12px 20px;
+  }
 `;
 
 const Main = styled.div`
   padding: 12px 12px 40px;
   width: 100%;
   border-bottom: 1px solid ${COLORS.LINE03};
+  @media (max-width: 768px) {
+    padding: 12px 20px 20px 20px;
+    border-bottom: 1px solid ${COLORS.LINE04};
+  }
 `;
 
 const Posting = styled.div`
   min-height: 144px;
   margin-bottom: 20px;
+  @media (max-width: 768px) {
+    padding-bottom: 12px;
+  }
 `;
 
 const CustomContent = styled(Content)`

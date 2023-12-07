@@ -16,8 +16,17 @@ export const getDate = (date: string, type?: string) => {
   }
 };
 
-export const getDateTime = (date: string) => {
-  return dayjs(new Date(date)).format("YYYY.MM.DD HH:mm");
+export const getDateTime = (date: string, type?: string) => {
+  const today = new Date();
+  const resultDate = new Date(date);
+
+  if ((+today - +resultDate) / (60 * 60 * 1000) <= 24) {
+    return dayjs(new Date(date)).format("HH:mm");
+  } else {
+    return type === "m"
+      ? dayjs(new Date(date)).format("YY.MM.DD HH:mm")
+      : dayjs(new Date(date)).format("YYYY.MM.DD HH:mm");
+  }
 };
 
 export const getDateTimeSecond = (date: string) => {
