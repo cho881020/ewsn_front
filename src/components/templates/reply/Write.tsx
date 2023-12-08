@@ -30,15 +30,6 @@ const Write = ({ post }: { post: Posting }) => {
     setContent("");
   };
 
-  const enterKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      if (!e.shiftKey) {
-        e.preventDefault();
-        postReply();
-      }
-    }
-  };
-
   return (
     <>
       {post.replies.length === 0 && (
@@ -63,7 +54,6 @@ const Write = ({ post }: { post: Posting }) => {
           onChange={(e) => setContent(e.target.value)}
           height="123px"
           className="mb-3 sm:mb-5"
-          onKeyDown={enterKeyPress}
         />
         <div className="flex justify-end">
           <Btn $small width="52px" height="32px" onClick={postReply}>

@@ -45,15 +45,6 @@ const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
     setNewComment(content);
   };
 
-  const enterKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      if (!e.shiftKey) {
-        e.preventDefault();
-        changeComment();
-      }
-    }
-  };
-
   return (
     <Container padding="12px 20px" bg={user.id === id ? COLORS.BG : "#fff"}>
       <Info>
@@ -108,7 +99,6 @@ const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
             value={newComment}
             height="120px"
             className="mb-4"
-            onKeyDown={enterKeyPress}
             onChange={(e) => setNewComment(e.target.value)}
           />
           <div className="flex justify-end ">

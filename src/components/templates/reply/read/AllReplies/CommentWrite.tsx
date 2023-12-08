@@ -42,15 +42,6 @@ const CommentWrite = ({ post, replyId, closeOpenComment }: Props) => {
     setNewComment("");
   };
 
-  const enterKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      if (!e.shiftKey) {
-        e.preventDefault();
-        postComment();
-      }
-    }
-  };
-
   return (
     <Item padding="12px 20px" bg={COLORS.BG}>
       <Info>
@@ -68,7 +59,6 @@ const CommentWrite = ({ post, replyId, closeOpenComment }: Props) => {
         onChange={(e) => setNewComment(e.target.value)}
         height="120px"
         className="mb-4"
-        onKeyDown={enterKeyPress}
       />
       <div className="flex justify-end ">
         <Btn $small width="52px" height="32px" onClick={postComment}>

@@ -206,6 +206,14 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    padding: 0;
+    width: 335px;
+    margin-bottom: 60px;
+    form {
+      max-width: 100%;
+    }
+  }
 `;
 
 const Article = styled.article`

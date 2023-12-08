@@ -62,15 +62,6 @@ const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
     onChangeOpenComment(isOpenComment === id ? -1 : reply.id);
   };
 
-  const enterKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      if (!e.shiftKey) {
-        e.preventDefault();
-        changeReply();
-      }
-    }
-  };
-
   return (
     <Container bg={user.id === id ? COLORS.BG : "#fff"}>
       <Info>
@@ -142,7 +133,6 @@ const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
             value={newReply}
             height="120px"
             className="mb-4"
-            onKeyDown={enterKeyPress}
             onChange={(e) => setNewReply(e.target.value)}
           />
           <div className="flex justify-end ">

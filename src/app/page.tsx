@@ -7,6 +7,7 @@ import styled from "styled-components";
 import flag from "@/assets/main/flag.png";
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
+import Footer from "@/components/organisms/Footer";
 import Board from "@/components/templates/main/Board";
 import Banner from "@/components/templates/banner";
 import ImageContainer from "@/components/templates/main/ImageContainer";
@@ -30,6 +31,7 @@ const Home = () => {
         <Banner />
         <Board />
       </Layout>
+      <Footer />
     </>
   );
 };
