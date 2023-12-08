@@ -1,17 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import styled from "styled-components";
 
 import usePostingQuery from "@/apis/queries/usePostingQuery";
 import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
+import { getPeriod } from "@/utils/getDate";
 
 import { Container } from "@/components/atoms";
 import Pagination from "@/components/organisms/Pagination";
-import Banner from "@/components/templates/banner";
 import Table from "@/components/templates/board/Table";
 import Header from "@/components/templates/board/Header";
-import { getPeriod } from "@/utils/getDate";
+import MobileList from "@/components/templates/board/MobileList";
+import MobileHeader from "@/components/templates/board/MobileHeader";
+import MobileSearch from "@/components/templates/board/MobileSearch";
+import Banner from "@/components/templates/banner";
 
 const PostList = () => {
   const searchParams = useSearchParams();
@@ -35,16 +38,28 @@ const PostList = () => {
   const { hotPostings, hotTotal } = usePostingHotQuery(params);
 
   return (
-    <Container>
+    <Layout>
       <Header categoryId={categoryId} />
+      <MobileHeader categoryId={categoryId} />
       {postings && hotPostings && (
-        <Table list={searchParams.has("hot") ? hotPostings : postings} />
+        <>
+          <Table list={searchParams.has("hot") ? hotPostings : postings} />
+          <MobileList list={searchParams.has("hot") ? hotPostings : postings} />
+        </>
       )}
       {!!total && !!hotTotal && (
         <Pagination total={searchParams.has("hot") ? hotTotal : total} />
       )}
-    </Container>
+      <MobileSearch categoryId={categoryId} />
+      <Banner />
+    </Layout>
   );
 };
+
+const Layout = styled(Container)`
+  @media (max-width: 768px) {
+    padding: 20px 0;
+  }
+`;
 
 export default PostList;

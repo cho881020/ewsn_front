@@ -7,6 +7,8 @@ import COLORS from "@/ui/colors";
 import Reply from "@/components/templates/reply/read/AllReplies/Reply";
 import Comment from "@/components/templates/reply/read/AllReplies/Comment";
 import CommentWrite from "@/components/templates/reply/read/AllReplies/CommentWrite";
+import MobileReply from "@/components/templates/reply/read/AllReplies/MobileReply";
+import MobileComment from "@/components/templates/reply/read/AllReplies/MobileComment";
 
 interface Props {
   replies: Replies[];
@@ -26,6 +28,12 @@ const AllReplies = ({ replies, post }: Props) => {
             isOpenComment={isOpenComment}
             onChangeOpenComment={(e: number) => setIsOpenComment(e)}
           />
+          <MobileReply
+            post={post}
+            reply={reply}
+            isOpenComment={isOpenComment}
+            onChangeOpenComment={(e: number) => setIsOpenComment(e)}
+          />
           {isOpenComment === reply.id && (
             <CommentWrite
               post={post}
@@ -34,7 +42,10 @@ const AllReplies = ({ replies, post }: Props) => {
             />
           )}
           {reply.comments?.map((comment) => (
-            <Comment key={comment.id} post={post} data={comment} />
+            <div key={comment.id}>
+              <Comment post={post} data={comment} />
+              <MobileComment post={post} data={comment} />
+            </div>
           ))}
         </div>
       ))}
@@ -46,6 +57,9 @@ const Container = styled.div`
   border-top: 1px solid ${COLORS.LINE03};
   width: 100%;
   margin-bottom: 40px;
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 `;
 
 export default AllReplies;

@@ -24,7 +24,12 @@ interface Props {
   onChangeOpenComment: (e: number) => void;
 }
 
-const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
+const MobileReply = ({
+  reply,
+  isOpenComment,
+  onChangeOpenComment,
+  post,
+}: Props) => {
   const { user, createdAt, content, postingId, userPoliticalOrientationId } =
     reply;
   const { id, isAdmin, politicalOrientationId } = useRecoilValue(authState);
@@ -83,53 +88,6 @@ const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
           <Content level="body1" color={COLORS.TEXT02}>
             {user.nickName}
           </Content>
-          <Content level="cap2" color={COLORS.TEXT05} className="mr-3">
-            {getDateTimeSecond(createdAt)}
-          </Content>
-          {!reply.isDelete && !reply.isRestrict && (
-            <>
-              <Content
-                level="cap2"
-                color={COLORS.TEXT04}
-                className="cursor-pointer"
-                onClick={handleChangeOpenComment}
-              >
-                답글쓰기
-              </Content>
-              {id === user.id ? (
-                <>
-                  <Content
-                    level="cap2"
-                    color={COLORS.TEXT04}
-                    className="cursor-pointer "
-                    onClick={onChangeOpenReply}
-                  >
-                    수정
-                  </Content>
-                  <Content
-                    level="cap2"
-                    color={COLORS.TEXT04}
-                    className="cursor-pointer"
-                    onClick={() => setIsOpenDeleteModal(true)}
-                  >
-                    삭제
-                  </Content>
-                  {isOpenDeleteModal && (
-                    <ModalDelete
-                      title="댓글"
-                      onClose={() => setIsOpenDeleteModal(false)}
-                      onDelete={() => deleteMutate(reply.id)}
-                    />
-                  )}
-                </>
-              ) : (
-                <Report
-                  replyId={reply.id}
-                  politicalOrientation={post.politicalOrientationId}
-                />
-              )}
-            </>
-          )}
         </div>
         {!reply.isDelete && !reply.isRestrict && (
           <Recommend reply={reply} post={post} />
@@ -156,13 +114,63 @@ const Reply = ({ reply, isOpenComment, onChangeOpenComment, post }: Props) => {
           {content}
         </CustomContent>
       )}
+      <div className="flex gap-3 mt-3">
+        <Content level="cap2" color={COLORS.TEXT05}>
+          {getDateTimeSecond(createdAt)}
+        </Content>
+        {!reply.isDelete && !reply.isRestrict && (
+          <>
+            <Content
+              level="cap2"
+              color={COLORS.TEXT04}
+              className="cursor-pointer"
+              onClick={handleChangeOpenComment}
+            >
+              답글쓰기
+            </Content>
+            {id === user.id ? (
+              <>
+                <Content
+                  level="cap2"
+                  color={COLORS.TEXT04}
+                  className="cursor-pointer "
+                  onClick={onChangeOpenReply}
+                >
+                  수정
+                </Content>
+                <Content
+                  level="cap2"
+                  color={COLORS.TEXT04}
+                  className="cursor-pointer"
+                  onClick={() => setIsOpenDeleteModal(true)}
+                >
+                  삭제
+                </Content>
+                {isOpenDeleteModal && (
+                  <ModalDelete
+                    title="댓글"
+                    onClose={() => setIsOpenDeleteModal(false)}
+                    onDelete={() => deleteMutate(reply.id)}
+                  />
+                )}
+              </>
+            ) : (
+              <Report
+                replyId={reply.id}
+                politicalOrientation={post.politicalOrientationId}
+              />
+            )}
+          </>
+        )}
+      </div>
     </Container>
   );
 };
 
 const Container = styled(Item)`
+  display: none;
   @media (max-width: 768px) {
-    display: none;
+    display: block;
   }
 `;
 
@@ -172,4 +180,4 @@ const CustomContent = styled(Content)`
   word-break: break-all;
 `;
 
-export default Reply;
+export default MobileReply;

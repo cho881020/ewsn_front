@@ -163,6 +163,8 @@ const Color = styled.div<{ $color: string }>`
 const Container = styled.div`
   background-color: #fff;
   border: 1px solid ${COLORS.LINE03};
+  border-left: 0;
+  border-right: 0;
 `;
 
 const Item = styled.div<{ $active?: boolean }>`

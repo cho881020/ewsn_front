@@ -29,8 +29,10 @@ export const getDateTime = (date: string, type?: string) => {
   }
 };
 
-export const getDateTimeSecond = (date: string) => {
-  return dayjs(new Date(date)).format("YYYY.MM.DD HH:mm:ss");
+export const getDateTimeSecond = (date: string, type?: string) => {
+  return type === "m"
+    ? dayjs(new Date(date)).format("YY.MM.DD HH:mm:ss")
+    : dayjs(new Date(date)).format("YYYY.MM.DD HH:mm:ss");
 };
 
 export const getPeriod = (type: any) => {

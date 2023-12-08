@@ -46,10 +46,13 @@ const Header = ({ post }: { post: Posting }) => {
           <Content level="cap2" color={COLORS.TEXT01}>
             {user.nickName}
           </Content>
-          <Line />
+          <Line className="sm:hidden" />
           <Content level="cap2" className="sm:hidden" color={COLORS.TEXT04}>
             {getDateTime(createdAt)}
           </Content>
+        </div>
+
+        <div className="flex items-center gap-2">
           <Content
             level="cap2"
             className="hidden sm:block"
@@ -57,9 +60,7 @@ const Header = ({ post }: { post: Posting }) => {
           >
             {getDateTime(createdAt, "m")}
           </Content>
-        </div>
-
-        <div className="flex items-center gap-2">
+          <Line className="hidden sm:block" />
           {FEEDBACKS.map(({ title, data }) => (
             <div className="flex gap-[2px]" key={title}>
               <Content level="cap2" className="sm:hidden" color={COLORS.TEXT01}>
@@ -89,7 +90,7 @@ const Container = styled.div`
   padding: 8px 12px;
   background-color: ${COLORS.BG};
   @media (max-width: 768px) {
-    height: 76px;
+    height: 98px;
     padding: 12px 20px;
     border-bottom: 1px solid ${COLORS.LINE03};
   }
@@ -101,6 +102,8 @@ const Info = styled.div`
   margin-top: 4px;
   @media (max-width: 768px) {
     margin-top: 12px;
+    flex-direction: column;
+    gap: 4px;
   }
 `;
 

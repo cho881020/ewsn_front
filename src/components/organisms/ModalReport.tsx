@@ -56,7 +56,7 @@ const ModalReport = ({ reason, onChangeReason, onClose, onReport }: Props) => {
   return (
     <>
       <Backdrop onClick={handleClick} />
-      <Container $width="400px">
+      <CustomContainer>
         <TitleWrap>
           <Title level="head1" color="#000">
             신고사유
@@ -91,10 +91,17 @@ const ModalReport = ({ reason, onChangeReason, onClose, onReport }: Props) => {
           />
         </div>
         <CustomBtn onClick={handleReport}>신고하기</CustomBtn>
-      </Container>
+      </CustomContainer>
     </>
   );
 };
+
+const CustomContainer = styled(Container)`
+  width: 400px;
+  @media (max-width: 768px) {
+    width: 335px;
+  }
+`;
 
 const CustomBtn = styled(Btn)`
   border-radius: 0;
