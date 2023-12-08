@@ -20,7 +20,7 @@ import ModalDelete from "@/components/organisms/ModalDelete";
 import Recommend from "@/components/templates/reply/read/Recommend";
 import Report from "@/components/templates/reply/read/AllReplies/Report";
 
-const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
+const MobileComment = ({ data, post }: { data: Replies; post: Posting }) => {
   const { id } = useRecoilValue(authState);
   const { user, createdAt, content, postingId, userPoliticalOrientationId } =
     data;
@@ -54,41 +54,6 @@ const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
           <Content level="body1" color={COLORS.TEXT02}>
             {user.nickName}
           </Content>
-          <Content level="cap2" color={COLORS.TEXT05} className="mr-3">
-            {getDateTimeSecond(createdAt)}
-          </Content>
-          {id === user.id ? (
-            <>
-              <Content
-                level="cap2"
-                color={COLORS.TEXT04}
-                className="cursor-pointer"
-                onClick={onChangeOpenComment}
-              >
-                수정
-              </Content>
-              <Content
-                level="cap2"
-                color={COLORS.TEXT04}
-                className="cursor-pointer"
-                onClick={() => setIsOpenDeleteModal(true)}
-              >
-                삭제
-              </Content>
-              {isOpenDeleteModal && (
-                <ModalDelete
-                  title="댓글"
-                  onClose={() => setIsOpenDeleteModal(false)}
-                  onDelete={() => deleteMutate(data.id)}
-                />
-              )}
-            </>
-          ) : (
-            <Report
-              replyId={data.id}
-              politicalOrientation={post.politicalOrientationId}
-            />
-          )}
         </div>
         <Recommend reply={data} post={post} />
       </Info>
@@ -110,13 +75,51 @@ const Comment = ({ data, post }: { data: Replies; post: Posting }) => {
       ) : (
         <CustomContent level="body1l">{content}</CustomContent>
       )}
+      <div className="flex gap-3 mt-3">
+        <Content level="cap2" color={COLORS.TEXT05}>
+          {getDateTimeSecond(createdAt)}
+        </Content>
+        {id === user.id ? (
+          <>
+            <Content
+              level="cap2"
+              color={COLORS.TEXT04}
+              className="cursor-pointer"
+              onClick={onChangeOpenComment}
+            >
+              수정
+            </Content>
+            <Content
+              level="cap2"
+              color={COLORS.TEXT04}
+              className="cursor-pointer"
+              onClick={() => setIsOpenDeleteModal(true)}
+            >
+              삭제
+            </Content>
+            {isOpenDeleteModal && (
+              <ModalDelete
+                title="댓글"
+                onClose={() => setIsOpenDeleteModal(false)}
+                onDelete={() => deleteMutate(data.id)}
+              />
+            )}
+          </>
+        ) : (
+          <Report
+            replyId={data.id}
+            politicalOrientation={post.politicalOrientationId}
+          />
+        )}
+      </div>
     </Container>
   );
 };
 
 const Container = styled(Item)`
+  display: none;
   @media (max-width: 768px) {
-    display: none;
+    display: block;
   }
 `;
 
@@ -126,4 +129,4 @@ const CustomContent = styled(Content)`
   word-break: break-all;
 `;
 
-export default Comment;
+export default MobileComment;

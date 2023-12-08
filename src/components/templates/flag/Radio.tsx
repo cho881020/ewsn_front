@@ -37,7 +37,7 @@ const Container = styled.div`
 
 const Item = styled.div`
   display: flex;
-  width: 100px;
+  width: 120px;
   gap: 4px;
   cursor: pointer;
 `;

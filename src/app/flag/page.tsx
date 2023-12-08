@@ -28,6 +28,12 @@ const Layout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 1220px) {
+    flex-direction: column;
+  }
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+  }
 `;
 
 export default Flag;

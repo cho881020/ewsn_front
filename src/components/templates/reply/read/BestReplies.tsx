@@ -9,6 +9,7 @@ import COLORS, { CAMP_COLORS } from "@/ui/colors";
 
 import { Color, Info } from "@/components/atoms/reply";
 import Recommend from "@/components/templates/reply/read/Recommend";
+import Report from "@/components/templates/reply/read/AllReplies/Report";
 
 interface Props {
   bestReplies: Replies[];
@@ -34,22 +35,42 @@ const BestReplies = ({ bestReplies, post }: Props) => {
                 <Content level="body1" color={COLORS.TEXT02}>
                   {user.nickName}
                 </Content>
-                <Content level="cap2" color={COLORS.TEXT05} className="mr-3">
+                <Content
+                  level="cap2"
+                  color={COLORS.TEXT05}
+                  className="mr-3 sm:hidden"
+                >
                   {getDateTimeSecond(createdAt)}
                 </Content>
                 {id !== user.id && (
-                  <Content
-                    level="cap2"
-                    color={COLORS.TEXT04}
-                    className="cursor-pointer"
-                  >
-                    신고
-                  </Content>
+                  <div className="sm:hidden">
+                    <Report
+                      replyId={id}
+                      politicalOrientation={post.politicalOrientationId}
+                    />
+                  </div>
                 )}
               </div>
               <Recommend post={post} reply={bestReply} />
             </Info>
             <Content level="body1l">{content}</Content>
+            <div className="flex gap-3 mt-3">
+              <Content
+                level="cap2"
+                color={COLORS.TEXT05}
+                className="hidden sm:block"
+              >
+                {getDateTimeSecond(createdAt, "m")}
+              </Content>
+              {id !== user.id && (
+                <div className="hidden sm:block">
+                  <Report
+                    replyId={id}
+                    politicalOrientation={post.politicalOrientationId}
+                  />
+                </div>
+              )}
+            </div>
           </Reply>
         );
       })}
@@ -64,6 +85,9 @@ const Container = styled.div`
   background-color: ${COLORS.BG};
   width: 100%;
   margin-bottom: 40px;
+  @media (max-width: 768px) {
+    margin-bottom: 12px;
+  }
 `;
 
 const Reply = styled.div`

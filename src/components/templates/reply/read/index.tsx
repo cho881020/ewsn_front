@@ -18,18 +18,22 @@ interface Props {
 const Read = ({ replies, bestReplies, post }: Props) => {
   return (
     <>
-      <Header>
-        <Title level="sub3" color={COLORS.TEXT01}>
-          전체 댓글
-        </Title>
-        <Title level="sub3" color={COLORS.RED}>
-          {post.replies.length}
-        </Title>
-      </Header>
-      {!!bestReplies.length && (
-        <BestReplies bestReplies={bestReplies} post={post} />
+      {!!post.replies.length && (
+        <>
+          <Header>
+            <Title level="sub3" color={COLORS.TEXT01}>
+              전체 댓글
+            </Title>
+            <Title level="sub3" color={COLORS.RED}>
+              {post.replies.length}
+            </Title>
+          </Header>
+          {!!bestReplies.length && (
+            <BestReplies bestReplies={bestReplies} post={post} />
+          )}
+          {!!replies.length && <AllReplies replies={replies} post={post} />}
+        </>
       )}
-      {!!replies.length && <AllReplies replies={replies} post={post} />}
     </>
   );
 };
@@ -40,6 +44,9 @@ const Header = styled.header`
   margin-top: 40px;
   width: 100%;
   padding: 8px 0;
+  @media (max-width: 768px) {
+    padding: 8px 20px;
+  }
 `;
 
 export default Read;

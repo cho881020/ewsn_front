@@ -52,10 +52,23 @@ const Post = () => {
   return (
     <>
       <Nav />
-      <Container>
+      <Layout>
+        <div className="gap-5 justify-end w-full hidden my-5 pr-5 sm:flex">
+          <BtnGray width="52px" $middle height="32px" onClick={handleCancel}>
+            취소
+          </BtnGray>
+          <Btn width="52px" $middle height="32px" onClick={handleWrite}>
+            등록
+          </Btn>
+        </div>
         <Header>
-          <Title level="head1">{politicalOrientation?.name}</Title>
-          <Image src={arrow} alt="arrow" />
+          <Title level="head1" className="sm:hidden">
+            {politicalOrientation?.name}
+          </Title>
+          <Title level="sub3" className="hidden sm:block">
+            {politicalOrientation?.name}
+          </Title>
+          <Image src={arrow} alt="arrow" className="sm:w-4" />
           <Select
             categoryId={categoryId}
             onChangeCategoryId={(e) => setState({ ...state, categoryId: e })}
@@ -76,20 +89,20 @@ const Post = () => {
             </Content>
           </ImageWrap>
         )}
-        <div className="flex flex-col gap-5 w-full mb-10">
-          <Input
+        <div className="flex flex-col gap-5 w-full mb-10 sm:gap-0 sm:mb-0">
+          <CustomInput
             placeholder="제목을 입력해 주세요."
             value={title}
             onChange={(e) => setState({ ...state, title: e.target.value })}
           />
-          <Textarea
+          <CustomTextarea
             placeholder="내용을 입력해 주세요."
             height="628px"
             value={content}
             onChange={(e) => setState({ ...state, content: e.target.value })}
           />
         </div>
-        <div className="flex gap-5 justify-end w-full">
+        <div className="flex gap-5 justify-end w-full sm:hidden">
           <BtnGray width="80px" $middle height="44px" onClick={handleCancel}>
             취소
           </BtnGray>
@@ -97,7 +110,7 @@ const Post = () => {
             등록
           </Btn>
         </div>
-      </Container>
+      </Layout>
     </>
   );
 };
@@ -110,6 +123,32 @@ const Header = styled.div`
   width: 100%;
   border-bottom: 2px solid ${COLORS.LINE01};
   margin-bottom: 40px;
+  @media (max-width: 768px) {
+    padding: 13px 20px;
+    border: none;
+    margin: 0;
+  }
+`;
+
+const Layout = styled(Container)`
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+`;
+
+const CustomInput = styled(Input)`
+  @media (max-width: 768px) {
+    border: none;
+    border-bottom: 1px solid ${COLORS.LINE04};
+    padding: 12px 20px;
+  }
+`;
+const CustomTextarea = styled(Textarea)`
+  @media (max-width: 768px) {
+    border: none;
+    padding: 12px 20px;
+    height: 540px;
+  }
 `;
 
 const ImageWrap = styled.div`

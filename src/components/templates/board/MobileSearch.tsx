@@ -32,7 +32,7 @@ const MobileSearch = ({ categoryId }: Props) => {
   };
 
   return (
-    <div className="flex gap-2 min-w-[335px] hidden sm:flex relative">
+    <div className="flex gap-2 min-w-[335px] my-10 hidden sm:flex relative">
       <Input
         placeholder="제목,내용,닉네임"
         padding="11px 12px 11px 40px"

@@ -117,7 +117,7 @@ export const Content = styled.p<{
       letter-spacing: 0;
     `}
   ${({ level }) =>
-    level === "cap1bo" &&
+    level === "cap1b" &&
     css`
       font-size: 11px;
       line-height: 17px;
