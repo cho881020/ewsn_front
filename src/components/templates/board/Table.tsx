@@ -86,9 +86,6 @@ const Table = ({ list }: { list: Posting[] }) => {
                 </TD>
                 <TD>공지</TD>
                 <TD $large className="flex items-center pt-1">
-                  <Color
-                    $color={CAMP_COLORS[politicalOrientationId - 1].color}
-                  />
                   <Title
                     level="sub3"
                     color={COLORS.TEXT01}
