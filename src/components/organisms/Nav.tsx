@@ -130,6 +130,9 @@ const Btn = styled(Link)<{ $active: boolean }>`
   height: 24px;
   border-radius: 4px;
   background-color: ${({ $active }) => $active && "#fff"};
+  img{
+    width: 24px;
+  }
 `;
 
 export default Nav;

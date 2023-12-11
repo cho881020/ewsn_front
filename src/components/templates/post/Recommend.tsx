@@ -55,6 +55,7 @@ const Recommend = ({ post, likeCounts }: Props) => {
         <Image
           src={myRecommend?.likeType === "LIKE" ? likeFill : like}
           alt="like"
+          className="w-[72px]"
           onClick={() => handleRecommend("LIKE")}
         />
         <Title level="sub1" color={COLORS.TEXT01}>
@@ -65,6 +66,7 @@ const Recommend = ({ post, likeCounts }: Props) => {
         <Image
           src={myRecommend?.likeType === "DISLIKE" ? hateFill : hate}
           alt="dislike"
+          className="w-[72px]"
           onClick={() => handleRecommend("DISLIKE")}
         />
         <Title level="sub1" color={COLORS.TEXT01}>
