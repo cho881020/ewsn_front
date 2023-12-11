@@ -47,7 +47,7 @@ const CommentWrite = ({ post, replyId, closeOpenComment }: Props) => {
       <Info>
         <div className="flex gap-2 items-center">
           <Image src={comment} alt="comment" />
-          <Color $color={CAMP_COLORS[politicalOrientationId - 1].color} />
+          <Color $color={CAMP_COLORS[politicalOrientationId - 1]?.color} />
           <Content level="body1" color={COLORS.TEXT02}>
             {nickName}
           </Content>
