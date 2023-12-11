@@ -60,6 +60,7 @@ const Nickname = ({
           placeholder="닉네임"
           onChange={(e: string) => handleChange(e)}
           required
+          maxLength={15}
         />
         <BtnActive
           $middle
