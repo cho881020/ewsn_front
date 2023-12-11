@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { FormEvent, useState } from "react";
 import styled from "styled-components";
 
@@ -10,6 +11,8 @@ import COLORS from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
 import { Btn } from "@/ui/buttons";
 
+import checkbox from "@/assets/flag/checkbox.png";
+import checkboxChecked from "@/assets/flag/checkboxChecked.png";
 import Radio from "@/components/templates/flag/Radio";
 
 interface FlagType {
@@ -78,6 +81,7 @@ const Left = ({ openModal }: { openModal: () => void }) => {
     });
   };
 
+  console.log(materials);
   return (
     <Container>
       <form onSubmit={handleApply}>
@@ -152,13 +156,16 @@ const Left = ({ openModal }: { openModal: () => void }) => {
           <Title level="sub3">지원 받을 자재</Title>
           <div className="flex gap-5 flex-wrap">
             {["현수막", "피켓", "깃발", "머리띠", "기타"].map((item) => (
-              <div className="flex gap-[6px] w-[100px]" key={item}>
-                <input
-                  type="checkbox"
-                  className="w-5 cursor-pointer"
-                  checked={materials.includes(item)}
-                  onChange={() => handleMaterials(item)}
-                />
+              <div
+                className="flex gap-[6px] w-[100px] cursor-pointer"
+                key={item}
+                onClick={() => handleMaterials(item)}
+              >
+                {materials.includes(item) ? (
+                  <Image src={checkboxChecked} alt="checkboxChecked" />
+                ) : (
+                  <Image src={checkbox} alt="checkbox" />
+                )}
                 <Content color={COLORS.TEXT02}>{item}</Content>
               </div>
             ))}
