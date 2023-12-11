@@ -81,7 +81,6 @@ const Left = ({ openModal }: { openModal: () => void }) => {
     });
   };
 
-  console.log(materials);
   return (
     <Container>
       <form onSubmit={handleApply}>
