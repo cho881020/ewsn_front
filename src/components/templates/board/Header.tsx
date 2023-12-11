@@ -39,7 +39,7 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
   const handleSearch = () => {
     camp
       ? router.push(`${pathname}?${camps}&page=1${hot}${keywords}${category}`)
-      : router.push(`${pathname}?page=1&keyword=${keyword}`);
+      : router.push(`${pathname}?page=1${hot}&keyword=${keyword}`);
   };
 
   const handleWrite = () => {
