@@ -54,7 +54,7 @@ const Board = () => {
                   </Title>
                   <Color
                     className="mr-2"
-                    $color={CAMP_COLORS[userPoliticalOrientationId - 1].color}
+                    $color={CAMP_COLORS[userPoliticalOrientationId - 1]?.color}
                   />
                   {isRestrict ? (
                     <>
