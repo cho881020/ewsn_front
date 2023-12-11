@@ -18,6 +18,7 @@ interface Props {
   placeholder?: string;
   type?: string;
   required?: boolean;
+  maxLength?: number;
 }
 
 const ValidationInput = ({
@@ -30,6 +31,7 @@ const ValidationInput = ({
   placeholder,
   type,
   required,
+  maxLength,
 }: Props) => {
   const isValidation = success || failure;
 
@@ -45,6 +47,7 @@ const ValidationInput = ({
           placeholder={placeholder}
           $noneBorder
           required={required}
+          maxLength={maxLength}
         />
         {isValidation && (
           <Image src={success ? iconSuccess : iconFalse} alt="" />

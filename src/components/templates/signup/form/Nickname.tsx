@@ -48,6 +48,7 @@ const Nickname = ({
           placeholder="닉네임"
           onChange={(e: string) => onChange(e)}
           required
+          maxLength={15}
         />
         <BtnActive
           $middle
