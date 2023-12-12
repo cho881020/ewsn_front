@@ -8,7 +8,7 @@ import arrowActive from "@/assets/board/arrowActive.png";
 
 import COLORS from "@/ui/colors";
 
-const Pagination = ({ total }: { total: number }) => {
+const Pagination = ({ total, margin }: { total: number; margin?: string }) => {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const camp = searchParams.get("camp");
@@ -30,7 +30,7 @@ const Pagination = ({ total }: { total: number }) => {
   }
 
   return (
-    <Container>
+    <Container margin={margin}>
       {total !== 0 && (
         <BtnArrow disabled={page === 1}>
           <Link
@@ -75,14 +75,14 @@ const Pagination = ({ total }: { total: number }) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ margin?: string }>`
   position: relative;
   display: flex;
   align-items: center;
   width: 380px;
-  margin: 40px auto 100px;
+  margin: ${({ margin }) => (margin ? margin : "40px auto 100px")};
   @media (max-width: 768px) {
-    margin: 40px auto 0;
+    margin: ${({ margin }) => (margin ? margin : "40px auto 0")};
     max-width: 375px;
     padding: 0 14px;
   }

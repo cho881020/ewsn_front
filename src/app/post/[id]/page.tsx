@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
@@ -19,29 +19,34 @@ import { Content, Title } from "@/ui/fonts";
 
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
-import Banner from "@/components/organisms/Banner";
+import MobileCamp from "@/components/organisms/MobileHeader";
+import ModalDelete from "@/components/organisms/ModalDelete";
+
 import PostList from "@/components/templates/postList";
 import Header from "@/components/templates/post/Header";
 import Reply from "@/components/templates/reply";
+import Banner from "@/components/templates/post/Banner";
 import Recommend from "@/components/templates/post/Recommend";
-import ModalDelete from "@/components/organisms/ModalDelete";
 import Report from "@/components/templates/post/Report";
-import MobileCamp from "@/components/organisms/MobileHeader";
 
 const Post = () => {
   const { id } = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   const myInfo = useRecoilValue(authState);
   const { post, likeCounts } = usePostQuery(Number(id));
   const { bestReplies, replies } = useReplyQuery(Number(id));
   const isMine = post?.userId === myInfo.id;
+  const campId = Number(searchParams.get("camp")) || null;
 
   const { mutate: deleteMutate } = useDeletePosting({
     id: post?.id || 0,
     onSuccess: () => router.push("/board"),
   });
+
+  const bannerId = campId === null ? 8 : campId + 3;
 
   return (
     <>
@@ -50,7 +55,7 @@ const Post = () => {
       {post && likeCounts && (
         <Layout>
           <>
-            <Banner />
+            <Banner id={bannerId} />
             <Category>
               <Title level="head1" className="sm:hidden">
                 {post?.politicalOrientation.name}
@@ -129,7 +134,7 @@ const Post = () => {
             )}
           </>
           <div className="mt-10 sm:mb-5">
-            <Banner />
+            <Banner id={9} />
           </div>
           <Reply
             post={post}

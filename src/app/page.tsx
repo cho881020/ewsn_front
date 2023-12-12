@@ -9,7 +9,7 @@ import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
 import Footer from "@/components/organisms/Footer";
 import Board from "@/components/templates/main/Board";
-import Banner from "@/components/templates/banner";
+import Banner from "@/components/templates/main/Banner";
 import ImageContainer from "@/components/templates/main/ImageContainer";
 
 const Home = () => {

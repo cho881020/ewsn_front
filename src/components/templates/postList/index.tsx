@@ -14,7 +14,7 @@ import Header from "@/components/templates/board/Header";
 import MobileList from "@/components/templates/board/MobileList";
 import MobileHeader from "@/components/templates/board/MobileHeader";
 import MobileSearch from "@/components/templates/board/MobileSearch";
-import Banner from "@/components/templates/banner";
+import Banner from "@/components/templates/postList/Banner";
 
 const PostList = () => {
   const searchParams = useSearchParams();
@@ -48,7 +48,10 @@ const PostList = () => {
         </>
       )}
       {!!total && !!hotTotal && (
-        <Pagination total={searchParams.has("hot") ? hotTotal : total} />
+        <Pagination
+          total={searchParams.has("hot") ? hotTotal : total}
+          margin="40px auto"
+        />
       )}
       <MobileSearch categoryId={categoryId} />
       <Banner />
