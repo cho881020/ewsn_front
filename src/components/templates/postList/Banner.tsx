@@ -24,8 +24,8 @@ const BannerContainer = styled.div`
   display: flex;
   gap: 20px;
   max-width: 100%;
-  padding: 0 24px;
   margin-top: 40px;
+  padding: 0 24px;
   @media (max-width: 768px) {
     gap: 16px;
   }
@@ -42,7 +42,7 @@ const Right = styled(Link)`
 `;
 
 const Img = styled.img`
-  width: 580px;
+  width: 100%;
   height: 100%;
 `;
 
