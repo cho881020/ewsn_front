@@ -41,6 +41,8 @@ const MobileHeader = ({ categoryId }: { categoryId: number | null }) => {
     router.push(`/write?camp=${camp}`);
   };
 
+  const onlyAdmin = categoryId === 10 || categoryId === 11;
+
   return (
     <Container>
       {!camp && (
@@ -119,11 +121,13 @@ const MobileHeader = ({ categoryId }: { categoryId: number | null }) => {
               ))}
             </BtnContainer>
           </Bottom>
-          <div className="flex justify-end mb-10 px-5">
-            <Btn $small width="52px" height="32px" onClick={handleWrite}>
-              글쓰기
-            </Btn>
-          </div>
+          {(!onlyAdmin || isAdmin) && (
+            <div className="flex justify-end mb-10 px-5">
+              <Btn $small width="52px" height="32px" onClick={handleWrite}>
+                글쓰기
+              </Btn>
+            </div>
+          )}
         </>
       )}
     </Container>
