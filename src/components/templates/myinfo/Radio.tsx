@@ -23,9 +23,10 @@ const Radio = ({
             alt=""
           />
           <Content
+            level="body1"
             color={politicalOrientationId !== 4 ? COLORS.TEXT02 : "#000"}
           >
-            북
+            북 - 자유주의
           </Content>
         </Item>
       </Wrap>
@@ -36,9 +37,10 @@ const Radio = ({
             alt=""
           />
           <Content
+            level="body1"
             color={politicalOrientationId !== 2 ? COLORS.TEXT02 : "#000"}
           >
-            서
+            서 - 보수주의
           </Content>
         </Item>
         <Item onClick={() => onChangePoliticalOrientationId(5)}>
@@ -47,9 +49,10 @@ const Radio = ({
             alt=""
           />
           <Content
+            level="body1"
             color={politicalOrientationId !== 5 ? COLORS.TEXT02 : "#000"}
           >
-            중
+            중 - 중도주의
           </Content>
         </Item>
         <Item onClick={() => onChangePoliticalOrientationId(1)}>
@@ -58,9 +61,10 @@ const Radio = ({
             alt=""
           />
           <Content
+            level="body1"
             color={politicalOrientationId !== 1 ? COLORS.TEXT02 : "#000"}
           >
-            동
+            동 - 진보주의
           </Content>
         </Item>
       </Wrap>
@@ -71,9 +75,10 @@ const Radio = ({
             alt=""
           />
           <Content
+            level="body1"
             color={politicalOrientationId !== 3 ? COLORS.TEXT02 : "#000"}
           >
-            남
+            남 - 권위주의
           </Content>
         </Item>
       </Wrap>
@@ -82,20 +87,29 @@ const Radio = ({
 };
 
 const Container = styled.div`
-  width: 174px;
+  width: 375px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   @media (max-width: 768px) {
-    margin-bottom: 0;
+    width: 335px;
+    gap: 20px;
   }
 `;
 
 const Wrap = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 24px;
+  img {
+    height: 20px;
+    width: 20px;
+  }
+  @media (max-width: 768px) {
+    gap: 4px;
+  }
 `;
 
 const Item = styled.div`
