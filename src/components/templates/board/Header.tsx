@@ -51,6 +51,8 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
     router.push(`/write?camp=${camp}`);
   };
 
+  const onlyAdmin = categoryId === 10 || categoryId === 11;
+
   return (
     <Container>
       <Top>
@@ -143,9 +145,11 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
               </CustomBtn>
             ))}
           </BtnContainer>
-          <Btn $small width="52px" height="32px" onClick={handleWrite}>
-            글쓰기
-          </Btn>
+          {(!onlyAdmin || isAdmin) && (
+            <Btn $small width="52px" height="32px" onClick={handleWrite}>
+              글쓰기
+            </Btn>
+          )}
         </Bottom>
       )}
     </Container>
