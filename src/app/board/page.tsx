@@ -10,13 +10,14 @@ import { getPeriod } from "@/utils/getDate";
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
 import Pagination from "@/components/organisms/Pagination";
-import Banner from "@/components/organisms/Banner";
 import MobileCamp from "@/components/organisms/MobileHeader";
+import Banner from "@/components/templates/board/Banner";
 import Table from "@/components/templates/board/Table";
 import Header from "@/components/templates/board/Header";
 import MobileHeader from "@/components/templates/board/MobileHeader";
 import MobileList from "@/components/templates/board/MobileList";
 import MobileSearch from "@/components/templates/board/MobileSearch";
+import useAdsQuery from "@/apis/queries/useAdsQuery";
 
 const Board = () => {
   const searchParams = useSearchParams();
@@ -48,13 +49,15 @@ const Board = () => {
   const { hotPostings, hotTotal } = usePostingHotQuery(
     isCamp ? campParams : params
   );
+  const { ads } = useAdsQuery();
 
+  if (!ads) return null;
   return (
     <>
       <Nav />
       <MobileCamp />
       <Layout>
-        <Banner />
+        <Banner ads={ads} politicalOrientationId={politicalOrientationId} />
         <Header categoryId={categoryId} />
         <MobileHeader categoryId={categoryId} />
         {!!postings && !!hotPostings && (
