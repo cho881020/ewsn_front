@@ -56,9 +56,9 @@ const MobileList = ({ list }: { list: Posting[] }) => {
               <div className="flex gap-2 mb-[5px]">
                 <Button>필독</Button>
                 <TextWrap>
-                  <Ellipsis level="sub3" color={COLORS.TEXT01}>
+                  <EllipsisTitle level="sub3" color={COLORS.TEXT01}>
                     {title}
-                  </Ellipsis>
+                  </EllipsisTitle>
                 </TextWrap>
               </div>
               <div className="flex gap-2">
@@ -191,6 +191,12 @@ const ReplyBox = styled.div`
 `;
 
 const Ellipsis = styled(Content)`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+const EllipsisTitle = styled(Title)`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
