@@ -25,6 +25,7 @@ const BannerContainer = styled.div`
   gap: 20px;
   max-width: 100%;
   padding: 0 24px;
+  margin-top: 40px;
   @media (max-width: 768px) {
     gap: 16px;
   }
