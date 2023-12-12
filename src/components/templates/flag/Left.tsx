@@ -104,7 +104,7 @@ const Left = ({ openModal }: { openModal: () => void }) => {
         </Article>
         <Article>
           <Title level="sub3">집회 기간</Title>
-          <div className="flex gap-3">
+          <div className="flex gap-3 sm:flex-col">
             <Input
               value={term.day}
               onChange={(e) =>
@@ -114,7 +114,6 @@ const Left = ({ openModal }: { openModal: () => void }) => {
                 })
               }
               placeholder="날짜(YYYY-MM-DD)"
-              $maxWidth="50%"
               required
             />
             <Input
@@ -126,7 +125,6 @@ const Left = ({ openModal }: { openModal: () => void }) => {
                 })
               }
               placeholder="시간(HH:MM)"
-              $maxWidth="50%"
               required
             />
           </div>
