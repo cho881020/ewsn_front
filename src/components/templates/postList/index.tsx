@@ -50,7 +50,7 @@ const PostList = () => {
       {!!total && !!hotTotal && (
         <Pagination
           total={searchParams.has("hot") ? hotTotal : total}
-          margin="40px auto"
+          margin="40px auto 0"
         />
       )}
       <MobileSearch categoryId={categoryId} />
