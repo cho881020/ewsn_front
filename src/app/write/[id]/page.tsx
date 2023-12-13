@@ -28,10 +28,10 @@ const Post = () => {
   const { post } = usePostQuery(Number(id));
 
   const [state, setState] = useState({
-    title: "",
-    content: "",
+    title: post?.title || "",
+    content: post?.content || "",
     isFixed: false,
-    categoryId: 0,
+    categoryId: post?.categoryId || 0,
   });
 
   const { mutate } = useEditPosting({
@@ -60,7 +60,7 @@ const Post = () => {
       isFixed: post?.isFixed || false,
       categoryId: post?.categoryId || 0,
     });
-  }, [post]);
+  }, [post, id]);
 
   return (
     <>

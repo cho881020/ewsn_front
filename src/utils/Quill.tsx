@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useMemo, useRef } from "react";
 import { NextPage } from "next";
 import { RangeStatic } from "quill";
 import ReactQuill from "react-quill";
@@ -13,7 +13,7 @@ interface IEditor {
 }
 
 const Quill: NextPage<IEditor> = ({ value, onChange }) => {
-  const quillRef = React.useRef<ReactQuill>(null);
+  const quillRef = useRef<ReactQuill>(null);
 
   // 이미지 업로드 핸들러, modules 설정보다 위에 있어야 정상 적용
   const imageHandler = () => {
@@ -51,7 +51,7 @@ const Quill: NextPage<IEditor> = ({ value, onChange }) => {
   };
 
   // useMemo를 사용하지 않고 handler를 등록할 경우 타이핑 할때마다 focus가 벗어남
-  const modules = React.useMemo(
+  const modules = useMemo(
     () => ({
       toolbar: {
         // container에 등록되는 순서대로 tool 배치
@@ -101,7 +101,6 @@ const Quill: NextPage<IEditor> = ({ value, onChange }) => {
     "list",
     "bullet",
     "indent",
-    "link",
     "image",
     "video",
     "align",
