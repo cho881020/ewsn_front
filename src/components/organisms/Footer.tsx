@@ -3,7 +3,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 
-import logo from "@/assets/common/footerLogo.png";
+import logo from "@/assets/common/footerLogo.svg";
 
 import COLORS from "@/ui/colors";
 import { Content } from "@/ui/fonts";

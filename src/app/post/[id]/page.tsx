@@ -30,6 +30,7 @@ import Reply from "@/components/templates/reply";
 import Banner from "@/components/templates/post/Banner";
 import Recommend from "@/components/templates/post/Recommend";
 import Report from "@/components/templates/post/Report";
+import Footer from "@/components/organisms/Footer";
 
 const Post = () => {
   const { id } = useParams();
@@ -137,6 +138,7 @@ const Post = () => {
         </Layout>
       )}
       <PostList />
+      <Footer />
     </>
   );
 };

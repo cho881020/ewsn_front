@@ -18,6 +18,7 @@ import MobileHeader from "@/components/templates/board/MobileHeader";
 import MobileList from "@/components/templates/board/MobileList";
 import MobileSearch from "@/components/templates/board/MobileSearch";
 import useAdsQuery from "@/apis/queries/useAdsQuery";
+import Footer from "@/components/organisms/Footer";
 
 const Board = () => {
   const searchParams = useSearchParams();
@@ -73,6 +74,7 @@ const Board = () => {
         />
         <MobileSearch categoryId={categoryId} />
       </Layout>
+      <Footer />
     </>
   );
 };
