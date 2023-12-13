@@ -58,6 +58,7 @@ const Login = () => {
               onChange={(e) => setState({ ...state, email: e.target.value })}
               placeholder="이메일"
               $center
+              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             />
             <Title level="sub3">비밀번호</Title>
             <Input
@@ -66,6 +67,7 @@ const Login = () => {
               onChange={(e) => setState({ ...state, password: e.target.value })}
               placeholder="비밀번호"
               $center
+              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             />
           </Form>
           <BtnWrap>
