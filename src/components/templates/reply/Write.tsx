@@ -91,6 +91,9 @@ const ReplyLength = styled.header`
   gap: 4px;
   width: 100%;
   padding: 8px 0;
+  @media (max-width: 768px) {
+    padding: 8px 20px;
+  }
 `;
 
 export default Write;

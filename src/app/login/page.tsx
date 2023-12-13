@@ -52,11 +52,11 @@ const Login = () => {
         <Container>
           <Image src={logo} alt="" />
           <Form>
-            <Title level="sub3">아이디</Title>
+            <Title level="sub3">이메일</Title>
             <Input
               value={email}
               onChange={(e) => setState({ ...state, email: e.target.value })}
-              placeholder="아이디"
+              placeholder="이메일"
               $center
             />
             <Title level="sub3">비밀번호</Title>
