@@ -10,6 +10,7 @@ import DATAS from "@/datas/Nav";
 import authState from "@/stores/authState";
 
 import logo from "@/assets/nav/logo.svg";
+import logo2 from "@/assets/common/logo.svg";
 
 import COLORS from "@/ui/colors";
 import { Content } from "@/ui/fonts";
@@ -32,7 +33,7 @@ const Nav = () => {
         <Container>
           <div className="flex items-center gap-7">
             <Link href="/">
-              <Image src={logo} alt="" className="cursor-pointer" width={80} />
+              <Image src={logo2} alt="" className="cursor-pointer" width={80} />
             </Link>
             {pathname === "/" ? (
               <Content level="cap2" color="#fff" className="sm:hidden">
@@ -130,7 +131,7 @@ const Btn = styled(Link)<{ $active: boolean }>`
   height: 24px;
   border-radius: 4px;
   background-color: ${({ $active }) => $active && "#fff"};
-  img{
+  img {
     width: 24px;
   }
 `;

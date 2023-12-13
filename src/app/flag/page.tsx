@@ -7,6 +7,7 @@ import Left from "@/components/templates/flag/Left";
 import Header from "@/components/templates/flag/Header";
 import ModalFlag from "@/components/organisms/ModalFlag";
 import Right from "@/components/templates/flag/Right";
+import Footer from "@/components/organisms/Footer";
 
 const Flag = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -18,6 +19,7 @@ const Flag = () => {
         <Right />
         {isOpenModal && <ModalFlag onClose={() => setIsOpenModal(false)} />}
       </Layout>
+      <Footer />
     </>
   );
 };
