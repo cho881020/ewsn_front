@@ -52,6 +52,7 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
   };
 
   const onlyAdmin = categoryId === 10 || categoryId === 11;
+  const writeAuth = isAdmin || camp === 5 || politicalOrientationId === camp;
 
   return (
     <Container>
@@ -145,7 +146,7 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
               </CustomBtn>
             ))}
           </BtnContainer>
-          {(!onlyAdmin || isAdmin) && (
+          {writeAuth && (!onlyAdmin || isAdmin) && (
             <Btn $small width="52px" height="32px" onClick={handleWrite}>
               글쓰기
             </Btn>
