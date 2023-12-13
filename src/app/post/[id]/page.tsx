@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 
 import usePostQuery from "@/apis/queries/usePostQuery";
@@ -15,7 +17,7 @@ import arrow from "@/assets/post/arrow.png";
 
 import COLORS from "@/ui/colors";
 import { BtnGray } from "@/ui/buttons";
-import { Content, Title } from "@/ui/fonts";
+import { Title } from "@/ui/fonts";
 
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
@@ -74,20 +76,11 @@ const Post = () => {
             <Header post={post} />
             <Main>
               <Posting>
-                <CustomContent
-                  level="body1l"
-                  className="sm:hidden"
-                  color={COLORS.TEXT01}
-                >
-                  {post?.content}
-                </CustomContent>
-                <CustomContent
-                  level="body2l"
-                  className="hidden sm:block"
-                  color={COLORS.TEXT01}
-                >
-                  {post?.content}
-                </CustomContent>
+                <CustomReactQuill
+                  placeholder="내용을 입력해 주세요."
+                  value={post?.content}
+                  readOnly
+                />
               </Posting>
               <Recommend post={post} likeCounts={likeCounts} />
             </Main>
@@ -184,11 +177,13 @@ const Posting = styled.div`
   }
 `;
 
-const CustomContent = styled(Content)`
-  max-width: 100%;
-  overflow: visible;
-  white-space: pre-line;
-  word-break: break-all;
+const CustomReactQuill = styled(ReactQuill)`
+  .ql-toolbar {
+    display: none;
+  }
+  .ql-snow {
+    border: none !important;
+  }
 `;
 
 export default Post;

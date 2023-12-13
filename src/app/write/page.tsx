@@ -14,13 +14,13 @@ import checkedbox from "@/assets/write/checkedbox.png";
 
 import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
-import Textarea from "@/ui/textarea";
 import { Content, Title } from "@/ui/fonts";
 import { Btn, BtnGray } from "@/ui/buttons";
 
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
 import Select from "@/components/templates/write/Select";
+import Editor from "@/components/templates/write/Editor";
 
 const Post = () => {
   const router = useRouter();
@@ -95,11 +95,9 @@ const Post = () => {
             value={title}
             onChange={(e) => setState({ ...state, title: e.target.value })}
           />
-          <CustomTextarea
-            placeholder="내용을 입력해 주세요."
-            height="628px"
+          <Editor
             value={content}
-            onChange={(e) => setState({ ...state, content: e.target.value })}
+            onChange={(e: string) => setState({ ...state, content: e })}
           />
         </div>
         <div className="flex gap-5 justify-end w-full sm:hidden">
@@ -141,13 +139,6 @@ const CustomInput = styled(Input)`
     border: none;
     border-bottom: 1px solid ${COLORS.LINE04};
     padding: 12px 20px;
-  }
-`;
-const CustomTextarea = styled(Textarea)`
-  @media (max-width: 768px) {
-    border: none;
-    padding: 12px 20px;
-    height: 540px;
   }
 `;
 
