@@ -1,20 +1,24 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
-import usePostingQuery from "@/apis/queries/usePostingQuery";
-import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
+import { Posting } from "@/types/posting";
 
 import COLORS, { CAMP_COLORS } from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
 import { Color } from "@/components/atoms/reply";
 import ModalEnter from "@/components/organisms/ModalEnter";
 
-const Board = () => {
+interface Props {
+  postings: Posting[];
+  hotPostings: Posting[];
+}
+
+const Board = ({ postings, hotPostings }: Props) => {
   const router = useRouter();
-  const { postings } = usePostingQuery({ page: 1 });
-  const { hotPostings } = usePostingHotQuery({ page: 1 });
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const POSTING = [
