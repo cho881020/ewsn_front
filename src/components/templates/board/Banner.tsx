@@ -1,12 +1,13 @@
+import Link from "next/link";
 import styled from "styled-components";
 
 import { Ad } from "@/types/ad";
-import Link from "next/link";
 
 interface Props {
   ads: Ad[];
   politicalOrientationId: number | null;
 }
+
 const Banner = ({ ads, politicalOrientationId }: Props) => {
   const banner =
     politicalOrientationId === null
