@@ -3,53 +3,35 @@
 import { useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
-import usePostingQuery from "@/apis/queries/usePostingQuery";
-import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
-import { getPeriod } from "@/utils/getDate";
 import { Ad } from "@/types/ad";
+import { Postings } from "@/types/posting";
 
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
 import Pagination from "@/components/organisms/Pagination";
 import MobileCamp from "@/components/organisms/MobileHeader";
+import Footer from "@/components/organisms/Footer";
 import Banner from "@/components/templates/board/Banner";
 import Table from "@/components/templates/board/Table";
 import Header from "@/components/templates/board/Header";
 import MobileHeader from "@/components/templates/board/MobileHeader";
 import MobileList from "@/components/templates/board/MobileList";
 import MobileSearch from "@/components/templates/board/MobileSearch";
-import Footer from "@/components/organisms/Footer";
 
-const Board = ({ ads }: { ads: Ad[] }) => {
+interface Props {
+  ads: Ad[];
+  posts: Postings;
+  hotPosts: Postings;
+}
+const Board = ({ ads, posts, hotPosts }: Props) => {
   const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
   const politicalOrientationId = Number(searchParams.get("camp")) || null;
-  const keyword = searchParams.get("keyword") || "";
   const categoryId = Number(searchParams.get("category")) || null;
-  const typeParams = searchParams.get("type") || "d";
-  const { startDate, endDate } = getPeriod(typeParams);
-  const isCamp = !!politicalOrientationId;
+  const isHot = searchParams.has("hot");
 
-  const campParams = {
-    page,
-    keyword,
-    politicalOrientationId,
-    categoryId,
-  };
-
-  const params = {
-    page,
-    keyword,
-    politicalOrientationId,
-    categoryId,
-    startDate,
-    endDate,
-  };
-
-  const { postings, total } = usePostingQuery(isCamp ? campParams : params);
-  const { hotPostings, hotTotal } = usePostingHotQuery(
-    isCamp ? campParams : params
-  );
+  const { postings, total } = posts;
+  const hotPostings = hotPosts.postings;
+  const hotTotal = hotPosts.total;
 
   return (
     <>
@@ -61,15 +43,11 @@ const Board = ({ ads }: { ads: Ad[] }) => {
         <MobileHeader categoryId={categoryId} />
         {!!postings && !!hotPostings && (
           <>
-            <Table list={searchParams.has("hot") ? hotPostings : postings} />
-            <MobileList
-              list={searchParams.has("hot") ? hotPostings : postings}
-            />
+            <Table list={isHot ? hotPostings : postings} />
+            <MobileList list={isHot ? hotPostings : postings} />
           </>
         )}
-        <Pagination
-          total={searchParams.has("hot") ? hotTotal || 0 : total || 0}
-        />
+        <Pagination total={isHot ? hotTotal : total} />
         <MobileSearch categoryId={categoryId} />
       </Layout>
       <Footer />
