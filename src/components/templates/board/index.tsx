@@ -12,6 +12,7 @@ import Pagination from "@/components/organisms/Pagination";
 import MobileCamp from "@/components/organisms/MobileHeader";
 import Footer from "@/components/organisms/Footer";
 import Banner from "@/components/templates/board/Banner";
+import Banner2 from "@/components/templates/postList/Banner";
 import Table from "@/components/templates/board/Table";
 import Header from "@/components/templates/board/Header";
 import MobileHeader from "@/components/templates/board/MobileHeader";
@@ -47,8 +48,9 @@ const Board = ({ ads, posts, hotPosts }: Props) => {
             <MobileList list={isHot ? hotPostings : postings} />
           </>
         )}
-        <Pagination total={isHot ? hotTotal : total} />
+        <Pagination total={isHot ? hotTotal : total} margin="40px auto 0" />
         <MobileSearch categoryId={categoryId} />
+        <Banner2 />
       </Layout>
       <Footer />
     </>
