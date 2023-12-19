@@ -56,7 +56,6 @@ const Login = () => {
             <Input
               value={email}
               onChange={(e) => setState({ ...state, email: e.target.value })}
-              placeholder="이메일"
               $center
               onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             />
@@ -65,7 +64,6 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setState({ ...state, password: e.target.value })}
-              placeholder="비밀번호"
               $center
               onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             />
