@@ -141,11 +141,11 @@ const Left = ({ openModal }: { openModal: () => void }) => {
           />
         </Article>
         <Article>
-          <Title level="sub3">집회 내용</Title>
+          <Title level="sub3">집회 장소 및 내용</Title>
           <Input
             value={content}
             onChange={(e) => setState({ ...state, content: e.target.value })}
-            placeholder="집회 내용"
+            placeholder="집회 장소 및 내용"
             required
           />
         </Article>
