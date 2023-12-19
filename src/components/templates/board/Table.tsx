@@ -62,16 +62,8 @@ const Table = ({ list }: { list: Posting[] }) => {
           </TR>
         </THEAD>
         <TBODY>
-          {notice?.map(
-            ({
-              id,
-              title,
-              politicalOrientationId,
-              createdAt,
-              hits,
-              user,
-              replies,
-            }) => (
+          {categoryId === 11 &&
+            notice?.map(({ id, title, createdAt, hits, user, replies }) => (
               <TR
                 key={id}
                 $active
@@ -105,8 +97,7 @@ const Table = ({ list }: { list: Posting[] }) => {
                 <TD $small>{getDate(createdAt)}</TD>
                 <TD $small>{hits}</TD>
               </TR>
-            )
-          )}
+            ))}
           {list.map(
             ({
               id,
