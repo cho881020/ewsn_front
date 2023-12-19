@@ -7,7 +7,6 @@ interface EditParams {
   nickName: string;
   phoneNumber: string;
   address: string;
-  politicalOrientationId: number;
 }
 
 const useEditMyInfo = (params: EditParams) => {

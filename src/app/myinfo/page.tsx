@@ -1,22 +1,17 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
-import dayjs from "dayjs";
 
 import useMeQuery from "@/apis/queries/useMeQuery";
 import useEditMyInfo from "@/apis/mutations/useEditMyInfo";
 
 import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
-import { Content, Title } from "@/ui/fonts";
-import { Btn, BtnGray, BtnWhite } from "@/ui/buttons";
+import { Title } from "@/ui/fonts";
+import { Btn, BtnGray } from "@/ui/buttons";
 
-import warning from "@/assets/myinfo/warning.png";
-
-import Radio from "@/components/templates/myinfo/Radio";
 import Header from "@/components/templates/myinfo/Header";
 import Nickname from "@/components/templates/myinfo/form/Nickname";
 import ModalSignout from "@/components/organisms/ModalSignout";
@@ -34,10 +29,9 @@ const MyInfo = () => {
     nickName: "",
     phoneNumber: "",
     address: "",
-    politicalOrientationId: 5,
   });
 
-  const { nickName, phoneNumber, address, politicalOrientationId } = state;
+  const { nickName, phoneNumber, address } = state;
 
   const { mutate } = useEditMyInfo(state);
 
@@ -45,12 +39,6 @@ const MyInfo = () => {
     e.preventDefault();
     if (myInfo.nickName !== nickName && !nickNameValidation)
       return alert("닉네임 검증을 해주세요.");
-    if (
-      myInfo.politicalOrientationId !== politicalOrientationId &&
-      dayjs(new Date()) <
-        dayjs(myInfo.politicalOrientationChangeDate).add(2, "month")
-    )
-      return setIsOpenErrorModal(true);
 
     mutate();
   };
@@ -60,7 +48,6 @@ const MyInfo = () => {
       nickName: myInfo?.nickName || "",
       phoneNumber: myInfo?.phoneNumber || "",
       address: myInfo?.address || "",
-      politicalOrientationId: myInfo?.politicalOrientationId || 5,
     });
   }, [myInfo]);
 
@@ -132,35 +119,6 @@ const MyInfo = () => {
                 }
                 placeholder="주소"
                 required
-              />
-            </Article>
-            <Article>
-              <Title level="sub3">정치 성향 테스트</Title>
-              <BtnWhite
-                width="119px"
-                height="44px"
-                $middle
-                type="button"
-                className="max-w-[119px]"
-              >
-                테스트 하러 가기
-              </BtnWhite>
-            </Article>
-            <Article>
-              <div className="flex gap-1 items-center">
-                <Title level="sub3" className="mr-1">
-                  정치 성향 선택
-                </Title>
-                <Image src={warning} alt="warning" />
-                <Content color={COLORS.TEXT04} level="cap2">
-                  수정 후 두 달간 수정이 불가합니다.
-                </Content>
-              </div>
-              <Radio
-                politicalOrientationId={politicalOrientationId}
-                onChangePoliticalOrientationId={(e: number) =>
-                  setState({ ...state, politicalOrientationId: e })
-                }
               />
             </Article>
             <div className="w-full text-right mb-12 sm:mb-6">

@@ -26,7 +26,7 @@ const Radio = ({
             level="body1"
             color={politicalOrientationId !== 4 ? COLORS.TEXT02 : "#000"}
           >
-            북 - 자유주의
+            북 - 권위주의
           </Content>
         </Item>
       </Wrap>
@@ -78,7 +78,7 @@ const Radio = ({
             level="body1"
             color={politicalOrientationId !== 3 ? COLORS.TEXT02 : "#000"}
           >
-            남 - 권위주의
+            남 - 자유주의
           </Content>
         </Item>
       </Wrap>
