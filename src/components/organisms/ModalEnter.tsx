@@ -22,11 +22,11 @@ const ModalEnter = ({ onClose, onEnter }: Props) => {
       <Backdrop />
       <Container>
         <Title level="head1" color="#000">
-          블라인드 안내문
+          안내문
         </Title>
         <Content level="body1l" color={COLORS.TEXT02} className="mt-[34px]">
           이 글은 회원들의 신고 누적으로 <br />
-          블라인드 처리된 게시글 입니다.
+          가려진 게시물입니다.
         </Content>
         <div className="flex mt-[42px]">
           <CustomBtn onClick={onClose} $gray>
