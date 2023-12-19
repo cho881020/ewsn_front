@@ -13,9 +13,9 @@ const LINE04 = "#F0F0F0";
 const SECONDARY = "#ECECEC";
 const PRIMARY = "#242424";
 const EAST = "#4473C5";
-const NORTH = "#93D051";
 const WEST = "#C10001";
-const SOUTH = "#FFC001";
+const SOUTH = "#93D051";
+const NORTH = "#FFC001";
 const MIDDLE = "#A6A6A6";
 
 const COLORS = {
@@ -42,8 +42,8 @@ const COLORS = {
 
 export const CAMP_COLORS = [
   { id: 1, name: "동", color: "#4473C5" },
-  { id: 2, name: "서", color: "#93D051" },
-  { id: 3, name: "남", color: "#C10001" },
+  { id: 2, name: "서", color: "#C10001" },
+  { id: 3, name: "남", color: "#93D051" },
   { id: 4, name: "북", color: "#FFC001" },
   { id: 5, name: "중", color: "#A6A6A6" },
 ];
