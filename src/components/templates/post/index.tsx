@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
@@ -8,8 +8,10 @@ import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 
 import useDeletePosting from "@/apis/mutations/useDeletePosting";
+import useReplyQuery from "@/apis/queries/useReplyQuery";
+import usePostQuery from "@/apis/queries/usePostQuery";
 import authState from "@/stores/authState";
-import { Posting, Replies } from "@/types/posting";
+import { Posting, Postings, Replies } from "@/types/posting";
 
 import arrow from "@/assets/post/arrow.png";
 
@@ -45,25 +47,54 @@ interface Props {
     bestReplies: Replies[];
     replies: Replies[];
   };
+  id: number;
+  posts: Postings;
+  hotPosts: Postings;
+  fixList: Posting[];
 }
 
-const Post = ({ post, reply }: Props) => {
+const Post = ({ post, reply, id, posts, hotPosts, fixList }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   const myInfo = useRecoilValue(authState);
-  const { posting, likeCounts } = post;
-  const { bestReplies, replies } = reply;
+
+  const [defaultPost, setDefaultPost] = useState(post);
+  const [defaultReply, setDefaultReply] = useState(reply);
+
+  const { posting, likeCounts } = defaultPost;
+  const { bestReplies, replies } = defaultReply;
   const isMine = posting?.userId === myInfo.id;
   const campId = Number(searchParams.get("camp")) || null;
+  const bannerId = campId === null ? 8 : campId + 3;
+  const isHot = searchParams.has("hot");
 
   const { mutate: deleteMutate } = useDeletePosting({
     id: posting?.id || 0,
     onSuccess: () => router.push("/board"),
   });
 
-  const bannerId = campId === null ? 8 : campId + 3;
+  const newPost = usePostQuery(id);
+  const newReply = useReplyQuery(id);
+
+  useEffect(() => {
+    if (!!newPost.posting && !!newPost.likeCounts) {
+      setDefaultPost({
+        posting: newPost.posting,
+        likeCounts: newPost.likeCounts,
+      });
+    }
+  }, [newPost.posting, newPost.likeCounts]);
+
+  useEffect(() => {
+    if (!!newReply.bestReplies && !!newReply.replies) {
+      setDefaultReply({
+        bestReplies: newReply.bestReplies,
+        replies: newReply.replies,
+      });
+    }
+  }, [newReply.bestReplies, newReply.replies]);
 
   return (
     <>
@@ -147,7 +178,7 @@ const Post = ({ post, reply }: Props) => {
           replies={replies || []}
         />
       </Layout>
-      <PostList />
+      <PostList list={isHot ? hotPosts : posts} fixList={fixList} />
       <Footer />
     </>
   );

@@ -18,7 +18,7 @@ const usePostQuery = (id: number) => {
 
   const { data } = useQuery<Post>([`posting/${id}`, id], fetcher);
 
-  return { post: data?.posting, likeCounts: data?.likeCounts };
+  return { posting: data?.posting, likeCounts: data?.likeCounts };
 };
 
 export default usePostQuery;

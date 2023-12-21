@@ -15,7 +15,7 @@ import COLORS, { CAMP_COLORS } from "@/ui/colors";
 import { TABLE, TD, TH, THEAD, TR, TBODY } from "@/components/atoms/table";
 import ModalEnter from "@/components/organisms/ModalEnter";
 
-const Table = ({ list }: { list: Posting[] }) => {
+const Table = ({ list, fixList }: { list: Posting[]; fixList: Posting[] }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [id, setId] = useState(0);
@@ -36,10 +36,6 @@ const Table = ({ list }: { list: Posting[] }) => {
           `/post/${id}?${camps}&page=${page}${hot}${category}${types}`
         );
   };
-
-  const { notice } = usePostingNoticeQuery({
-    politicalOrientationId: Number(camp) || null,
-  });
 
   return (
     <div className="w-full max-w-full sm:hidden">
@@ -62,8 +58,8 @@ const Table = ({ list }: { list: Posting[] }) => {
           </TR>
         </THEAD>
         <TBODY>
-          {categoryId === 11 &&
-            notice?.map(({ id, title, createdAt, hits, user, replies }) => (
+          {fixList?.map(
+            ({ id, title, createdAt, hits, user, replies, category }) => (
               <TR
                 key={id}
                 $active
@@ -76,7 +72,7 @@ const Table = ({ list }: { list: Posting[] }) => {
                 <TD>
                   <Btn>필독</Btn>
                 </TD>
-                <TD>공지</TD>
+                <TD>{category.name}</TD>
                 <TD $large className="flex items-center pt-1">
                   <Title
                     level="sub3"
@@ -97,7 +93,8 @@ const Table = ({ list }: { list: Posting[] }) => {
                 <TD $small>{getDate(createdAt)}</TD>
                 <TD $small>{hits}</TD>
               </TR>
-            ))}
+            )
+          )}
           {list.map(
             ({
               id,
