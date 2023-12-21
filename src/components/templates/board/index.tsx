@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
 import { Ad } from "@/types/ad";
-import { Postings } from "@/types/posting";
+import { Posting, Postings } from "@/types/posting";
 
 import { Container } from "@/components/atoms";
 import Nav from "@/components/organisms/Nav";
@@ -23,8 +23,9 @@ interface Props {
   ads: Ad[];
   posts: Postings;
   hotPosts: Postings;
+  fixList: Posting[];
 }
-const Board = ({ ads, posts, hotPosts }: Props) => {
+const Board = ({ ads, posts, hotPosts, fixList }: Props) => {
   const searchParams = useSearchParams();
   const politicalOrientationId = Number(searchParams.get("camp")) || null;
   const categoryId = Number(searchParams.get("category")) || null;
@@ -42,12 +43,8 @@ const Board = ({ ads, posts, hotPosts }: Props) => {
         <Banner ads={ads} politicalOrientationId={politicalOrientationId} />
         <Header categoryId={categoryId} />
         <MobileHeader categoryId={categoryId} />
-        {!!postings && !!hotPostings && (
-          <>
-            <Table list={isHot ? hotPostings : postings} />
-            <MobileList list={isHot ? hotPostings : postings} />
-          </>
-        )}
+        <Table list={isHot ? hotPostings : postings} fixList={fixList} />
+        <MobileList list={isHot ? hotPostings : postings} />
         <Pagination total={isHot ? hotTotal : total} margin="40px auto 0" />
         <MobileSearch categoryId={categoryId} />
         <Banner2 />

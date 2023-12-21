@@ -3,9 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
-import usePostingQuery from "@/apis/queries/usePostingQuery";
-import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
-import { getPeriod } from "@/utils/getDate";
+import { Posting, Postings } from "@/types/posting";
 
 import { Container } from "@/components/atoms";
 import Pagination from "@/components/organisms/Pagination";
@@ -16,43 +14,24 @@ import MobileHeader from "@/components/templates/board/MobileHeader";
 import MobileSearch from "@/components/templates/board/MobileSearch";
 import Banner from "@/components/templates/postList/Banner";
 
-const PostList = () => {
+interface Props {
+  list: Postings;
+  fixList: Posting[];
+}
+
+const PostList = ({ list, fixList }: Props) => {
   const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
-  const politicalOrientationId = Number(searchParams.get("camp")) || null;
-  const keyword = searchParams.get("keyword") || "";
   const categoryId = Number(searchParams.get("category")) || null;
-  const typeParams = searchParams.get("type") || "d";
-  const { startDate, endDate } = getPeriod(typeParams);
 
-  const params = {
-    page,
-    keyword,
-    politicalOrientationId,
-    categoryId,
-    startDate,
-    endDate,
-  };
-
-  const { postings, total } = usePostingQuery(params);
-  const { hotPostings, hotTotal } = usePostingHotQuery(params);
+  const { postings, total } = list;
 
   return (
     <Layout>
       <Header categoryId={categoryId} />
       <MobileHeader categoryId={categoryId} />
-      {postings && hotPostings && (
-        <>
-          <Table list={searchParams.has("hot") ? hotPostings : postings} />
-          <MobileList list={searchParams.has("hot") ? hotPostings : postings} />
-        </>
-      )}
-      {!!total && !!hotTotal && (
-        <Pagination
-          total={searchParams.has("hot") ? hotTotal : total}
-          margin="40px auto 0"
-        />
-      )}
+      <Table list={postings} fixList={fixList} />
+      <MobileList list={postings} />
+      <Pagination total={total} margin="40px auto 0" />
       <MobileSearch categoryId={categoryId} />
       <Banner />
     </Layout>

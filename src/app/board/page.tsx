@@ -55,9 +55,26 @@ export default async function Board({ searchParams }: any) {
     }
   }
 
+  async function getFix() {
+    try {
+      const response = await api.get("posting/fix", {
+        params: {
+          politicalOrientationId: camp || null,
+          categoryId: category || null,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const ads = await getAds();
   const posts = await getPostings();
   const hotPosts = await getHotPostings();
+  const fixList = await getFix();
 
-  return <Client ads={ads} posts={posts} hotPosts={hotPosts} />;
+  return (
+    <Client ads={ads} posts={posts} hotPosts={hotPosts} fixList={fixList} />
+  );
 }
