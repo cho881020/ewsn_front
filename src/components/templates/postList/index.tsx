@@ -30,7 +30,7 @@ const PostList = ({ list, fixList }: Props) => {
       <Header categoryId={categoryId} />
       <MobileHeader categoryId={categoryId} />
       <Table list={postings} fixList={fixList} />
-      <MobileList list={postings} />
+      <MobileList list={postings} fixList={fixList} />
       <Pagination total={total} margin="40px auto 0" />
       <MobileSearch categoryId={categoryId} />
       <Banner />

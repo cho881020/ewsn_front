@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import "react-quill/dist/quill.snow.css";
@@ -31,7 +32,6 @@ import Banner from "@/components/templates/post/Banner";
 import Recommend from "@/components/templates/post/Recommend";
 import Report from "@/components/templates/post/Report";
 import Footer from "@/components/organisms/Footer";
-import dynamic from "next/dynamic";
 
 const Quill = dynamic(() => import("@/utils/ReadQuill"), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
@@ -120,6 +120,7 @@ const Post = ({ post, reply, id, posts, hotPosts, fixList }: Props) => {
           </Category>
           <Header post={posting} />
           <Main>
+            <div className="hidden">{post.posting.content}</div>
             <Posting>
               <Quill value={posting?.content} />
             </Posting>
@@ -219,14 +220,5 @@ const Posting = styled.div`
     padding-bottom: 12px;
   }
 `;
-
-// const CustomReactQuill = styled(Quill)`
-//   .ql-toolbar {
-//     display: none;
-//   }
-//   .ql-snow {
-//     border: none !important;
-//   }
-// `;
 
 export default Post;

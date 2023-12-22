@@ -25,13 +25,13 @@ import Editor from "@/components/templates/write/Editor";
 const Post = () => {
   const router = useRouter();
   const { id } = useParams();
-  const { post } = usePostQuery(Number(id));
+  const { posting } = usePostQuery(Number(id));
 
   const [state, setState] = useState({
-    title: post?.title || "",
-    content: post?.content || "",
+    title: posting?.title || "",
+    content: posting?.content || "",
     isFixed: false,
-    categoryId: post?.categoryId || 0,
+    categoryId: posting?.categoryId || 0,
   });
 
   const { mutate } = useEditPosting({
@@ -55,12 +55,12 @@ const Post = () => {
 
   useEffect(() => {
     setState({
-      title: post?.title || "",
-      content: post?.content || "",
-      isFixed: post?.isFixed || false,
-      categoryId: post?.categoryId || 0,
+      title: posting?.title || "",
+      content: posting?.content || "",
+      isFixed: posting?.isFixed || false,
+      categoryId: posting?.categoryId || 0,
     });
-  }, [post, id]);
+  }, [posting, id]);
 
   return (
     <>
@@ -76,10 +76,10 @@ const Post = () => {
         </div>
         <Header>
           <Title level="head1" className="sm:hidden">
-            {post?.politicalOrientation?.name}
+            {posting?.politicalOrientation?.name}
           </Title>
           <Title level="sub3" className="hidden sm:block">
-            {post?.politicalOrientation?.name}
+            {posting?.politicalOrientation?.name}
           </Title>
           <Image src={arrow} alt="arrow" className="sm:w-4" />
           <Select
@@ -87,7 +87,7 @@ const Post = () => {
             onChangeCategoryId={(e) => setState({ ...state, categoryId: e })}
           />
         </Header>
-        {categoryId === 11 && (
+        {(categoryId === 10 || categoryId === 11) && (
           <ImageWrap>
             <Image
               src={isFixed ? checkedbox : checkbox}
@@ -98,7 +98,7 @@ const Post = () => {
               color={COLORS.TEXT02}
               onClick={() => setState({ ...state, isFixed: !isFixed })}
             >
-              공지 고정
+              고정
             </Content>
           </ImageWrap>
         )}

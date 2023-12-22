@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
-import usePostingNoticeQuery from "@/apis/queries/usePostingNoticeQuery";
 import { Posting } from "@/types/posting";
 import { getDate } from "@/utils/getDate";
 import { HEADERS } from "@/datas/Board";
