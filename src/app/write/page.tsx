@@ -74,7 +74,7 @@ const Post = () => {
             onChangeCategoryId={(e) => setState({ ...state, categoryId: e })}
           />
         </Header>
-        {categoryId === 11 && (
+        {(categoryId === 10 || categoryId === 11) && (
           <ImageWrap>
             <Image
               src={isFixed ? checkedbox : checkbox}
@@ -85,7 +85,7 @@ const Post = () => {
               color={COLORS.TEXT02}
               onClick={() => setState({ ...state, isFixed: !isFixed })}
             >
-              공지 고정
+              고정
             </Content>
           </ImageWrap>
         )}

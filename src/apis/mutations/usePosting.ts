@@ -24,7 +24,7 @@ const usePosting = (params: Params) => {
   const { mutate } = useMutation(fetcher, {
     onSuccess: (result) => {
       queryClient.invalidateQueries(["posting"]);
-      queryClient.invalidateQueries(["posting/notice"]);
+      queryClient.invalidateQueries(["posting/fix"]);
       router.push(
         `post/${result.data.id}?camp=${params.politicalOrientationId}&category=${params.categoryId}`
       );

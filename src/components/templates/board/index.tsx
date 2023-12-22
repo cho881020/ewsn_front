@@ -44,7 +44,7 @@ const Board = ({ ads, posts, hotPosts, fixList }: Props) => {
         <Header categoryId={categoryId} />
         <MobileHeader categoryId={categoryId} />
         <Table list={isHot ? hotPostings : postings} fixList={fixList} />
-        <MobileList list={isHot ? hotPostings : postings} />
+        <MobileList list={isHot ? hotPostings : postings} fixList={fixList} />
         <Pagination total={isHot ? hotTotal : total} margin="40px auto 0" />
         <MobileSearch categoryId={categoryId} />
         <Banner2 />

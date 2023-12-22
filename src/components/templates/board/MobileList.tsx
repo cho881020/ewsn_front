@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
-import usePostingNoticeQuery from "@/apis/queries/usePostingNoticeQuery";
 import { Posting } from "@/types/posting";
 import { getDate } from "@/utils/getDate";
 
@@ -13,7 +12,13 @@ import COLORS, { CAMP_COLORS } from "@/ui/colors";
 
 import ModalEnter from "@/components/organisms/ModalEnter";
 
-const MobileList = ({ list }: { list: Posting[] }) => {
+const MobileList = ({
+  list,
+  fixList,
+}: {
+  list: Posting[];
+  fixList: Posting[];
+}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [id, setId] = useState(0);
@@ -35,14 +40,10 @@ const MobileList = ({ list }: { list: Posting[] }) => {
         );
   };
 
-  const { notice } = usePostingNoticeQuery({
-    politicalOrientationId: Number(camp) || null,
-  });
-
   return (
     <div className="w-full max-w-full hidden sm:block">
       <Container>
-        {notice?.map(({ id, title, createdAt, hits, user, replies }) => (
+        {fixList?.map(({ id, title, createdAt, hits, user, replies }) => (
           <Item
             key={id}
             $active
