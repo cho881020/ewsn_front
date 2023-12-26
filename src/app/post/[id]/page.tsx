@@ -1,12 +1,14 @@
 import api from "@/apis/client";
 
-import Client from "@/components/templates/post";
 import { getPeriod } from "@/utils/getDate";
+
+import Client from "@/components/templates/post";
 
 export default async function Post({ params, searchParams }: any) {
   const { id } = params;
-  const { page, camp, category, type, keyword } = searchParams;
+  const { page, camp, category, type, keyword, hot } = searchParams;
   const { startDate, endDate } = getPeriod(type || "d");
+  const isHot = !!hot;
   const isCamp = !!camp;
   const campParams = {
     page: page || 1,
@@ -89,9 +91,9 @@ export default async function Post({ params, searchParams }: any) {
       post={post}
       reply={reply}
       id={id}
-      posts={posts}
-      hotPosts={hotPosts}
+      posts={isHot ? hotPosts : posts}
       fixList={fixList}
+      params={isCamp ? campParams : noCampParams}
     />
   );
 }

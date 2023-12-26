@@ -1,3 +1,5 @@
+import { CampParams, Params } from "@/types/params";
+
 export interface Replies {
   id: number;
   content: string;
@@ -60,4 +62,22 @@ export interface Posting {
 export interface Postings {
   postings: Posting[];
   total: number;
+}
+
+export interface PostType {
+  post: {
+    posting: Posting;
+    likeCounts: {
+      likes: number;
+      disLikes: number;
+    };
+  };
+  reply: {
+    bestReplies: Replies[];
+    replies: Replies[];
+  };
+  id: number;
+  posts: Postings;
+  fixList: Posting[];
+  params: Params | CampParams;
 }

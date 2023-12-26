@@ -37,7 +37,9 @@ const Post = () => {
   const { mutate } = useEditPosting({
     ...state,
     id: Number(id),
-    onSuccess: () => router.back(),
+    onSuccess: () => {
+      router.back();
+    },
   });
 
   const handleCancel = () => {
