@@ -1,9 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
+import usePostingNoticeQuery from "@/apis/queries/usePostingNoticeQuery";
+import usePostingQuery from "@/apis/queries/usePostingQuery";
+import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
 import { Ad } from "@/types/ad";
+import { CampParams, Params } from "@/types/params";
 import { Posting, Postings } from "@/types/posting";
 
 import { Container } from "@/components/atoms";
@@ -22,18 +27,37 @@ import MobileSearch from "@/components/templates/board/MobileSearch";
 interface Props {
   ads: Ad[];
   posts: Postings;
-  hotPosts: Postings;
   fixList: Posting[];
+  params: Params | CampParams;
 }
-const Board = ({ ads, posts, hotPosts, fixList }: Props) => {
+
+const Board = ({ ads, posts, fixList, params }: Props) => {
   const searchParams = useSearchParams();
+  const isHot = searchParams.has("hot");
   const politicalOrientationId = Number(searchParams.get("camp")) || null;
   const categoryId = Number(searchParams.get("category")) || null;
-  const isHot = searchParams.has("hot");
 
-  const { postings, total } = posts;
-  const hotPostings = hotPosts.postings;
-  const hotTotal = hotPosts.total;
+  const [postingList, setPostingList] = useState(posts);
+  const [postingFixList, setPostingFixList] = useState(fixList);
+
+  const { postings, total } = usePostingQuery(params);
+  const { hotPostings, hotTotal } = usePostingHotQuery(params);
+  const { data: newFixPost, isLoading } = usePostingNoticeQuery({
+    politicalOrientationId: params.politicalOrientationId,
+    categoryId: params.categoryId,
+  });
+
+  useEffect(() => {
+    isHot
+      ? setPostingList({ postings: postings || [], total: total || 0 })
+      : setPostingList({ postings: hotPostings || [], total: hotTotal || 0 });
+  }, [postings, hotPostings]);
+
+  useEffect(() => {
+    if (!!newFixPost) {
+      setPostingFixList(newFixPost);
+    }
+  }, [newFixPost, isLoading]);
 
   return (
     <>
@@ -43,9 +67,9 @@ const Board = ({ ads, posts, hotPosts, fixList }: Props) => {
         <Banner ads={ads} politicalOrientationId={politicalOrientationId} />
         <Header categoryId={categoryId} />
         <MobileHeader categoryId={categoryId} />
-        <Table list={isHot ? hotPostings : postings} fixList={fixList} />
-        <MobileList list={isHot ? hotPostings : postings} fixList={fixList} />
-        <Pagination total={isHot ? hotTotal : total} margin="40px auto 0" />
+        <Table list={postingList.postings} fixList={postingFixList} />
+        <MobileList list={postingList.postings} fixList={postingFixList} />
+        <Pagination total={postingList.total} margin="40px auto 0" />
         <MobileSearch categoryId={categoryId} />
         <Banner2 />
       </Layout>

@@ -11,8 +11,11 @@ import styled from "styled-components";
 import useDeletePosting from "@/apis/mutations/useDeletePosting";
 import useReplyQuery from "@/apis/queries/useReplyQuery";
 import usePostQuery from "@/apis/queries/usePostQuery";
+import usePostingQuery from "@/apis/queries/usePostingQuery";
+import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
+import usePostingNoticeQuery from "@/apis/queries/usePostingNoticeQuery";
 import authState from "@/stores/authState";
-import { Posting, Postings, Replies } from "@/types/posting";
+import { PostType } from "@/types/posting";
 
 import arrow from "@/assets/post/arrow.png";
 
@@ -35,40 +38,23 @@ import Footer from "@/components/organisms/Footer";
 
 const Quill = dynamic(() => import("@/utils/ReadQuill"), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
-interface Props {
-  post: {
-    posting: Posting;
-    likeCounts: {
-      likes: number;
-      disLikes: number;
-    };
-  };
-  reply: {
-    bestReplies: Replies[];
-    replies: Replies[];
-  };
-  id: number;
-  posts: Postings;
-  hotPosts: Postings;
-  fixList: Posting[];
-}
-
-const Post = ({ post, reply, id, posts, hotPosts, fixList }: Props) => {
+const Post = ({ post, reply, id, posts, fixList, params }: PostType) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-
+  const isHot = searchParams.has("hot");
   const myInfo = useRecoilValue(authState);
 
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [defaultPost, setDefaultPost] = useState(post);
   const [defaultReply, setDefaultReply] = useState(reply);
+  const [postingList, setPostingList] = useState(posts);
+  const [postingFixList, setPostingFixList] = useState(fixList);
 
   const { posting, likeCounts } = defaultPost;
   const { bestReplies, replies } = defaultReply;
   const isMine = posting?.userId === myInfo.id;
   const campId = Number(searchParams.get("camp")) || null;
   const bannerId = campId === null ? 8 : campId + 3;
-  const isHot = searchParams.has("hot");
 
   const { mutate: deleteMutate } = useDeletePosting({
     id: posting?.id || 0,
@@ -77,24 +63,38 @@ const Post = ({ post, reply, id, posts, hotPosts, fixList }: Props) => {
 
   const newPost = usePostQuery(id);
   const newReply = useReplyQuery(id);
+  const { postings, total } = usePostingQuery(params);
+  const { hotPostings, hotTotal } = usePostingHotQuery(params);
+  const { data: newFixPostList, isLoading } = usePostingNoticeQuery({
+    politicalOrientationId: params.politicalOrientationId,
+    categoryId: params.categoryId,
+  });
 
   useEffect(() => {
-    if (!!newPost.posting && !!newPost.likeCounts) {
-      setDefaultPost({
-        posting: newPost.posting,
-        likeCounts: newPost.likeCounts,
-      });
+    const { posting, likeCounts } = newPost;
+    if (!!posting && !!likeCounts) {
+      setDefaultPost({ posting, likeCounts });
     }
   }, [newPost.posting, newPost.likeCounts]);
 
   useEffect(() => {
-    if (!!newReply.bestReplies && !!newReply.replies) {
-      setDefaultReply({
-        bestReplies: newReply.bestReplies,
-        replies: newReply.replies,
-      });
+    const { bestReplies, replies } = newReply;
+    if (!!bestReplies && !!replies) {
+      setDefaultReply({ bestReplies, replies });
     }
   }, [newReply.bestReplies, newReply.replies]);
+
+  useEffect(() => {
+    isHot
+      ? setPostingList({ postings: postings || [], total: total || 0 })
+      : setPostingList({ postings: hotPostings || [], total: hotTotal || 0 });
+  }, [postings, hotPostings]);
+
+  useEffect(() => {
+    if (!!newFixPostList) {
+      setPostingFixList(newFixPostList);
+    }
+  }, [newFixPostList, isLoading]);
 
   return (
     <>
@@ -179,7 +179,7 @@ const Post = ({ post, reply, id, posts, hotPosts, fixList }: Props) => {
           replies={replies || []}
         />
       </Layout>
-      <PostList list={isHot ? hotPosts : posts} fixList={fixList} />
+      <PostList list={postingList} fixList={postingFixList} />
       <Footer />
     </>
   );

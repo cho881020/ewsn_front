@@ -5,24 +5,22 @@ import { Posting } from "@/types/posting";
 
 interface Props {
   politicalOrientationId: number | null;
+  categoryId: number | null;
 }
 
 const usePostingNoticeQuery = (params?: Props) => {
-  const url = "posting/notice";
+  const url = "posting/fix";
 
   const fetcher = async () => {
-    if (params?.politicalOrientationId) {
+    if (params?.politicalOrientationId && params?.categoryId) {
       const { data } = await instance.get(url, { params });
       return data;
     }
   };
 
-  const { data } = useQuery<Posting[]>([url, params], fetcher, {
-    cacheTime: 120000,
-    staleTime: 60000,
-  });
+  const { data, isLoading } = useQuery<Posting[]>([url, params], fetcher);
 
-  return { notice: data };
+  return { data, isLoading };
 };
 
 export default usePostingNoticeQuery;

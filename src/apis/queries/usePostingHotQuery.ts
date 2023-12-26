@@ -20,10 +20,7 @@ const usePostingHotQuery = (params?: Props) => {
     return data;
   };
 
-  const { data } = useQuery<Postings>([url, params], fetcher, {
-    cacheTime: 120000,
-    staleTime: 60000,
-  });
+  const { data } = useQuery<Postings>([url, params], fetcher);
 
   return { hotPostings: data?.postings, hotTotal: data?.total };
 };

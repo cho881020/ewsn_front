@@ -24,7 +24,7 @@ const useEditPosting = (props: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries([`posting/${id}`]);
       queryClient.invalidateQueries(["posting"]);
-      queryClient.invalidateQueries(["posting/notice"]);
+      queryClient.invalidateQueries(["posting/fix"]);
       onSuccess();
     },
     onError: (err) => {

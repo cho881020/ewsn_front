@@ -12,13 +12,12 @@ import COLORS, { CAMP_COLORS } from "@/ui/colors";
 
 import ModalEnter from "@/components/organisms/ModalEnter";
 
-const MobileList = ({
-  list,
-  fixList,
-}: {
+interface Props {
   list: Posting[];
   fixList: Posting[];
-}) => {
+}
+
+const MobileList = ({ list, fixList }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [id, setId] = useState(0);
