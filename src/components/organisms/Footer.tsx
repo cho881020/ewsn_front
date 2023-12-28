@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 
@@ -7,8 +8,10 @@ import logo from "@/assets/common/footerLogo.svg";
 
 import COLORS from "@/ui/colors";
 import { Content } from "@/ui/fonts";
+import ModalTerms from "@/components/organisms/ModalTerms";
 
 const Footer = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
   return (
     <Wrapper>
       <Container>
@@ -42,16 +45,29 @@ const Footer = () => {
             </Content>
           </div>
           <Content level="cap2" color={COLORS.TEXT05}>
-            Copyright ©OOO. All Rights Reserved.
+            Copyright ©iillllilil. All Rights Reserved.
           </Content>
           <div className="flex gap-2 items-center">
-            <Content level="cap1b" color={COLORS.TEXT05}>
-              개인정보처리방침
-            </Content>
+            <a
+              href="https://plip.kr/pcc/99987e74-c04c-4eb2-9899-0503557bcdb3/privacy/1.html"
+              target="_blank"
+            >
+              <Content level="cap1b" color={COLORS.TEXT05}>
+                개인정보처리방침
+              </Content>
+            </a>
             <Line />
-            <Content level="cap1b" color={COLORS.TEXT05}>
+            <Content
+              className="cursor-pointer"
+              level="cap1b"
+              color={COLORS.TEXT05}
+              onClick={() => setIsOpenModal(true)}
+            >
               이용약관
             </Content>
+            {isOpenModal && (
+              <ModalTerms onClose={() => setIsOpenModal(false)} />
+            )}
           </div>
         </Right>
       </Container>
