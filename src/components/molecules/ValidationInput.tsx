@@ -19,6 +19,7 @@ interface Props {
   type?: string;
   required?: boolean;
   maxLength?: number;
+  readOnly?: boolean;
 }
 
 const ValidationInput = ({
@@ -32,6 +33,7 @@ const ValidationInput = ({
   type,
   required,
   maxLength,
+  readOnly,
 }: Props) => {
   const isValidation = success || failure;
 
@@ -48,6 +50,7 @@ const ValidationInput = ({
           $noneBorder
           required={required}
           maxLength={maxLength}
+          readOnly={readOnly}
         />
         {isValidation && (
           <Image src={success ? iconSuccess : iconFalse} alt="" />
