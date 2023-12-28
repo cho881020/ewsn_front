@@ -16,36 +16,29 @@ const Footer = () => {
         <Right>
           <div className="flex gap-2 items-center sm:hidden">
             <Content level="cap2" color={COLORS.TEXT05}>
-              회사명 : 동서남북
+              회사명 : iillllilil
             </Content>
             <Line />
             <Content level="cap2" color={COLORS.TEXT05}>
-              대표자 : 홍길동
+              대표자 : 안도영
             </Content>
             <Line />
             <Content level="cap2" color={COLORS.TEXT05}>
-              전화번호: 000-0000-0000
-            </Content>
-            <Line />
-            <Content level="cap2" color={COLORS.TEXT05}>
-              E-mail : email@email.com
+              E-mail : iillllilil@nate.com
             </Content>
           </div>
           <div className="gap-2 justify-center hidden sm:flex flex-col">
             <div className="flex gap-2">
               <Content level="cap2" color={COLORS.TEXT05}>
-                회사명 : 동서남북
+                회사명 : iillllilil
               </Content>
               <Line />
               <Content level="cap2" color={COLORS.TEXT05}>
-                대표자 : 홍길동
+                대표자 : 안도영
               </Content>
             </div>
             <Content level="cap2" color={COLORS.TEXT05}>
-              전화번호: 000-0000-0000
-            </Content>
-            <Content level="cap2" color={COLORS.TEXT05}>
-              E-mail : email@email.com
+              E-mail : iillllilil@nate.com
             </Content>
           </div>
           <Content level="cap2" color={COLORS.TEXT05}>
