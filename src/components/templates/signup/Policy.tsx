@@ -33,7 +33,7 @@ const Policy = ({ onChangePolicy }: Props) => {
   return (
     <>
       {DATA.map(({ type, link, content, system }) => (
-        <Row>
+        <Row key={type}>
           <Item onClick={() => handleChecked(type)}>
             <Image src={isChecked[type] ? checked : unchecked} alt="checkbox" />
             <Content>{content}</Content>
