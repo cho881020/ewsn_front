@@ -37,8 +37,8 @@ const MyInfo = () => {
 
   const handleChange = async (e: FormEvent) => {
     e.preventDefault();
-    if (myInfo.nickName !== nickName && !nickNameValidation)
-      return alert("닉네임 검증을 해주세요.");
+    // if (myInfo.nickName !== nickName && !nickNameValidation)
+    //   return alert("닉네임 검증을 해주세요.");
 
     mutate();
   };
@@ -82,11 +82,19 @@ const MyInfo = () => {
               )}
             </Article>
             <Article>
-              <Nickname
+              {/* <Nickname
                 value={nickName}
                 onChange={(e: string) => setState({ ...state, nickName: e })}
                 validation={nickNameValidation}
                 onChangeValidation={(e: boolean) => setNickNameValidation(e)}
+              /> */}
+              <Title level="sub3">닉네임</Title>
+              <Input
+                value={myInfo?.nickName}
+                placeholder="닉네임"
+                required
+                disabled
+                $gray
               />
             </Article>
             <Article>
