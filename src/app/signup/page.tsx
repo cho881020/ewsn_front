@@ -16,8 +16,10 @@ import Email from "@/components/templates/signup/form/Email";
 import Nickname from "@/components/templates/signup/form/Nickname";
 import Password from "@/components/templates/signup/form/Password";
 import EmailAuth from "@/components/templates/signup/form/EmailAuth";
+import Policy from "@/components/templates/signup/Policy";
 
 const SignUp = () => {
+  const [isCheckedPolicy, setIsCheckedPolicy] = useState(false);
   const [validations, setValidations] = useState({
     email: false,
     password: false,
@@ -40,6 +42,8 @@ const SignUp = () => {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+    if (!isCheckedPolicy)
+      return alert("이용약관 및 개인정보 수집에 동의해주세요.");
     if (!validations.email) return alert("이메일 검증을 해주세요.");
     if (!validations.password) return alert("패스워드 검증을 해주세요.");
     if (!validations.nickName) return alert("닉네임 검증을 해주세요.");
@@ -124,7 +128,8 @@ const SignUp = () => {
                 setState({ ...state, politicalOrientationId: e })
               }
             />
-            <Btn>가입하기</Btn>
+            <Policy onChangePolicy={(e: boolean) => setIsCheckedPolicy(e)} />
+            <Btn className="mt-9">가입하기</Btn>
           </Form>
         </Container>
       </Layout>
