@@ -42,42 +42,43 @@ const MobileList = ({ list, fixList }: Props) => {
   return (
     <div className="w-full max-w-full hidden sm:block">
       <Container>
-        {fixList?.map(({ id, title, createdAt, hits, user, replies }) => (
-          <Item
-            key={id}
-            $active
-            className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
-            onClick={() => {
-              setId(id);
-              handleEnterPost(id, false);
-            }}
-          >
-            <div className="flex flex-col">
-              <div className="flex gap-2 mb-[5px]">
-                <Button>필독</Button>
-                <TextWrap>
-                  <EllipsisTitle level="sub3" color={COLORS.TEXT01}>
-                    {title}
-                  </EllipsisTitle>
-                </TextWrap>
+        {(categoryId === 10 || categoryId === 11) &&
+          fixList?.map(({ id, title, createdAt, hits, user, replies }) => (
+            <Item
+              key={id}
+              $active
+              className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
+              onClick={() => {
+                setId(id);
+                handleEnterPost(id, false);
+              }}
+            >
+              <div className="flex flex-col">
+                <div className="flex gap-2 mb-[5px]">
+                  <Button>필독</Button>
+                  <TextWrap>
+                    <EllipsisTitle level="sub3" color={COLORS.TEXT01}>
+                      {title}
+                    </EllipsisTitle>
+                  </TextWrap>
+                </div>
+                <div className="flex gap-2">
+                  <Content level="cap2" color={COLORS.TEXT04}>
+                    {user.nickName}
+                  </Content>
+                  <Content level="cap2" color={COLORS.TEXT04}>
+                    {getDate(createdAt, "m")}
+                  </Content>
+                  <Content level="cap2" color={COLORS.TEXT04}>
+                    조회 {hits}
+                  </Content>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <Content level="cap2" color={COLORS.TEXT04}>
-                  {user.nickName}
-                </Content>
-                <Content level="cap2" color={COLORS.TEXT04}>
-                  {getDate(createdAt, "m")}
-                </Content>
-                <Content level="cap2" color={COLORS.TEXT04}>
-                  조회 {hits}
-                </Content>
-              </div>
-            </div>
-            <ReplyBox>
-              <Title level="sub2">{replies?.length || 0}</Title>
-            </ReplyBox>
-          </Item>
-        ))}
+              <ReplyBox>
+                <Title level="sub2">{replies?.length || 0}</Title>
+              </ReplyBox>
+            </Item>
+          ))}
         {list.map(
           ({
             id,

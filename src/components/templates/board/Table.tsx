@@ -57,43 +57,44 @@ const Table = ({ list, fixList }: { list: Posting[]; fixList: Posting[] }) => {
           </TR>
         </THEAD>
         <TBODY>
-          {fixList?.map(
-            ({ id, title, createdAt, hits, user, replies, category }) => (
-              <TR
-                key={id}
-                $active
-                className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
-                onClick={() => {
-                  setId(id);
-                  handleEnterPost(id, false);
-                }}
-              >
-                <TD>
-                  <Btn>필독</Btn>
-                </TD>
-                <TD>{category.name}</TD>
-                <TD $large className="flex items-center pt-1">
-                  <Title
-                    level="sub3"
-                    color={COLORS.TEXT01}
-                    className="max-w-[614px]"
-                  >
-                    {title}
-                  </Title>
-                  <Title
-                    level="sub2"
-                    color={COLORS.RED}
-                    className="ml-2 min-w-[26px]"
-                  >
-                    {!!replies.length && replies.length}
-                  </Title>
-                </TD>
-                <TD>{user.nickName}</TD>
-                <TD $small>{getDate(createdAt)}</TD>
-                <TD $small>{hits}</TD>
-              </TR>
-            )
-          )}
+          {(categoryId === 10 || categoryId === 11) &&
+            fixList?.map(
+              ({ id, title, createdAt, hits, user, replies, category }) => (
+                <TR
+                  key={id}
+                  $active
+                  className="h-[44px] border-b border-[#f0f0f0] last:border-none cursor-pointer"
+                  onClick={() => {
+                    setId(id);
+                    handleEnterPost(id, false);
+                  }}
+                >
+                  <TD>
+                    <Btn>필독</Btn>
+                  </TD>
+                  <TD>{category.name}</TD>
+                  <TD $large className="flex items-center pt-1">
+                    <Title
+                      level="sub3"
+                      color={COLORS.TEXT01}
+                      className="max-w-[614px]"
+                    >
+                      {title}
+                    </Title>
+                    <Title
+                      level="sub2"
+                      color={COLORS.RED}
+                      className="ml-2 min-w-[26px]"
+                    >
+                      {!!replies.length && replies.length}
+                    </Title>
+                  </TD>
+                  <TD>{user.nickName}</TD>
+                  <TD $small>{getDate(createdAt)}</TD>
+                  <TD $small>{hits}</TD>
+                </TR>
+              )
+            )}
           {list.map(
             ({
               id,
