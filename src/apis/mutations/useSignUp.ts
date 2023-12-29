@@ -9,7 +9,7 @@ interface SignUpParams {
   nickName: string;
   name: string;
   phoneNumber: string;
-  address: string;
+  gender: string;
   politicalOrientationId: number;
 }
 

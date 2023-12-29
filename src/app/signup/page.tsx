@@ -1,13 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Image from "next/image";
 import styled from "styled-components";
 
 import useSignUp from "@/apis/mutations/useSignUp";
 
+import radio from "@/assets/signup/radio.png";
+import radioActive from "@/assets/signup/radioActive.png";
 import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
-import { Title } from "@/ui/fonts";
+import { Content, Title } from "@/ui/fonts";
 import { Btn, BtnWhite } from "@/ui/buttons";
 
 import Radio from "@/components/templates/signup/Radio";
@@ -32,18 +35,19 @@ const SignUp = () => {
     nickName: "",
     name: "",
     phoneNumber: "",
-    address: "",
+    gender: "",
     politicalOrientationId: 5,
   });
 
-  const { email, password, nickName, name, phoneNumber, address } = state;
+  const { email, password, nickName, name, phoneNumber, gender } = state;
 
   const { mutate } = useSignUp();
 
-  const handleLogin = async (e: FormEvent) => {
+  const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
     if (!isCheckedPolicy)
       return alert("이용약관 및 개인정보 수집에 동의해주세요.");
+    if (!gender) return alert("성별을 선택해주세요.");
     if (!validations.email) return alert("이메일 검증을 해주세요.");
     if (!validations.password) return alert("패스워드 검증을 해주세요.");
     if (!validations.nickName) return alert("닉네임 검증을 해주세요.");
@@ -56,7 +60,7 @@ const SignUp = () => {
       <Header />
       <Layout>
         <Container>
-          <Form onSubmit={handleLogin}>
+          <Form onSubmit={handleSignup}>
             <Email
               value={email}
               onChange={(e: string) => setState({ ...state, email: e })}
@@ -103,14 +107,21 @@ const SignUp = () => {
               className="mb-3"
               required
             />
-            <Title level="sub3">주소</Title>
-            <Input
-              value={address}
-              onChange={(e) => setState({ ...state, address: e.target.value })}
-              placeholder="주소"
-              className="mb-3"
-              required
-            />
+            <Title level="sub3">성별</Title>
+            <div className="flex gap-4 mb-4">
+              <Item onClick={() => setState({ ...state, gender: "male" })}>
+                <Image src={gender === "male" ? radioActive : radio} alt="" />
+                <Content color={gender === "male" ? "#000" : COLORS.TEXT02}>
+                  남성
+                </Content>
+              </Item>
+              <Item onClick={() => setState({ ...state, gender: "female" })}>
+                <Image src={gender === "female" ? radioActive : radio} alt="" />
+                <Content color={gender === "female" ? "#000" : COLORS.TEXT02}>
+                  여성
+                </Content>
+              </Item>
+            </div>
             <Title level="sub3">정치 성향 테스트</Title>
             <BtnWhite
               width="119px"
@@ -169,6 +180,12 @@ const Form = styled.form`
   @media (max-width: 768px) {
     max-width: 500px;
   }
+`;
+
+const Item = styled.div`
+  display: flex;
+  gap: 4px;
+  cursor: pointer;
 `;
 
 export default SignUp;

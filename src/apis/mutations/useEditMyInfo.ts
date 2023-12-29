@@ -6,7 +6,6 @@ import api from "@/apis/client";
 interface EditParams {
   nickName: string;
   phoneNumber: string;
-  address: string;
 }
 
 const useEditMyInfo = (params: EditParams) => {
