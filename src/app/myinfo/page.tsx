@@ -1,15 +1,18 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 import useMeQuery from "@/apis/queries/useMeQuery";
 import useEditMyInfo from "@/apis/mutations/useEditMyInfo";
 
+import radio from "@/assets/signup/radio.png";
+import radioActive from "@/assets/signup/radioActive.png";
 import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
-import { Title } from "@/ui/fonts";
+import { Content, Title } from "@/ui/fonts";
 import { Btn, BtnGray } from "@/ui/buttons";
 
 import Header from "@/components/templates/myinfo/Header";
@@ -28,10 +31,9 @@ const MyInfo = () => {
   const [state, setState] = useState({
     nickName: "",
     phoneNumber: "",
-    address: "",
   });
 
-  const { nickName, phoneNumber, address } = state;
+  const { nickName, phoneNumber } = state;
 
   const { mutate } = useEditMyInfo(state);
 
@@ -47,11 +49,11 @@ const MyInfo = () => {
     setState({
       nickName: myInfo?.nickName || "",
       phoneNumber: myInfo?.phoneNumber || "",
-      address: myInfo?.address || "",
     });
   }, [myInfo]);
 
   if (!myInfo) return null;
+  const { gender } = myInfo;
   return (
     <>
       <Header />
@@ -119,15 +121,24 @@ const MyInfo = () => {
               />
             </Article>
             <Article>
-              <Title level="sub3">주소</Title>
-              <Input
-                value={address}
-                onChange={(e) =>
-                  setState({ ...state, address: e.target.value })
-                }
-                placeholder="주소"
-                required
-              />
+              <Title level="sub3">성별</Title>
+              <div className="flex gap-4 mb-4">
+                <Item>
+                  <Image src={gender === "male" ? radioActive : radio} alt="" />
+                  <Content color={gender === "male" ? "#000" : COLORS.TEXT02}>
+                    남성
+                  </Content>
+                </Item>
+                <Item>
+                  <Image
+                    src={gender === "female" ? radioActive : radio}
+                    alt=""
+                  />
+                  <Content color={gender === "female" ? "#000" : COLORS.TEXT02}>
+                    여성
+                  </Content>
+                </Item>
+              </div>
             </Article>
             <div className="w-full text-right mb-12 sm:mb-6">
               <BtnSignout
@@ -200,6 +211,12 @@ const Article = styled.article`
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+const Item = styled.div`
+  display: flex;
+  gap: 4px;
+  cursor: pointer;
 `;
 
 export default MyInfo;
