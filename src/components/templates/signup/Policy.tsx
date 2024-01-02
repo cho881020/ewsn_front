@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 
-import { DATA } from "@/datas/policy";
-
 import unchecked from "@/assets/flag/checkbox.png";
 import checked from "@/assets/flag/checkboxChecked.png";
 import COLORS from "@/ui/colors";
 
 import ModalTerms from "@/components/organisms/ModalTerms";
+import ModalPolicy from "@/components/organisms/ModalPolicy";
 
 interface Props {
   onChangePolicy: (e: boolean) => void;
@@ -18,7 +17,8 @@ interface Props {
 
 const Policy = ({ onChangePolicy }: Props) => {
   const [isChecked, setIsChecked] = useState([false, false, false]);
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenTermsModal, setIsOpenTermsModal] = useState(false);
+  const [isOpenPolicyModal, setIsOpenPolicyModal] = useState(false);
 
   const handleChecked = (type: number) => {
     let newChecked = [...isChecked];
@@ -32,22 +32,37 @@ const Policy = ({ onChangePolicy }: Props) => {
 
   return (
     <>
-      {DATA.map(({ type, link, content, system }) => (
-        <Row key={type}>
-          <Item onClick={() => handleChecked(type)}>
-            <Image src={isChecked[type] ? checked : unchecked} alt="checkbox" />
-            <Content>{content}</Content>
-          </Item>
-          {link ? (
-            <a href={link} target="_blank">
-              <System>{system}</System>
-            </a>
-          ) : (
-            <System onClick={() => setIsOpenModal(true)}>{system}</System>
-          )}
-        </Row>
-      ))}
-      {isOpenModal && <ModalTerms onClose={() => setIsOpenModal(false)} />}
+      <Row>
+        <Item onClick={() => handleChecked(0)}>
+          <Image src={isChecked[0] ? checked : unchecked} alt="checkbox" />
+          <Content>이용 약관에 동의합니다.</Content>
+        </Item>
+        <System onClick={() => setIsOpenTermsModal(true)}>이용약관</System>
+      </Row>
+
+      <Row>
+        <Item onClick={() => handleChecked(1)}>
+          <Image src={isChecked[1] ? checked : unchecked} alt="checkbox" />
+          <Content>개인 정보 수집 및 이용에 동의 합니다.</Content>
+        </Item>
+        <System onClick={() => setIsOpenPolicyModal(true)}>
+          개인정보처리방침
+        </System>
+      </Row>
+
+      <Row>
+        <Item onClick={() => handleChecked(2)}>
+          <Image src={isChecked[2] ? checked : unchecked} alt="checkbox" />
+          <Content>만 14세 이상입니다.</Content>
+        </Item>
+      </Row>
+
+      {isOpenTermsModal && (
+        <ModalTerms onClose={() => setIsOpenTermsModal(false)} />
+      )}
+      {isOpenPolicyModal && (
+        <ModalPolicy onClose={() => setIsOpenPolicyModal(false)} />
+      )}
     </>
   );
 };
