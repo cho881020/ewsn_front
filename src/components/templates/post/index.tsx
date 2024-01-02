@@ -11,8 +11,6 @@ import styled from "styled-components";
 import useDeletePosting from "@/apis/mutations/useDeletePosting";
 import useReplyQuery from "@/apis/queries/useReplyQuery";
 import usePostQuery from "@/apis/queries/usePostQuery";
-import usePostingQuery from "@/apis/queries/usePostingQuery";
-import usePostingHotQuery from "@/apis/queries/usePostingHotQuery";
 import usePostingNoticeQuery from "@/apis/queries/usePostingNoticeQuery";
 import authState from "@/stores/authState";
 import { PostType } from "@/types/posting";
@@ -38,7 +36,15 @@ import Footer from "@/components/organisms/Footer";
 
 const Quill = dynamic(() => import("@/utils/ReadQuill"), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
-const Post = ({ post, reply, id, posts, fixList, params }: PostType) => {
+const Post = ({
+  post,
+  reply,
+  id,
+  posts,
+  fixList,
+  params,
+  hotPosts,
+}: PostType) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isHot = searchParams.has("hot");
@@ -47,7 +53,6 @@ const Post = ({ post, reply, id, posts, fixList, params }: PostType) => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [defaultPost, setDefaultPost] = useState(post);
   const [defaultReply, setDefaultReply] = useState(reply);
-  const [postingList, setPostingList] = useState(posts);
   const [postingFixList, setPostingFixList] = useState(fixList);
 
   const { posting, likeCounts } = defaultPost;
@@ -63,8 +68,6 @@ const Post = ({ post, reply, id, posts, fixList, params }: PostType) => {
 
   const newPost = usePostQuery(id);
   const newReply = useReplyQuery(id);
-  const { postings, total } = usePostingQuery(params);
-  const { hotPostings, hotTotal } = usePostingHotQuery(params);
   const { data: newFixPostList, isLoading } = usePostingNoticeQuery({
     politicalOrientationId: params.politicalOrientationId,
     categoryId: params.categoryId,
@@ -83,12 +86,6 @@ const Post = ({ post, reply, id, posts, fixList, params }: PostType) => {
       setDefaultReply({ bestReplies, replies });
     }
   }, [newReply.bestReplies, newReply.replies]);
-
-  useEffect(() => {
-    isHot
-      ? setPostingList({ postings: hotPostings || [], total: hotTotal || 0 })
-      : setPostingList({ postings: postings || [], total: total || 0 });
-  }, [postings, hotPostings]);
 
   useEffect(() => {
     if (!!newFixPostList) {
@@ -179,7 +176,11 @@ const Post = ({ post, reply, id, posts, fixList, params }: PostType) => {
           replies={replies || []}
         />
       </Layout>
-      <PostList list={postingList} fixList={postingFixList} />
+      <PostList
+        list={isHot ? hotPosts.postings : posts.postings}
+        total={isHot ? hotPosts.total : posts.total}
+        fixList={postingFixList}
+      />
       <Footer />
     </>
   );

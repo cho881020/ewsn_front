@@ -78,6 +78,7 @@ export interface PostType {
   };
   id: number;
   posts: Postings;
+  hotPosts: Postings;
   fixList: Posting[];
   params: Params | CampParams;
 }

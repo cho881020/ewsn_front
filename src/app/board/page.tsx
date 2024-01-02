@@ -7,7 +7,6 @@ export default async function Board({ searchParams }: any) {
   const { page, camp, category, type, keyword, hot } = searchParams;
   const { startDate, endDate } = getPeriod(type || "d");
   const isCamp = !!camp;
-  const isHot = !!hot;
 
   const campParams = {
     page: page || 1,
@@ -78,7 +77,8 @@ export default async function Board({ searchParams }: any) {
   return (
     <Client
       ads={ads}
-      posts={isHot ? hotPosts : posts}
+      posts={posts}
+      hotPosts={hotPosts}
       fixList={fixList}
       params={isCamp ? campParams : params}
     />
