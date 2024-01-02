@@ -49,8 +49,8 @@ const Board = ({ ads, posts, fixList, params }: Props) => {
 
   useEffect(() => {
     isHot
-      ? setPostingList({ postings: postings || [], total: total || 0 })
-      : setPostingList({ postings: hotPostings || [], total: hotTotal || 0 });
+      ? setPostingList({ postings: hotPostings || [], total: hotTotal || 0 })
+      : setPostingList({ postings: postings || [], total: total || 0 });
   }, [postings, hotPostings]);
 
   useEffect(() => {
