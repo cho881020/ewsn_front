@@ -7,6 +7,8 @@ import { Content, Title } from "@/ui/fonts";
 
 import { getDateTime } from "@/utils/getDate";
 import { Posting } from "@/types/posting";
+import usePatch from "@/apis/mutations/usePatchHit";
+import { useEffect } from "react";
 
 const Header = ({ post }: { post: Posting }) => {
   const {
@@ -27,6 +29,12 @@ const Header = ({ post }: { post: Posting }) => {
     },
     { title: "댓글", data: replies.length },
   ];
+
+  const { mutate } = usePatch(post.id);
+
+  useEffect(() => {
+    mutate();
+  }, [post.id]);
 
   return (
     <Container>

@@ -6,7 +6,7 @@ import Client from "@/components/templates/post";
 
 export default async function Post({ params, searchParams }: any) {
   const { id } = params;
-  const { page, camp, category, type, keyword, hot } = searchParams;
+  const { page, camp, category, type, keyword } = searchParams;
   const { startDate, endDate } = getPeriod(type || "d");
   const isCamp = !!camp;
   const campParams = {
