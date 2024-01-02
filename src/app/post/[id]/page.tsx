@@ -8,7 +8,6 @@ export default async function Post({ params, searchParams }: any) {
   const { id } = params;
   const { page, camp, category, type, keyword, hot } = searchParams;
   const { startDate, endDate } = getPeriod(type || "d");
-  const isHot = !!hot;
   const isCamp = !!camp;
   const campParams = {
     page: page || 1,
@@ -91,7 +90,8 @@ export default async function Post({ params, searchParams }: any) {
       post={post}
       reply={reply}
       id={id}
-      posts={isHot ? hotPosts : posts}
+      hotPosts={hotPosts}
+      posts={posts}
       fixList={fixList}
       params={isCamp ? campParams : noCampParams}
     />

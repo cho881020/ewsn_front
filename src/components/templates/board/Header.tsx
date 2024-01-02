@@ -62,12 +62,26 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
         <BtnContainer>
           {!camp && (
             <>
-              <CustomLink href={{ pathname, query: { page: 1 } }}>
-                <CustomBtn $gray={!isHot}>NEW</CustomBtn>
-              </CustomLink>
-              <CustomLink href={{ pathname, query: { hot: "", page: 1 } }}>
-                <CustomBtn $gray={isHot}>HOT</CustomBtn>
-              </CustomLink>
+              <CustomBtn
+                onClick={() =>
+                  router.push(`${pathname}?page=1`, {
+                    scroll: false,
+                  })
+                }
+                $gray={!isHot}
+              >
+                NEW
+              </CustomBtn>
+              <CustomBtn
+                onClick={() =>
+                  router.push(`${pathname}?hot=&page=1`, {
+                    scroll: false,
+                  })
+                }
+                $gray={isHot}
+              >
+                HOT
+              </CustomBtn>
             </>
           )}
         </BtnContainer>
@@ -100,7 +114,8 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
                   key={id}
                   onClick={() =>
                     router.push(
-                      `${pathname}?${camps}${keywords}${hot}&type=${type}`
+                      `${pathname}?${camps}${keywords}${hot}&type=${type}`,
+                      { scroll: false }
                     )
                   }
                   $active={typeParams === type}
@@ -125,13 +140,21 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
         <Bottom>
           <BtnContainer>
             <CustomBtn
-              onClick={() => router.push(`${pathname}?${camps}${keywords}`)}
+              onClick={() =>
+                router.push(`${pathname}?${camps}${keywords}`, {
+                  scroll: false,
+                })
+              }
               $gray={!categoryId && !isHot}
             >
               전체
             </CustomBtn>
             <CustomBtn
-              onClick={() => router.push(`${pathname}?${camps}${keywords}&hot`)}
+              onClick={() =>
+                router.push(`${pathname}?${camps}${keywords}&hot`, {
+                  scroll: false,
+                })
+              }
               $gray={!categoryId && isHot}
             >
               인기
@@ -140,7 +163,10 @@ const Header = ({ categoryId }: { categoryId: number | null }) => {
               <CustomBtn
                 key={id}
                 onClick={() =>
-                  router.push(`${pathname}?${camps}${keywords}&category=${id}`)
+                  router.push(
+                    `${pathname}?${camps}${keywords}&category=${id}`,
+                    { scroll: false }
+                  )
                 }
                 $gray={categoryId === id}
               >
@@ -203,12 +229,6 @@ const CustomBtn = styled.button<{ $gray?: boolean }>`
       color: ${COLORS.TEXT02};
       font-weight: 700;
     `}
-`;
-
-const CustomLink = styled(Link)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const DateBtnContainer = styled(BtnContainer)`

@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
-import { Posting, Postings } from "@/types/posting";
+import { Posting } from "@/types/posting";
 
 import { Container } from "@/components/atoms";
 import Pagination from "@/components/organisms/Pagination";
@@ -15,22 +15,21 @@ import MobileSearch from "@/components/templates/board/MobileSearch";
 import Banner from "@/components/templates/postList/Banner";
 
 interface Props {
-  list: Postings;
+  list: Posting[];
+  total: number;
   fixList: Posting[];
 }
 
-const PostList = ({ list, fixList }: Props) => {
+const PostList = ({ list, total, fixList }: Props) => {
   const searchParams = useSearchParams();
   const categoryId = Number(searchParams.get("category")) || null;
-
-  const { postings, total } = list;
 
   return (
     <Layout>
       <Header categoryId={categoryId} />
       <MobileHeader categoryId={categoryId} />
-      <Table list={postings} fixList={fixList} />
-      <MobileList list={postings} fixList={fixList} />
+      <Table list={list} fixList={fixList} />
+      <MobileList list={list} fixList={fixList} />
       <Pagination total={total} margin="40px auto 0" />
       <MobileSearch categoryId={categoryId} />
       <Banner />
