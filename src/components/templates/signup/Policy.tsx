@@ -55,6 +55,7 @@ const Policy = ({ onChangePolicy }: Props) => {
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 4px;
   @media (max-width: 768px) {
     margin-bottom: 0px;
@@ -65,16 +66,17 @@ const Item = styled.div`
   display: flex;
   gap: 6px;
   cursor: pointer;
+  align-items: center;
 `;
 
 const Content = styled.p`
-  font-size: 16px;
   line-height: 22px;
   font-weight: 400;
   letter-spacing: -0.6px;
   color: ${COLORS.TEXT02};
+  font-size: 14px;
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: 12px;
   }
 `;
 
@@ -82,8 +84,10 @@ const System = styled.div`
   text-decoration: underline;
   color: #2b63f1;
   cursor: pointer;
+  font-size: 14px;
+
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: 12px;
   }
 `;
 
