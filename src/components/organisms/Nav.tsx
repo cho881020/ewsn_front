@@ -37,7 +37,7 @@ const Nav = () => {
             </Link>
             {pathname === "/" ? (
               <Content level="cap2" color="#fff" className="sm:hidden">
-                정치인이 운영하지 않는 커뮤니티
+                정치 커뮤니티
               </Content>
             ) : (
               <CampContainer>
