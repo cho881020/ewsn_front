@@ -8,7 +8,6 @@ import useSignUp from "@/apis/mutations/useSignUp";
 
 import radio from "@/assets/signup/radio.png";
 import radioActive from "@/assets/signup/radioActive.png";
-import Input from "@/ui/input";
 import COLORS from "@/ui/colors";
 import { Content, Title } from "@/ui/fonts";
 import { Btn, BtnWhite } from "@/ui/buttons";
