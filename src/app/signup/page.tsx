@@ -33,8 +33,6 @@ const SignUp = () => {
     email: "",
     password: "",
     nickName: "",
-    name: "",
-    phoneNumber: "",
     gender: "",
     politicalOrientationId: 5,
   });
@@ -87,25 +85,6 @@ const SignUp = () => {
               onChangeValidation={(e: boolean) =>
                 setValidations({ ...validations, nickName: e })
               }
-            />
-
-            <Title level="sub3">이름</Title>
-            <Input
-              value={name}
-              onChange={(e) => setState({ ...state, name: e.target.value })}
-              placeholder="이름"
-              className="mb-3"
-              required
-            />
-            <Title level="sub3">휴대전화번호</Title>
-            <Input
-              value={phoneNumber}
-              onChange={(e) =>
-                setState({ ...state, phoneNumber: e.target.value })
-              }
-              placeholder="휴대전화번호"
-              className="mb-3"
-              required
             />
             <Title level="sub3">성별</Title>
             <div className="flex gap-4 mb-4">
