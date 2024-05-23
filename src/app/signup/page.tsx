@@ -37,7 +37,7 @@ const SignUp = () => {
     politicalOrientationId: 5,
   });
 
-  const { email, password, nickName, name, phoneNumber, gender } = state;
+  const { email, password, nickName, gender } = state;
 
   const { mutate } = useSignUp();
 
