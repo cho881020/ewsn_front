@@ -22,35 +22,35 @@ import ModalPassword from "@/components/organisms/ModalPassword";
 import ModalError from "@/components/organisms/ModalError";
 
 const MyInfo = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const { myInfo } = useMeQuery();
-  const [nickNameValidation, setNickNameValidation] = useState(false);
+  // const [nickNameValidation, setNickNameValidation] = useState(false);
   const [isOpenErrorModal, setIsOpenErrorModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
-  const [state, setState] = useState({
-    nickName: "",
-    phoneNumber: "",
-  });
+  // const [state, setState] = useState({
+  //   nickName: "",
+  //   phoneNumber: "",
+  // });
 
-  const { nickName, phoneNumber } = state;
+  // const { nickName, phoneNumber } = state;
 
-  const { mutate } = useEditMyInfo(state);
+  // const { mutate } = useEditMyInfo(state);
 
   const handleChange = async (e: FormEvent) => {
     e.preventDefault();
     // if (myInfo.nickName !== nickName && !nickNameValidation)
     //   return alert("닉네임 검증을 해주세요.");
 
-    mutate();
+    // mutate();
   };
 
-  useEffect(() => {
-    setState({
-      nickName: myInfo?.nickName || "",
-      phoneNumber: myInfo?.phoneNumber || "",
-    });
-  }, [myInfo]);
+  // useEffect(() => {
+  //   setState({
+  //     nickName: myInfo?.nickName || "",
+  //     phoneNumber: myInfo?.phoneNumber || "",
+  //   });
+  // }, [myInfo]);
 
   if (!myInfo) return null;
   const { gender } = myInfo;
@@ -99,7 +99,7 @@ const MyInfo = () => {
                 $gray
               />
             </Article>
-            <Article>
+            {/* <Article>
               <Title level="sub3">이름</Title>
               <Input
                 value={myInfo?.name}
@@ -108,8 +108,8 @@ const MyInfo = () => {
                 disabled
                 $gray
               />
-            </Article>
-            <Article>
+            </Article> */}
+            {/* <Article>
               <Title level="sub3">휴대전화번호</Title>
               <Input
                 value={phoneNumber}
@@ -119,7 +119,7 @@ const MyInfo = () => {
                 placeholder="휴대전화번호"
                 required
               />
-            </Article>
+            </Article> */}
             <Article>
               <Title level="sub3">성별</Title>
               <div className="flex gap-4 mb-4">
