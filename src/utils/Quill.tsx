@@ -4,6 +4,7 @@ import { RangeStatic } from "quill";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
+import Compressor from "compressorjs";
 
 import api from "@/apis/client";
 
@@ -15,6 +16,28 @@ interface IEditor {
 const Quill: NextPage<IEditor> = ({ value, onChange }) => {
   const quillRef = useRef<ReactQuill>(null);
 
+  const uploadImage = async (file: File | Blob, fileName?: string) => {
+    const formData = new FormData();
+    formData.append("file", file, fileName);
+
+    // file 데이터 담아서 서버에 전달하여 이미지 업로드
+    const res = await api.post("/upload", formData);
+
+    if (quillRef.current) {
+      // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 불러오는 url을 이용하여 이미지 태그 추가
+      const index = (quillRef.current.getEditor().getSelection() as RangeStatic)
+        .index;
+
+      const quillEditor = quillRef.current.getEditor();
+      quillEditor.setSelection(index, 1);
+
+      quillEditor.clipboard.dangerouslyPasteHTML(
+        index,
+        `<img src=${res.data} alt=${"alt text"} />`
+      );
+    }
+  };
+
   // 이미지 업로드 핸들러, modules 설정보다 위에 있어야 정상 적용
   const imageHandler = () => {
     // file input 임의 생성
@@ -23,30 +46,28 @@ const Quill: NextPage<IEditor> = ({ value, onChange }) => {
     input.click();
 
     input.onchange = async () => {
-      const file = input.files;
-      const formData = new FormData();
+      const file = input.files ? input.files[0] : null;
+      if (!file) return;
 
-      if (file) {
-        formData.append("file", file[0]);
-      }
-
-      // file 데이터 담아서 서버에 전달하여 이미지 업로드
-      const res = await api.post("/upload", formData);
-
-      if (quillRef.current) {
-        // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 불러오는 url을 이용하여 이미지 태그 추가
-        const index = (
-          quillRef.current.getEditor().getSelection() as RangeStatic
-        ).index;
-
-        const quillEditor = quillRef.current.getEditor();
-        quillEditor.setSelection(index, 1);
-
-        quillEditor.clipboard.dangerouslyPasteHTML(
-          index,
-          `<img src=${res.data} alt=${"alt text"} />`
-        );
-      }
+      new Compressor(file, {
+        quality: 0.8,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        success(result) {
+          console.log(
+            "Image compressed: ",
+            `${(file.size / 1024).toFixed(2)}kb -> ${(
+              result.size / 1024
+            ).toFixed(2)}kb`,
+            (((file.size - result.size) / file.size) * 100).toFixed(2) + "%"
+          );
+          uploadImage(result, file.name);
+        },
+        error(error) {
+          // Append original file
+          uploadImage(file);
+        },
+      });
     };
   };
 
