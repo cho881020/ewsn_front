@@ -54,13 +54,6 @@ const Quill: NextPage<IEditor> = ({ value, onChange }) => {
         maxWidth: 1024,
         maxHeight: 1024,
         success(result) {
-          console.log(
-            "Image compressed: ",
-            `${(file.size / 1024).toFixed(2)}kb -> ${(
-              result.size / 1024
-            ).toFixed(2)}kb`,
-            (((file.size - result.size) / file.size) * 100).toFixed(2) + "%"
-          );
           uploadImage(result, file.name);
         },
         error(error) {
