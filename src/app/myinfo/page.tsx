@@ -22,7 +22,7 @@ import ModalPassword from "@/components/organisms/ModalPassword";
 import ModalError from "@/components/organisms/ModalError";
 
 const MyInfo = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const { myInfo } = useMeQuery();
   // const [nickNameValidation, setNickNameValidation] = useState(false);
   const [isOpenErrorModal, setIsOpenErrorModal] = useState(false);
