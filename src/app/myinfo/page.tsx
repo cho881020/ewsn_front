@@ -28,29 +28,29 @@ const MyInfo = () => {
   const [isOpenErrorModal, setIsOpenErrorModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
-  // const [state, setState] = useState({
-  //   nickName: "",
-  //   phoneNumber: "",
-  // });
+  const [state, setState] = useState({
+    nickName: "",
+    phoneNumber: "",
+  });
 
   // const { nickName, phoneNumber } = state;
 
-  // const { mutate } = useEditMyInfo(state);
+  const { mutate } = useEditMyInfo(state);
 
   const handleChange = async (e: FormEvent) => {
     e.preventDefault();
     // if (myInfo.nickName !== nickName && !nickNameValidation)
     //   return alert("닉네임 검증을 해주세요.");
 
-    // mutate();
+    mutate();
   };
 
-  // useEffect(() => {
-  //   setState({
-  //     nickName: myInfo?.nickName || "",
-  //     phoneNumber: myInfo?.phoneNumber || "",
-  //   });
-  // }, [myInfo]);
+  useEffect(() => {
+    setState({
+      nickName: myInfo?.nickName || "",
+      phoneNumber: myInfo?.phoneNumber || "",
+    });
+  }, [myInfo]);
 
   if (!myInfo) return null;
   const { gender } = myInfo;

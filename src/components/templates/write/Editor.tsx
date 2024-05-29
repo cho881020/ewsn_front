@@ -2,8 +2,6 @@ import * as React from "react";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 
-import COLORS from "@/ui/colors";
-
 const Quill = dynamic(() => import("@/utils/Quill"), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
 interface Props {
@@ -22,7 +20,6 @@ const Editor = ({ value, onChange }: Props) => {
 export default Editor;
 
 const EditorContainer = styled.div`
-  color: ${COLORS.TEXT01};
   width: 100%;
   margin: 0 auto 40px;
 `;

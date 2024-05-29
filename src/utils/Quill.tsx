@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Compressor from "compressorjs";
 
 import api from "@/apis/client";
+import COLORS from "@/ui/colors";
 
 interface IEditor {
   value: string;
@@ -138,6 +139,7 @@ const Quill: NextPage<IEditor> = ({ value, onChange }) => {
 export default Quill;
 
 const CustomReactQuill = styled(ReactQuill)`
+  color: ${COLORS.TEXT01};
   height: 682px;
   @media (max-width: 768px) {
     height: 540px;
