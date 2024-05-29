@@ -7,8 +7,8 @@ interface SignUpParams {
   email: string;
   password: string;
   nickName: string;
-  name: string;
-  phoneNumber: string;
+  name?: string;
+  phoneNumber?: string;
   gender: string;
   politicalOrientationId: number;
 }

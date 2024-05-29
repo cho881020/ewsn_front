@@ -58,6 +58,7 @@ const Post = ({
   const { posting, likeCounts } = defaultPost;
   const { bestReplies, replies } = defaultReply;
   const isMine = posting?.userId === myInfo.id;
+  const isAdmin = myInfo.isAdmin;
   const campId = Number(searchParams.get("camp")) || null;
   const bannerId = campId === null ? 8 : campId + 3;
 
@@ -139,6 +140,26 @@ const Post = ({
                   수정
                 </Title>
               </BtnGray>
+              <BtnGray
+                width="52px"
+                height="32px"
+                $small
+                onClick={() => setIsOpenDeleteModal(true)}
+              >
+                <Title level="sub1" color={COLORS.TEXT02}>
+                  삭제
+                </Title>
+              </BtnGray>
+              {isOpenDeleteModal && (
+                <ModalDelete
+                  title="게시글"
+                  onClose={() => setIsOpenDeleteModal(false)}
+                  onDelete={() => deleteMutate()}
+                />
+              )}
+            </div>
+          ) : isAdmin ? (
+            <div className="mt-10 w-full flex justify-end gap-5 sm:mt-5 sm:pr-5">
               <BtnGray
                 width="52px"
                 height="32px"
