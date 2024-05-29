@@ -57,13 +57,14 @@ const Container = styled.div`
 `;
 
 const Text = styled.p<{ $bold: boolean }>`
+  color: ${COLORS.TEXT01};
   font-size: 20px;
   letter-spacing: -0.01em;
   margin-right: 4px;
   font-weight: ${({ $bold }) => ($bold ? "700" : "400")};
   @media (max-width: 768px) {
     font-size: 16px;
-    line-height:22px;
+    line-height: 22px;
   }
 `;
 
