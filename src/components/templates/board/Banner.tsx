@@ -16,9 +16,11 @@ const Banner = ({ ads, politicalOrientationId }: Props) => {
 
   return (
     <BannerContainer>
-      <Link href={banner.link} target="_blank">
-        <Img src={banner.image} alt="" />
-      </Link>
+      {banner && (
+        <Link href={banner.link} target="_blank">
+          <Img src={banner.image} alt="" />
+        </Link>
+      )}
     </BannerContainer>
   );
 };
