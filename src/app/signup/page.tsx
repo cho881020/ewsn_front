@@ -107,6 +107,7 @@ const SignUp = () => {
               $middle
               type="button"
               className="mb-3 max-w-[119px]"
+              onClick={() => window.open("https://www.is-you.com/", "_blank")}
             >
               테스트 하러 가기
             </BtnWhite>
