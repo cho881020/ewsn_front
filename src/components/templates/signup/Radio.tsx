@@ -40,7 +40,7 @@ const Radio = ({
             level="body1"
             color={politicalOrientationId !== 2 ? COLORS.TEXT02 : "#000"}
           >
-            서 - 보수주의
+            서 - 진보주의
           </Content>
         </Item>
         <Item onClick={() => onChangePoliticalOrientationId(5)}>
@@ -64,7 +64,7 @@ const Radio = ({
             level="body1"
             color={politicalOrientationId !== 1 ? COLORS.TEXT02 : "#000"}
           >
-            동 - 진보주의
+            동 - 보수주의
           </Content>
         </Item>
       </Wrap>
